@@ -4,3 +4,15 @@
 *.jar
 *.war
 *.ear
+/OpenSaleCommonObjects/nbproject/private/
+/OpenSalePaymentLibrary/nbproject/private/
+/OpenSaleTransactionObjects/nbproject/private/
+/OpenSaleCommonObjects/build/
+/OpenSaleCommonObjects/dist/
+/OpenSaleTransactionObjects/dist/
+/OpenSaleTransactionObjects/build/
+/OpenSale/build/
+/OpenSalePaymentLibrary/build/
+/OpenSale/dist/
+/OpenSaleTestCases/build/
+/OpenSaleTestCases/dist/

@@ -1,4 +1,4 @@
-package edu.kennesaw.seniorproject.opensale.model;
+package edu.kennesaw.seniorproject.opensale.entities;
 
 // TODO: Add actual user fields, methods.
 

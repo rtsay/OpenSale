@@ -1,8 +1,8 @@
 
 package edu.kennesaw.seniorproject.opensale.ui.beans;
 
-import edu.kennesaw.seniorproject.transaction.RefundTransaction;
-import edu.kennesaw.seniorproject.transaction.Transaction;
+import edu.transaction.TransactionObjects.Transaction;
+import edu.transaction.TransactionObjects.RefundTransaction;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;

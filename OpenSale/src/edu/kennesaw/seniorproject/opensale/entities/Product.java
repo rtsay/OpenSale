@@ -1,10 +1,6 @@
-package edu.kennesaw.seniorproject.opensale.model;
+package edu.kennesaw.seniorproject.opensale.entities;
 
 import java.io.Serializable;
-import java.lang.Boolean;
-import java.lang.Double;
-import java.lang.Integer;
-import java.lang.String;
 import javax.persistence.*;
 
 /**

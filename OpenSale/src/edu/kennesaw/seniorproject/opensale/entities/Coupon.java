@@ -2,9 +2,8 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.kennesaw.seniorproject.opensale.model;
+package edu.kennesaw.seniorproject.opensale.entities;
 
-import edu.kennesaw.seniorproject.opensale.interfaces.IVerifyPermissions;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -39,11 +38,6 @@ public class Coupon implements Serializable {
     
     public void percentageIsTrue(boolean newPercentageIsTrue){
         this.percentageIsTrue = newPercentageIsTrue;
-    }
-    
-    public boolean verifyPermission(IVerifyPermissions permission){
-    //todo
-        return true;
     }
     
      public boolean verifyCouponeCode(){

@@ -1,7 +1,7 @@
 package edu.kennesaw.seniorproject.opensale.ui.beans;
 
-import edu.kennesaw.seniorproject.opensale.model.Item;
-import edu.kennesaw.seniorproject.transaction.Transaction;
+import edu.transaction.TransactionObjects.Transaction;
+import edu.transaction.TransactionObjects.Item;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.persistence.EntityManager;

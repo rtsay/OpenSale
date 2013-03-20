@@ -59,19 +59,27 @@ public class LoginBean {
 	 */
 	public String login() {
             // Default to bounce back to the login page
-            String destinationPage = "login";
+            String destinationPage = null;
 
             // Search for a user with the username given
             User searchedUser = em.find(User.class, this.username);
 
+            /**
+             * TODO: REMOVE THIS UGLY WORKAROUND! This is just a temporary
+             * test thing.
+             */
+                setCurrentUser(searchedUser); 
+                destinationPage = "mainMenu";
+            
             // If we find a user with that username,
-            if (searchedUser != null) {
+            if (searchedUser != null) {                
                 try {
                     // hash the password we were given
                     MessageDigest md = MessageDigest.getInstance("SHA-256");
                     md.update(this.password.getBytes("UTF-8"));
                     byte[] digest = md.digest();				
                     String hashedPassword = digest.toString(); 
+                    Logger.getLogger(LoginBean.class.getName()).log(Level.INFO, "Found user " + searchedUser);
 
                     // and check to see if it matches the hashed password of the user we found.
                     if (searchedUser.getPassword().equals(hashedPassword)) {

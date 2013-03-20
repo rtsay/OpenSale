@@ -1,8 +1,7 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:ui="http://java.sun.com/jsf/facelets">
     <body>
 
         <ui:composition template="./OpenSaleTemplate.xhtml">
@@ -12,22 +11,23 @@
             </ui:define>
 
             <ui:define name="content">
-                <!-- Login information -->
-                <div class="login">
-                    <h:form>                        
-                        <label>Username</label>
-                        <h:inputText class="span3" placeholder="Type username here..." 
-                                     value="#{loginBean.username}" />
-                        <label>Password</label>
-                        <h:inputSecret class="span3" placeholder="Type password here..." 
-                                       value="#{loginBean.password}"/><br/>                        
-                        <h:commandButton class="btn btn-primary" 
-                                         value="Login" 
-                                         action="#{loginBean.login()}"/>
-                        <button class= "btn btn-primary" value="click" >Submit</button>
-                        <button class="btn">Clear</button>                    
-                    </h:form>
+                <div class="OpenSale">
+                    <!-- Input OpenSale image -->
+                    <img src="img/OpenSale3.gif"></img>
                 </div>
+
+                    <!-- Login information -->
+                <div class="login">
+                        <form>
+                        <label>Username</label>
+                        <input type="text" class="span3" placeholder="Type username here..." />
+                        <label>Password</label>
+                        <input type="password" class="span3" placeholder="Type password here..." /><br/>
+                        <button class= "btn btn-primary" value="click" >Submit</button>
+                        <button class="btn">Clear</button>
+                        </form>
+                </div>
+                <script src="js/bootstrap.js"></script>
             </ui:define>
 
         </ui:composition>

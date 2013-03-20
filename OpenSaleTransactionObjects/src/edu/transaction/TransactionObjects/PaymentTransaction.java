@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.common.TransactionObjects;
+package edu.transaction.TransactionObjects;
 
 import edu.opensale.Payment.LegalTender;
 import edu.common.UserObjects.User;

@@ -4,45 +4,32 @@
  */
 package edu.transaction.TransactionObjects;
 
+import edu.product.ProductObjects.Product;
+
 /**
  *
  * @author mcbeckler
  */
-public class Item {
-    private Product product;
+public abstract class Item {
 
-    public Product getProduct() {
-        return product;
-    }
+    protected Product product;
+    protected Integer quantity;
+    protected Integer UPC;
+    protected Double purchasedWeight;
 
-    public void setProduct(Product product) {
-        this.product = product;
-    }
+    public abstract Product getProduct();
 
-    public Integer getQuantity() {
-        return quantity;
-    }
+    public abstract void setProduct(Product product);
 
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
+    public abstract Integer getQuantity();
 
-    public Integer getUPC() {
-        return UPC;
-    }
+    public abstract void setQuantity(Integer quantity);
 
-    public void setUPC(Integer UPC) {
-        this.UPC = UPC;
-    }
+    public abstract Integer getUPC();
 
-    public Double getPurchasedWeight() {
-        return purchasedWeight;
-    }
+    public abstract void setUPC(Integer UPC);
 
-    public void setPurchasedWeight(Double purchasedWeight) {
-        this.purchasedWeight = purchasedWeight;
-    }
-    private Integer quantity;
-    private Integer UPC;
-    private Double purchasedWeight;
+    public abstract Double getPurchasedWeight();
+
+    public abstract void setPurchasedWeight(Double purchasedWeight);
 }

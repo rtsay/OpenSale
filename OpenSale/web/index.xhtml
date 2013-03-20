@@ -1,12 +1,36 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html">
-    <h:head>
-        <title>OpenSale</title>
-    </h:head>
-    <h:body>
-        Yep, it works.                 
-    </h:body>
-</html>
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <body>
 
+        <ui:composition template="./OpenSaleTemplate.xhtml">
+
+            <ui:define name="PageTitle">
+                Home
+            </ui:define>
+
+            <ui:define name="content">
+                <div class="OpenSale">
+                    <!-- Input OpenSale image -->
+                    <img src="img/OpenSale3.gif"></img>
+                </div>
+
+                    <!-- Login information -->
+                <div class="login">
+                        <form>
+                        <label>Username</label>
+                        <input type="text" class="span3" placeholder="Type username here..." />
+                        <label>Password</label>
+                        <input type="password" class="span3" placeholder="Type password here..." /><br/>
+                        <button class= "btn btn-primary" value="click" >Submit</button>
+                        <button class="btn">Clear</button>
+                        </form>
+                </div>
+                <script src="js/bootstrap.js"></script>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

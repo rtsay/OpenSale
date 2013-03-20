@@ -14,27 +14,15 @@ public abstract class User implements Serializable {
     protected String userName, password;
     protected EUserTypes userType;
 
-    public String getUserName() {
-        return userName;
-    }
+    public abstract String getUserName();
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
+    public abstract void setUserName(String userName);
 
-    public String getPassword() {
-        return password;
-    }
+    public abstract String getPassword();
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+    public abstract void setPassword(String password);
 
-    public EUserTypes getUserType() {
-        return userType;
-    }
+    public abstract EUserTypes getUserType();
 
-    public void setUserType(EUserTypes userType) {
-        this.userType = userType;
-    }
+    public abstract void setUserType(EUserTypes userType);
 }

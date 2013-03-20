@@ -1,7 +1,7 @@
 package edu.kennesaw.seniorproject.opensale.ui.beans;
 
-import edu.kennesaw.seniorproject.opensale.model.User;
-import edu.kennesaw.seniorproject.opensale.objects.Session;
+import edu.common.Static.Session;
+import edu.common.UserObjects.User;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

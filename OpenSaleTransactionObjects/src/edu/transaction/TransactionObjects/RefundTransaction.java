@@ -2,21 +2,15 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.kennesaw.seniorproject.transaction;
+package edu.transaction.TransactionObjects;
 
-import edu.kennesaw.seniorproject.opensale.model.User;
-import edu.kennesaw.seniorproject.opensale.payment.LegalTender;
+import edu.opensale.Payment.LegalTender;
 
 /**
  *
  * @author Jacob
  */
-public class PaymentTransaction extends Transaction{
-
-    @Override
-    public void applyOverride(double price) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+public class RefundTransaction extends Transaction{
 
     @Override
     public boolean processPayment(LegalTender legalTender) {
@@ -24,8 +18,13 @@ public class PaymentTransaction extends Transaction{
     }
 
     @Override
-    public boolean verifyPermission(User user) {
+    public boolean verifyPermission(edu.common.UserObjects.User user) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
+    @Override
+    public boolean applyOverride(edu.common.UserObjects.User manager, double price) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

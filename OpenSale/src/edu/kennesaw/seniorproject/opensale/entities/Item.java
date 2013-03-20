@@ -1,5 +1,5 @@
 
-package edu.kennesaw.seniorproject.opensale.model;
+package edu.kennesaw.seniorproject.opensale.entities;
 
 import java.io.Serializable;
 import javax.persistence.Entity;

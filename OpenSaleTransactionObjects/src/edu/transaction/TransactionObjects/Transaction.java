@@ -47,8 +47,12 @@ public abstract class Transaction {
         }
        return amount;
     }
-    
-    public abstract boolean processPayment(LegalTender legalTender);
+   
+    public boolean processPayment(LegalTender legalTender)
+    {
+        
+        return true;
+    }
     
     public abstract boolean verifyPermission(User user);
     

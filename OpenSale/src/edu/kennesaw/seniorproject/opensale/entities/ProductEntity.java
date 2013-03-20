@@ -9,7 +9,7 @@ import javax.persistence.*;
  */
 @Entity
 
-public class Product implements Serializable {
+public class ProductEntity implements Serializable {
 
 	@Id
 	private Integer UPC;
@@ -23,7 +23,7 @@ public class Product implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
-	public Product() {
+	public ProductEntity() {
 		super();
 	}   
 	public Integer getUPC() {

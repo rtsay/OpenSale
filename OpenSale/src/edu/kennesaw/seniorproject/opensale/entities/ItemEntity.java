@@ -1,6 +1,8 @@
 
 package edu.kennesaw.seniorproject.opensale.entities;
 
+import edu.product.ProductObjects.Product;
+import edu.transaction.TransactionObjects.Item;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,20 +15,13 @@ import javax.persistence.OneToOne;
  * @author spencer
  */
 @Entity
-public class Item implements Serializable {
+public class ItemEntity extends Item implements Serializable {
     private static final long serialVersionUID = 1L;
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
-    @OneToOne
-    private Product product;
-    
-    private Integer quantity;
-    private Integer UPC;
-    private Double purchasedWeight;
-    
+
     public Long getId() {
         return id;
     }
@@ -35,61 +30,43 @@ public class Item implements Serializable {
         this.id = id;
     }
 
+    @Override
     public Product getProduct() {
-        return product;
+       return this.product;
     }
 
+    @Override
     public void setProduct(Product product) {
         this.product = product;
     }
 
+    @Override
     public Integer getQuantity() {
-        return quantity;
+        return this.quantity;
     }
 
+    @Override
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 
+    @Override
     public Integer getUPC() {
-        return UPC;
+        return this.UPC;
     }
 
+    @Override
     public void setUPC(Integer UPC) {
         this.UPC = UPC;
     }
 
+    @Override
     public Double getPurchasedWeight() {
-        return purchasedWeight;
+        return this.purchasedWeight;
     }
 
+    @Override
     public void setPurchasedWeight(Double purchasedWeight) {
         this.purchasedWeight = purchasedWeight;
-    }        
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
     }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Item)) {
-            return false;
-        }
-        Item other = (Item) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "edu.kennesaw.seniorproject.opensale.model.Item[ id=" + id + " ]";
-    }
-    
 }

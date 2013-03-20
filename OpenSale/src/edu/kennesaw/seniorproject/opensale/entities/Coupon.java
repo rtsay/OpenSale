@@ -21,7 +21,7 @@ public class Coupon implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Boolean percentageIsTrue = false;
-    private User user;
+    private UserEntity user;
     private int couponCode;
     
     public void setCouponCode(int newCouponCode){

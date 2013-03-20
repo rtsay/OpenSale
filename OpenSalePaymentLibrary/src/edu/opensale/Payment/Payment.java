@@ -3,32 +3,21 @@
  * and open the template in the editor.
  */
 package edu.opensale.Payment;
-import edu.opensale.PaymentTypes.IPaymentObject;
+import edu.opensale.PaymentTypes.PaymentFactory;
+import edu.payment.Exceptions.PaymentMethodMissingException;
 
 /**
  *
  * @author mcbeckler
  */
-public abstract class Payment implements IPaymentObject
+public abstract class Payment
 {
-    protected String PaymentTypeName;
-   
-    public Payment(String name)
+    public void processPayment(LegalTender payment, PaymentFactory factory) throws PaymentMethodMissingException
     {
-        PaymentTypeName = name;
-    }
-    
-    public void processPayment(LegalTender payment) throws PaymentMethodMissingException
-    {
-        if (this != null)
-            this.execute(payment);
+        if (factory != null)
+            factory.create().execute(payment);
         throw new PaymentMethodMissingException();
     }
-    
-    public String getName()
-    {
-        return this.PaymentTypeName;
-    }
-    
+
     protected abstract void execute(LegalTender payment);
 }

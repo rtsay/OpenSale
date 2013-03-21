@@ -12,9 +12,11 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.NamedQuery;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import sun.misc.BASE64Encoder;
 
 @ManagedBean(name="loginBean")
 @SessionScoped
@@ -66,18 +68,12 @@ public class LoginBean {
 	public String login() {
             // Default to bounce back to the login page
             String destinationPage = null;
-
-            // Search for a user with the username given           
+            UserEntity searchedUser = null;
+            
+            // Search for a user with the username given 
             Query userSearch = em.createNamedQuery("UserEntity.findByUsername");
             userSearch.setParameter("username", this.username);
-            UserEntity searchedUser = (UserEntity)userSearch.getSingleResult();
-
-            /**
-             * TODO: REMOVE THIS UGLY WORKAROUND! This is just a temporary
-             * test thing.
-             */
-                setCurrentUser(searchedUser); 
-                destinationPage = "mainMenu";
+            searchedUser = (UserEntity)userSearch.getSingleResult();
             
             // If we find a user with that username,
             if (searchedUser != null) {                
@@ -85,12 +81,11 @@ public class LoginBean {
                     // hash the password we were given
                     MessageDigest md = MessageDigest.getInstance("SHA-256");
                     md.update(this.password.getBytes("UTF-8"));
-                    byte[] digest = md.digest();				
-                    String hashedPassword = digest.toString(); 
+                    byte[] digest = md.digest();
                     Logger.getLogger(LoginBean.class.getName()).log(Level.INFO, "Found user " + searchedUser);
-
+                    
                     // and check to see if it matches the hashed password of the user we found.
-                    if (searchedUser.getPassword().equals(hashedPassword)) {
+                    if ((new BASE64Encoder().encode(digest).equals(searchedUser.getPassword()))) {
                         // if it matches, we're headed to the main menu.
                         /* Set current user as a property of this session 
                         * bean so that we can access it later.  */

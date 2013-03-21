@@ -22,11 +22,9 @@
                     <h:form>
                         <label>Username</label>
                         <h:inputText class="span3" 
-                                     placeholder="Type username here..." 
                                      value="#{loginBean.username}"/>
                         <label>Password</label>
                         <h:inputSecret class="span3" 
-                                       placeholder="Type password here..." 
                                        value="#{loginBean.password}"/>
                         <br/>
                         <h:commandButton action="#{loginBean.login()}"

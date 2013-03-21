@@ -3,9 +3,9 @@
   <persistence-unit name="OpenSale" transaction-type="JTA">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <jta-data-source>jdbc/opensale_dev</jta-data-source>
-    <class>edu.kennesaw.seniorproject.opensale.model.Product</class>
+    <jar-file>OpenSaleTransactionObjects.jar</jar-file>
     <properties>
-      <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
+      <property name="eclipselink.ddl-generation" value="create-tables"/>
     </properties>
   </persistence-unit>
 </persistence>

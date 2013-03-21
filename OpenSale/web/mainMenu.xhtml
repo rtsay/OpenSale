@@ -13,12 +13,8 @@
             </ui:define>
 
             <ui:define name="content">
-                <h:panelGroup rendered="#{loginBean.username.equals('test')}">
-                Your name is test!
-                </h:panelGroup>
-                <h:panelGroup rendered="#{loginBean.username.equals('superman')}">
-                Your name is superman!
-                </h:panelGroup>
+                Your name is <h:outputText 
+                    value="#{loginBean.currentUser.userName}"/>
             </ui:define>
 
         </ui:composition>

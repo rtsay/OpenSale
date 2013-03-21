@@ -9,15 +9,20 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 
 /**
  * User entity.
  * @author spencer
  */
 @Entity
+@NamedQuery(
+        name="UserEntity.findByUsername", 
+        query="select u from UserEntity u where u.userName = :username"
+)
 public class UserEntity extends User implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;        
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

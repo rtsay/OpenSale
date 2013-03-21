@@ -2,6 +2,7 @@ package edu.kennesaw.seniorproject.opensale.ui.beans;
 
 import edu.common.Static.Session;
 import edu.common.UserObjects.User;
+import edu.kennesaw.seniorproject.opensale.entities.UserEntity;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -10,7 +11,10 @@ import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.persistence.EntityManager;
+import javax.persistence.NamedQuery;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 @ManagedBean(name="loginBean")
 @SessionScoped
@@ -25,7 +29,9 @@ public class LoginBean {
 	
 	private String username;
 	private String password;
-
+        
+        private User currentUser;
+        
 	public User getCurrentUser() {
             return Session.getCurrentUser();
 	}
@@ -61,8 +67,10 @@ public class LoginBean {
             // Default to bounce back to the login page
             String destinationPage = null;
 
-            // Search for a user with the username given
-            User searchedUser = em.find(User.class, this.username);
+            // Search for a user with the username given           
+            Query userSearch = em.createNamedQuery("UserEntity.findByUsername");
+            userSearch.setParameter("username", this.username);
+            UserEntity searchedUser = (UserEntity)userSearch.getSingleResult();
 
             /**
              * TODO: REMOVE THIS UGLY WORKAROUND! This is just a temporary

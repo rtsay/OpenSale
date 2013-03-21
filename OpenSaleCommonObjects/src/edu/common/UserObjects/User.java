@@ -5,11 +5,13 @@
 package edu.common.UserObjects;
 
 import java.io.Serializable;
+import javax.persistence.MappedSuperclass;
 
 /**
  *
  * @author mcbeckler
  */
+@MappedSuperclass
 public abstract class User implements Serializable {
     protected String userName, password;
     protected EUserTypes userType;

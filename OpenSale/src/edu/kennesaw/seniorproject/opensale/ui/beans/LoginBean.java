@@ -18,87 +18,94 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import sun.misc.BASE64Encoder;
 
-@ManagedBean(name="loginBean")
+@ManagedBean(name = "loginBean")
 @SessionScoped
 public class LoginBean {
-	
-	/** 
-         * This is the "EntityManager." 
-         * It's used to get at persistent storage (database).
-         **/
-	@PersistenceContext
-	private EntityManager em;
-	
-	private String username;
-	private String password;
-        
-        private User currentUser;
-        
-	public User getCurrentUser() {
-            return Session.getCurrentUser();
-	}
 
-	public void setCurrentUser(User currentUser) {
-            Session.Login(currentUser);
-	}
+    /**
+     * This is the "EntityManager." It's used to get at persistent storage
+     * (database).
+     */
+    @PersistenceContext
+    private EntityManager entityManager;
+    
+    // Fields
+    private String username;
+    private String password;
+    private User currentUser;
 
-	public String getUsername() {
-		return username;
-	}
+    public EntityManager getEntityManager() {
+        return entityManager;
+    }
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public User getCurrentUser() {
+        return Session.getCurrentUser();
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	
-	/**
-	 * Checks to see if a user with the provided username exists.
-	 * If so, checks to see if the password matches.
-	 * If all of that is successful, redirect the user to the main menu.
-	 * Otherwise, bounce back to the login page.
-	 * @return destinationPage
-	 */
-	public String login() {
-            // Default to bounce back to the login page
-            String destinationPage = null;
-            UserEntity searchedUser = null;
-            
-            // Search for a user with the username given 
-            Query userSearch = em.createNamedQuery("UserEntity.findByUsername");
-            userSearch.setParameter("username", this.username);
-            searchedUser = (UserEntity)userSearch.getSingleResult();
-            
-            // If we find a user with that username,
-            if (searchedUser != null) {                
-                try {
-                    // hash the password we were given
-                    MessageDigest md = MessageDigest.getInstance("SHA-256");
-                    md.update(this.password.getBytes("UTF-8"));
-                    byte[] digest = md.digest();
-                    Logger.getLogger(LoginBean.class.getName()).log(Level.INFO, "Found user " + searchedUser);
-                    
-                    // and check to see if it matches the hashed password of the user we found.
-                    if ((new BASE64Encoder().encode(digest).equals(searchedUser.getPassword()))) {
-                        // if it matches, we're headed to the main menu.
+    private void setCurrentUser(User currentUser) {
+        Session.Login(currentUser);
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    /**
+     * Checks to see if a user with the provided username exists. If so, checks
+     * to see if the password matches. If all of that is successful, redirect
+     * the user to the main menu. Otherwise, bounce back to the login page.
+     *
+     * @return destinationPage
+     */
+    public String login() {
+        // Default to bounce back to the login page
+        String destinationPage = null;
+
+        // Search for a user with the username given           
+        Query userSearch = entityManager.createNamedQuery("UserEntity.findByUsername");
+        userSearch.setParameter("username", this.username);
+        UserEntity searchedUser = (UserEntity) userSearch.getSingleResult();
+
+        // If we find a user with that username,
+        if (searchedUser != null) {
+            try {
+                // hash the password we were given
+                MessageDigest md = MessageDigest.getInstance("SHA-256");
+                md.update(this.password.getBytes("UTF-8"));
+                byte[] digest = md.digest();
+                String hashedPassword = digest.toString();
+                Logger.getLogger(LoginBean.class.getName()).log(Level.INFO, "Found user " + searchedUser);
+
+                // and check to see if it matches the hashed password of the user we found.
+                if (searchedUser.getPassword().equals(hashedPassword)) {
+                    // if it matches, we're headed to the main menu.
                         /* Set current user as a property of this session 
-                        * bean so that we can access it later.  */
-                        setCurrentUser(searchedUser);
-                        destinationPage = "mainMenu";
-                    }
-                } catch (UnsupportedEncodingException ex) {  // getBytes might throw this
-                    Logger.getLogger(LoginBean.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (NoSuchAlgorithmException ex) { // MessageDigest might throw this
-                    Logger.getLogger(LoginBean.class.getName()).log(Level.SEVERE, null, ex);
+                     * bean so that we can access it later.  */
+                    this.setCurrentUser(searchedUser);
+                    destinationPage = "mainMenu";
                 }
+            } catch (UnsupportedEncodingException ex) {  // getBytes might throw this
+                Logger.getLogger(LoginBean.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (NoSuchAlgorithmException ex) { // MessageDigest might throw this
+                Logger.getLogger(LoginBean.class.getName()).log(Level.SEVERE, null, ex);
             }
-            return destinationPage;
-	}
-		
+        }
+        return destinationPage;
+    }
 }

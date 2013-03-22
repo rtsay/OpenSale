@@ -16,3 +16,10 @@
 /OpenSale/dist/
 /OpenSaleTestCases/build/
 /OpenSaleTestCases/dist/
+/OpenSalePaymentLibrary/dist/
+/OpenSaleProductObjects/nbproject/private/
+/PayPalPaymentLibrary/dist/
+/PayPalPaymentLibrary/build/
+/OpenSaleProductObjects/build/
+/OpenSaleProductObjects/dist/
+/PayPalPaymentLibrary/nbproject/private/

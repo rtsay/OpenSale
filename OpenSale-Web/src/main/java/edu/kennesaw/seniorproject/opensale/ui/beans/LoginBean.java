@@ -93,7 +93,7 @@ public class LoginBean {
                 Logger.getLogger(LoginBean.class.getName()).log(Level.INFO, "Found user " + searchedUser);
 
                 // and check to see if it matches the hashed password of the user we found.
-                if (searchedUser.getPassword().equals(hashedPassword)) {
+                if (new BASE64Encoder().encode(digest).equals(hashedPassword)) {
                     // if it matches, we're headed to the main menu.
                         /* Set current user as a property of this session 
                      * bean so that we can access it later.  */

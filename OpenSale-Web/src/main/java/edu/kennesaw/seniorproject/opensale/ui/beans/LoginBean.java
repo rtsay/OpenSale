@@ -1,21 +1,19 @@
 package edu.kennesaw.seniorproject.opensale.ui.beans;
 
+import com.google.common.hash.HashCode;
+import com.google.common.hash.HashFunction;
+import com.google.common.hash.Hashing;
 import edu.common.Static.Session;
 import edu.common.UserObjects.User;
 import edu.kennesaw.seniorproject.opensale.entities.UserEntity;
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import edu.kennesaw.seniorproject.opensale.ui.utilities.InPageMessage;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.persistence.EntityManager;
-import javax.persistence.NamedQuery;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 import sun.misc.BASE64Encoder;
 
 @ManagedBean(name = "loginBean")
@@ -42,8 +40,8 @@ public class LoginBean {
         this.entityManager = entityManager;
     }
 
-    public User getCurrentUser() {
-        return Session.getCurrentUser();
+    public User getCurrentUser() { 
+       return Session.getCurrentUser();
     }
 
     private void setCurrentUser(User currentUser) {
@@ -66,6 +64,14 @@ public class LoginBean {
         this.password = password;
     }
 
+    private String hashPassword() {
+        HashFunction hf = Hashing.sha256();
+        HashCode hc = hf.hashString(this.password);
+        BASE64Encoder base64 = new BASE64Encoder();
+        String hashedPassword = base64.encode(hc.asBytes());
+       return hashedPassword;
+    }
+    
     /**
      * Checks to see if a user with the provided username exists. If so, checks
      * to see if the password matches. If all of that is successful, redirect
@@ -80,32 +86,35 @@ public class LoginBean {
         // Search for a user with the username given           
         Query userSearch = entityManager.createNamedQuery("UserEntity.findByUsername");
         userSearch.setParameter("username", this.username);
-        UserEntity searchedUser = (UserEntity) userSearch.getSingleResult();
+        UserEntity searchedUser  = null;
+        try {
+            searchedUser = (UserEntity) userSearch.getSingleResult();
+        } catch(javax.persistence.NoResultException e) {
+            InPageMessage.addErrorMessage("Invalid username/password.");            
+        }
 
         // If we find a user with that username,
         if (searchedUser != null) {
-            try {
-                // hash the password we were given
-                MessageDigest md = MessageDigest.getInstance("SHA-256");
-                md.update(this.password.getBytes("UTF-8"));
-                byte[] digest = md.digest();
-                String hashedPassword = digest.toString();
-                Logger.getLogger(LoginBean.class.getName()).log(Level.INFO, "Found user " + searchedUser);
+            
+            // hash the password we were given                
+            String hashedPassword = hashPassword();
+            Logger.getLogger(LoginBean.class.getName()).log(Level.INFO, "Found user " + searchedUser);
 
-                // and check to see if it matches the hashed password of the user we found.
-                if (new BASE64Encoder().encode(digest).equals(hashedPassword)) {
-                    // if it matches, we're headed to the main menu.
-                        /* Set current user as a property of this session 
-                     * bean so that we can access it later.  */
-                    this.setCurrentUser(searchedUser);
-                    destinationPage = "mainMenu";
-                }
-            } catch (UnsupportedEncodingException ex) {  // getBytes might throw this
-                Logger.getLogger(LoginBean.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (NoSuchAlgorithmException ex) { // MessageDigest might throw this
-                Logger.getLogger(LoginBean.class.getName()).log(Level.SEVERE, null, ex);
+            // and check to see if it matches the hashed password of the user we found.
+            if (searchedUser.getPassword().equals(hashedPassword)) {
+                /* if it matches, we're headed to the main menu.
+                 * Set current user as a property of this session 
+                 * bean so that we can access it later.  */
+                this.setCurrentUser(searchedUser); 
+                destinationPage = "mainMenu";                
+            } else {
+                InPageMessage.addErrorMessage("Invalid username/password.");                
+                InPageMessage.addInfoMessage(this.password + " : " + hashedPassword);
+                InPageMessage.addInfoMessage(searchedUser.getPassword());
             }
-        }
+        } else { 
+            InPageMessage.addErrorMessage("Invalid username/password."); 
+        }       
         return destinationPage;
     }
 }

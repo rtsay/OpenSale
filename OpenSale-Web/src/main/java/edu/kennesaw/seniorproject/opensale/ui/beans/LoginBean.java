@@ -4,6 +4,7 @@ import com.google.common.hash.HashCode;
 import com.google.common.hash.HashFunction;
 import com.google.common.hash.Hashing;
 import edu.common.Static.Session;
+import edu.common.UserObjects.EUserTypes;
 import edu.common.UserObjects.User;
 import edu.kennesaw.seniorproject.opensale.entities.UserEntity;
 import edu.kennesaw.seniorproject.opensale.ui.utilities.InPageMessage;
@@ -63,6 +64,27 @@ public class LoginBean {
     public void setPassword(String password) {
         this.password = password;
     }
+    
+    public boolean isLoggedIn() {
+        return (this.currentUser != null);
+    }
+    
+    private boolean currentUserIsRole(EUserTypes role) {
+        return (this.currentUser != null && 
+                this.currentUser.getUserType() == role);
+    }
+    
+    public boolean isManager() {
+        return currentUserIsRole(EUserTypes.Manager);
+    }
+    
+    public boolean isAdmin() {
+        return currentUserIsRole(EUserTypes.Adminstrator);
+    }
+    
+    public boolean isSuperUser() {
+        return currentUserIsRole(EUserTypes.SuperUser);
+    }
 
     private String hashPassword() {
         HashFunction hf = Hashing.sha256();
@@ -76,7 +98,6 @@ public class LoginBean {
      * Checks to see if a user with the provided username exists. If so, checks
      * to see if the password matches. If all of that is successful, redirect
      * the user to the main menu. Otherwise, bounce back to the login page.
-     *
      * @return destinationPage
      */
     public String login() {

@@ -108,9 +108,7 @@ public class LoginBean {
                 this.setCurrentUser(searchedUser); 
                 destinationPage = "mainMenu";                
             } else {
-                InPageMessage.addErrorMessage("Invalid username/password.");                
-                InPageMessage.addInfoMessage(this.password + " : " + hashedPassword);
-                InPageMessage.addInfoMessage(searchedUser.getPassword());
+                InPageMessage.addErrorMessage("Invalid username/password.");
             }
         } else { 
             InPageMessage.addErrorMessage("Invalid username/password."); 

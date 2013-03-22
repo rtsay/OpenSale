@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html">
+    <body>
+
+        <ui:composition template="./OpenSaleTemplate.xhtml">
+
+            <ui:define name="PageTitle">
+                Home
+            </ui:define>
+
+            <ui:define name="content">
+                <div class="OpenSale">
+                    <!-- Input OpenSale image -->
+                    <img src="img/OpenSale3.gif"></img>
+                </div>
+
+                    <!-- Login information -->
+                <div class="login">
+                    <h:form>
+                        <label>Username</label>
+                        <h:inputText class="span3" 
+                                     value="#{loginBean.username}"/>
+                        <label>Password</label>
+                        <h:inputSecret class="span3" 
+                                       value="#{loginBean.password}"/>
+                        <br/>
+                        <h:commandButton action="#{loginBean.login()}"
+                                         value="Login" class="btn btn-primary"/>                        
+                        <button class="btn" type="reset">Clear</button>
+                    </h:form>
+                </div>
+                <script src="js/bootstrap.js"></script>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

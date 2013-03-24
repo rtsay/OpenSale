@@ -2,7 +2,7 @@ package edu.kennesaw.seniorproject.opensale.ui.beans;
 
 import edu.common.UserObjects.EUserTypes;
 import edu.common.UserObjects.User;
-import edu.kennesaw.seniorproject.opensale.entities.UserEntity;
+//import edu.kennesaw.seniorproject.opensale.entities.UserEntity;
 import javax.naming.InitialContext;
 import javax.naming.NameClassPair;
 import javax.naming.NamingEnumeration;
@@ -20,7 +20,10 @@ import static org.junit.Assert.*;
  * @author spencer
  */
 public class LoginBeanTest {
-    
+
+    /**
+     * TODO: Figure out how to make unit testing work somehow. Geez.
+     
     private static LoginBean loginBean;
     
     public LoginBeanTest() {
@@ -28,7 +31,6 @@ public class LoginBeanTest {
     
     @BeforeClass
     public static void setUpClass() throws NamingException {
-/*
         System.out.println("Testing loginBean");
         
         // Get the embedded glassfish server's context
@@ -38,7 +40,7 @@ public class LoginBeanTest {
             System.out.println(ncp.next());
         }
         // Get a LoginBean from that context
-//        loginBean = (LoginBean)ic.lookup("java:global/classes/LoginBean");        
+        loginBean = (LoginBean)ic.lookup("java:global/classes/LoginBean");        
         // get EntityManager from that LoginBean
         EntityManager em = loginBean.getEntityManager();
         
@@ -50,7 +52,6 @@ public class LoginBeanTest {
         u.setUserType(EUserTypes.Cashier);
         em.persist(u);
         em.getTransaction().commit();     
-        */
     }
     
     @AfterClass

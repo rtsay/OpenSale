@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
     <body>
 
         <ui:composition template="./OpenSaleTemplate.xhtml">
@@ -12,20 +13,25 @@
             </ui:define>
 
             <ui:define name="content">
-                <div class="OpenSale">
-                    <!-- Input OpenSale image -->
-                    <img src="img/OpenSale3.gif"></img>
-                </div>
-
-                    <!-- Login information -->
+                <!-- Login information -->
                 <div class="login">
                     <h:form>
                         <label>Username</label>
                         <h:inputText class="span3" 
-                                     value="#{loginBean.username}"/>
+                                     value="#{loginBean.username}"
+                                     requiredMessage="Username is required"
+                                     id="username">
+                            <f:validateRequired/>
+                        </h:inputText>
+                        <h:messages for="username"/>
                         <label>Password</label>
                         <h:inputSecret class="span3" 
-                                       value="#{loginBean.password}"/>
+                                       value="#{loginBean.password}"
+                                       requiredMessage="Password is required"
+                                       id="password">
+                            <f:validateRequired/>
+                        </h:inputSecret>
+                        <h:messages for="password"/>
                         <br/>
                         <h:commandButton action="#{loginBean.login()}"
                                          value="Login" class="btn btn-primary"/>                        
@@ -34,7 +40,6 @@
                 </div>
                 <script src="js/bootstrap.js"></script>
             </ui:define>
-
         </ui:composition>
 
     </body>

@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
 /**
@@ -16,12 +17,18 @@ import javax.persistence.NamedQuery;
  * @author spencer
  */
 @Entity
-@NamedQuery(
-        name="UserEntity.findByUsername", 
-        query="select u from UserEntity u where u.userName = :username"
-)
+@NamedQueries({
+    @NamedQuery(
+            name="UserEntity.findUserByLogin", 
+            query="select u from UserEntity u where u.userName = :username and u.password = :password"
+    ), // Used for login -- fetch a user by username and (hashed) password
+    @NamedQuery(
+            name="UserEntity.getEditableUsers",
+            query="select u from UserEntity u where u.userType <= :loggedInUserType"
+    ), // Used for User Management screen -- users may only edit lower-role users
+})
 public class UserEntity extends User implements Serializable {
-
+    
     private static final long serialVersionUID = 1L;        
     
     @Id

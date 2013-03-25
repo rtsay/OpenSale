@@ -64,9 +64,15 @@
             <version>14.0.1</version>
         </dependency>
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.24</version>
+            <groupId>org.glassfish.embedded</groupId>
+            <artifactId>maven-embedded-glassfish-plugin</artifactId>
+            <version>3.1.2.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>sql-maven-plugin</artifactId>
+            <version>1.5</version>
         </dependency>
         <dependency>
             <groupId>javax</groupId>
@@ -124,6 +130,46 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.10</version>
+                <configuration>
+                    <useFile>false</useFile>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>sql-maven-plugin</artifactId>
+                <version>1.5</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>mysql</groupId>
+                        <artifactId>mysql-connector-java</artifactId>
+                        <version>5.1.24</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <driver>org.gjt.mm.mysql.Driver</driver>
+                    <url>jdbc:mysql:///opensale_dev</url>
+                    <username>opensale</username>
+                    <password>opensale</password>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>insert-test-data</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <srcFiles>
+                                <srcFile>${basedir}/src/main/resources/sql/create_users.sql</srcFile>
+                            </srcFiles>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>            
         </plugins>
     </build>
     <repositories>

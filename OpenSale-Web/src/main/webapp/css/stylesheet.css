@@ -5,11 +5,28 @@ body{
 	text-align:center;
 }
 
-
 .login{
 	color: white;
 	width:250px;
 	margin:0px auto;
 	text-align:left;
-
 }
+
+#logo {
+        margin-bottom: 2em;
+}
+
+#mainMenu {
+        background-color: #f1f1f1;        
+        color: black;
+        padding: 1em;
+        box-shadow: 0 0 1em #444;       
+}
+
+.menuPanel {
+        background-color: white;
+        box-shadow: 0 0 0.5em #444;
+}
+
+.todo { color: red; }
+.todo:before { content: "TO DO: "; }

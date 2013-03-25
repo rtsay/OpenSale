@@ -13,8 +13,35 @@
             </ui:define>
 
             <ui:define name="content">
-                Your name is <h:outputText 
-                    value="#{loginBean.currentUser.userName}"/>
+                <div id="mainMenu" class="span10 offset1">
+                    <h2>Welcome, #{loginBean.currentUser.userName}!</h2>
+                    <h4>What would you like to do today?</h4>
+                    <h:panelGrid columns="4">
+                        <h:panelGroup layout="block" id="cashier-functions"
+                                      class="span3 menuPanel"> <!-- this creates a div -->
+                            <h5>Cashier functions</h5>
+                            <span class="todo">Add links here!</span>
+                        </h:panelGroup>
+                        <h:panelGroup layout="block" id="manager-functions"
+                                      class="span3"
+                                      rendered="#{loginBean.currentUserIsManager()}">
+                            <h5>Manager functions</h5>
+                            <span class="todo">Add links here!</span>
+                        </h:panelGroup>
+                        <h:panelGroup layout="block" id="admin-functions"
+                                      class="span3"
+                                      rendered="#{loginBean.currentUserIsAdmin()}">
+                            <h5>Admin functions</h5>
+                            <span class="todo">Add links here!</span>
+                        </h:panelGroup>
+                        <h:panelGroup layout="block" id="superuser-functions"
+                                      class="span3"
+                                      rendered="#{loginBean.currentUserIsSuperUser()}">
+                            <h5>Super User functions</h5>
+                            <span class="todo">Add links here!</span>
+                        </h:panelGroup>
+                    </h:panelGrid>
+                </div>
             </ui:define>
 
         </ui:composition>

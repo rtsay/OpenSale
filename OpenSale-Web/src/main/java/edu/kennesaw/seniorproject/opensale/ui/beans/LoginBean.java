@@ -74,15 +74,15 @@ public class LoginBean {
                 this.currentUser.getUserType() == role);
     }
     
-    public boolean isManager() {
+    public boolean currentUserIsManager() {
         return currentUserIsRole(EUserTypes.Manager);
     }
     
-    public boolean isAdmin() {
+    public boolean currentUserIsAdmin() {
         return currentUserIsRole(EUserTypes.Adminstrator);
     }
     
-    public boolean isSuperUser() {
+    public boolean currentUserIsSuperUser() {
         return currentUserIsRole(EUserTypes.SuperUser);
     }
 

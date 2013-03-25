@@ -166,6 +166,7 @@
                             <srcFiles>
                                 <srcFile>${basedir}/src/main/resources/sql/create_users.sql</srcFile>
                             </srcFiles>
+                            <onError>continue</onError>
                         </configuration>
                     </execution>
                 </executions>

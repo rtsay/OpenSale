@@ -103,34 +103,31 @@ public class LoginBean {
     public String login() {
         // Default to bounce back to the login page
         String destinationPage = null;
-
+        
+        // First, prep the password by hashing it.
+        
         // Search for a user with the username given           
-        Query userSearch = entityManager.createNamedQuery("UserEntity.findByUsername");
+        Query userSearch = entityManager.createNamedQuery("UserEntity.findUserByLogin");
         userSearch.setParameter("username", this.username);
-        UserEntity searchedUser  = null;
+        userSearch.setParameter("password", this.hashPassword());
+        UserEntity searchedUser = null;
         try {
             searchedUser = (UserEntity) userSearch.getSingleResult();
         } catch(javax.persistence.NoResultException e) {
-            InPageMessage.addErrorMessage("Invalid username/password.");            
+            InPageMessage.addErrorMessage("Invalid username/password.");
+            Logger.getLogger("LoginBean").log(Level.INFO, "Invalid login attempt for user: " + this.username);
         }
 
         // If we find a user with that username,
         if (searchedUser != null) {
             
-            // hash the password we were given                
-            String hashedPassword = hashPassword();
-            Logger.getLogger(LoginBean.class.getName()).log(Level.INFO, "Found user " + searchedUser);
-
-            // and check to see if it matches the hashed password of the user we found.
-            if (searchedUser.getPassword().equals(hashedPassword)) {
-                /* if it matches, we're headed to the main menu.
-                 * Set current user as a property of this session 
-                 * bean so that we can access it later.  */
-                this.setCurrentUser(searchedUser); 
-                destinationPage = "mainMenu";                
-            } else {
-                InPageMessage.addErrorMessage("Invalid username/password.");
-            }
+           // Log the login
+           Logger.getLogger("LoginBean").log(Level.INFO, "Logged in user: " + this.username);            
+            
+            /* Set current user as a property of this session 
+             * bean so that we can access it later.  */
+            this.setCurrentUser(searchedUser); 
+            destinationPage = "mainMenu";                            
         } else { 
             InPageMessage.addErrorMessage("Invalid username/password."); 
         }       

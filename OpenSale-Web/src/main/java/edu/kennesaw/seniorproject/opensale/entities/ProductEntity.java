@@ -8,7 +8,20 @@ import javax.persistence.*;
  * Represents the Product domain-model object.
  */
 @Entity
-
+@NamedQueries({
+    @NamedQuery(
+        name="findProductByUPC",
+        query="select p from ProductEntity p where p.UPC = :UPC"
+    ), // used for lookup by UPC; mostly just a meaningfully-named alias for using em.find
+    @NamedQuery(
+        name="listProductsByName",
+        query="select p from ProductEntity p where p.productName like :pattern"
+    ), // used for product search by name
+    @NamedQuery(
+        name="search",
+        query="select p from ProductEntity p where p.UPC = :UPC or p.productName like :pattern"
+    ) // used for product search by name or UPC
+})
 public class ProductEntity implements Serializable {
 
 	@Id

@@ -5,6 +5,8 @@
 package edu.common.UserObjects;
 
 import java.io.Serializable;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.MappedSuperclass;
 
 /**
@@ -14,6 +16,8 @@ import javax.persistence.MappedSuperclass;
 @MappedSuperclass
 public abstract class User implements Serializable {
     protected String userName, password;
+            
+    @Enumerated(EnumType.ORDINAL)
     protected EUserTypes userType;
 
     public abstract String getUserName();

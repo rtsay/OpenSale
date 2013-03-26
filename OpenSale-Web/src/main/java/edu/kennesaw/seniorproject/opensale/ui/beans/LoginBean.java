@@ -31,7 +31,6 @@ public class LoginBean {
     // Fields
     private String username;
     private String password;
-    private User currentUser;
 
     public EntityManager getEntityManager() {
         return entityManager;
@@ -66,25 +65,25 @@ public class LoginBean {
     }
     
     public boolean isLoggedIn() {
-        return (this.currentUser != null);
+        return (Session.getCurrentUser() != null);
     }
     
     private boolean currentUserIsRole(EUserTypes role) {
-        return (this.currentUser != null && 
-                this.currentUser.getUserType() == role);
+        return (Session.getCurrentUser().getUserType() != null && 
+                Session.getCurrentUser().getUserType() == role);
     }
     
     public boolean currentUserIsManager() {
-        return currentUserIsRole(EUserTypes.Manager);
+        return this.currentUserIsRole(EUserTypes.Manager);
     }
     
     public boolean currentUserIsAdmin() {
-        return currentUserIsRole(EUserTypes.Adminstrator);
+        return this.currentUserIsRole(EUserTypes.Adminstrator);
     }
     
     public boolean currentUserIsSuperUser() {
-        return currentUserIsRole(EUserTypes.SuperUser);
-    }
+        return this.currentUserIsRole(EUserTypes.SuperUser);
+    }    
 
     private String hashPassword() {
         HashFunction hf = Hashing.sha256();

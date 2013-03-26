@@ -24,13 +24,16 @@
                         </h:panelGroup>
                         <h:panelGroup layout="block" id="manager-functions"
                                       class="span3"
-                                      rendered="#{loginBean.currentUserIsManager()}">
+                                      rendered="#{loginBean.currentUserIsManager()
+                                                  || loginBean.currentUserIsAdmin()
+                                                  || loginBean.currentUserIsSuperUser()}">
                             <h5>Manager functions</h5>
                             <span class="todo">Add links here!</span>
                         </h:panelGroup>
                         <h:panelGroup layout="block" id="admin-functions"
                                       class="span3"
-                                      rendered="#{loginBean.currentUserIsAdmin()}">
+                                      rendered="#{loginBean.currentUserIsAdmin()
+                                                  || loginBean.currentUserIsSuperUser()}">
                             <h5>Admin functions</h5>
                             <span class="todo">Add links here!</span>
                         </h:panelGroup>

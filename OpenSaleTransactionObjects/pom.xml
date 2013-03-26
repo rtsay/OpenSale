@@ -36,5 +36,10 @@
       <artifactId>OpenSaleCommonObjects</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>org.eclipse.persistence</groupId>
+      <artifactId>eclipselink</artifactId>
+      <version>2.3.2</version>
+    </dependency>
   </dependencies>
 </project>

@@ -1,8 +1,9 @@
 
 package edu.kennesaw.seniorproject.opensale.ui.beans;
 
+import edu.kennesaw.seniorproject.opensale.entities.PaymentTransaction;
 import edu.transaction.TransactionObjects.Transaction;
-import edu.transaction.TransactionObjects.RefundTransaction;
+import edu.kennesaw.seniorproject.opensale.entities.RefundTransaction;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
@@ -33,11 +34,15 @@ public class MainMenuBean {
     public MainMenuBean() {
     }
     
-/*    public String createSale() {
-        Transaction saleTransaction = new SaleTransaction();
-        transactionBean.setCurrentTransaction(saleTransaction);        
+    /**
+     * Creates a new PaymentTransaction and redirects to the menu view.
+     * @return 
+     */
+    public String createSale() {
+        Transaction paymentTransaction = new PaymentTransaction();        
+        transactionBean.setCurrentTransaction(paymentTransaction);                
         return "transaction";
-    } */
+    }
     
     public String createRefund() {                
         Boolean refundAuthorized = true;

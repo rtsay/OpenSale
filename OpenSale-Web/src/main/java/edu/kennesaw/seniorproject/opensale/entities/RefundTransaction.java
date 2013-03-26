@@ -2,15 +2,22 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.transaction.TransactionObjects;
+package edu.kennesaw.seniorproject.opensale.entities;
 
 import edu.opensale.Payment.LegalTender;
+import edu.transaction.TransactionObjects.Transaction;
+import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 /**
  *
  * @author Jacob
  */
-public class RefundTransaction extends Transaction{
+@Entity
+public class RefundTransaction extends Transaction implements Serializable{
+    @Id
+    private Long id;
 
     @Override
     public boolean processPayment(LegalTender legalTender) {
@@ -25,6 +32,14 @@ public class RefundTransaction extends Transaction{
     @Override
     public boolean applyOverride(edu.common.UserObjects.User manager, double price) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
 }

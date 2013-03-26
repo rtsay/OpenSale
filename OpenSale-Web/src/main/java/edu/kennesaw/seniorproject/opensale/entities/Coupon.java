@@ -9,12 +9,20 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 /**
- *
+ * 
  * @author Jacob
  */
 @Entity
+@NamedQueries({
+    @NamedQuery(
+        name="findCouponByCouponCode",
+        query="select c from Coupon c where c.couponCode = :couponCode"
+    ),
+})
 public class Coupon implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -40,7 +48,7 @@ public class Coupon implements Serializable {
         this.percentageIsTrue = newPercentageIsTrue;
     }
     
-     public boolean verifyCouponeCode(){
+     public boolean verifyCouponCode() {
          return true;
     //todo
     }

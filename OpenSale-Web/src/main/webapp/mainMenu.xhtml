@@ -35,13 +35,18 @@
                                       rendered="#{loginBean.currentUserIsAdmin()
                                                   || loginBean.currentUserIsSuperUser()}">
                             <h5>Admin functions</h5>
-                            <span class="todo">Add links here!</span>
+                            <ul>
+                                <li>
+                                    <h:form>
+                                        <h:commandLink action="userList">User List</h:commandLink>
+                                    </h:form>
+                                </li>
+                            </ul>
                         </h:panelGroup>
                         <h:panelGroup layout="block" id="superuser-functions"
                                       class="span3"
                                       rendered="#{loginBean.currentUserIsSuperUser()}">
-                            <h5>Super User functions</h5>
-                            <span class="todo">Add links here!</span>
+                            <h5>Super User functions</h5>                        
                         </h:panelGroup>
                     </h:panelGrid>
                 </div>

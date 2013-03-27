@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <body>
+
+        <ui:composition template="./OpenSaleTemplate.xhtml">            
+            <ui:define name="PageTitle">
+                User List
+            </ui:define>
+
+            <ui:define name="content">
+                <div class="hero-unit">
+                    <h:dataTable value="#{userManagementBean.users}"
+                                 var="rowuser">
+
+                        <h:column>
+                            #{rowuser.userName}
+                        </h:column>
+
+                        <h:column>
+                            #{rowuser.password}
+                        </h:column>
+
+                        <h:column>
+                            <h:form>                        
+                                <h:commandButton action="#{userManagementBean.editUser()}"
+                                             value="Edit">
+                                    <!-- I had to look this up. Basically, this just says
+                                        that when you hit the button, it calls "editUser"
+                                        and passes the current user's username to the
+                                        UserManagementBean -->
+                                    <f:setPropertyActionListener 
+                                        target="#{userManagementBean.editedUserName}"
+                                        value="#{rowuser.userName}"/>                            
+                                </h:commandButton>
+                                <h:commandButton action="#{userManagementBean.deleteUser}"
+                                                 value="Delete">
+                                    <f:setPropertyActionListener 
+                                        target="#{userManagementBean.editedUserName}"
+                                        value="#{rowuser.userName}"/>
+                                </h:commandButton>
+                            </h:form>                            
+                        </h:column>
+                    </h:dataTable>
+                </div>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

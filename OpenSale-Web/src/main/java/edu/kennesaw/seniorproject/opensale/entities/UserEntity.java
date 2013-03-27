@@ -19,6 +19,10 @@ import javax.persistence.NamedQuery;
 @Entity
 @NamedQueries({
     @NamedQuery(
+            name="UserEntity.findUserByUsername", 
+            query="select u from UserEntity u where u.userName = :username"
+    ), // Used for editing users -- fetch a user by username
+    @NamedQuery(
             name="UserEntity.findUserByLogin", 
             query="select u from UserEntity u where u.userName = :username and u.password = :password"
     ), // Used for login -- fetch a user by username and (hashed) password

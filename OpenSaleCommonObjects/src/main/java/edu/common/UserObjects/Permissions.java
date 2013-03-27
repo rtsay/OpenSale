@@ -5,7 +5,6 @@
 package edu.common.UserObjects;
 
 import edu.common.Exceptions.InsufficentPermissionException;
-import edu.common.Interfaces.IUserVisitor;
 import edu.common.Static.Session;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -15,7 +14,7 @@ import java.util.List;
  *
  * @author mcbeckler
  */
-public class Permissions implements IUserVisitor, Serializable {
+public class Permissions implements Serializable {
 
     private List<Class> permissions;
 
@@ -44,10 +43,5 @@ public class Permissions implements IUserVisitor, Serializable {
             return true;
         }
         return permissions.contains(currentProcess);
-    }
-
-    @Override
-    public void visit(User user) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

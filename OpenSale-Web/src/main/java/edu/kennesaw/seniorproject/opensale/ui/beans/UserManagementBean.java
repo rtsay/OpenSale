@@ -17,6 +17,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.transaction.HeuristicMixedException;
@@ -44,7 +45,6 @@ public class UserManagementBean {
     
     // Fields    
     private UserEntity editedUser = null;
-    private Collection<User> allUsers;
     private String editedUserName, newUserName, newPassword;
     private EUserTypes newUserType;
 
@@ -54,7 +54,7 @@ public class UserManagementBean {
         return newUserType.getValue();
     }
 
-    public void setNewUserType(int newUserType) {
+    public void setNewUserType(int newUserType) {        
         for (EUserTypes a : EUserTypes.values()) {
             if (a.getValue() == newUserType) {
                 this.newUserType = a;
@@ -152,9 +152,13 @@ public class UserManagementBean {
             InPageMessage.addErrorMessage("No one is logged in?!?");
             return null;
         }
-        return "userManagement";
+        return "userList";
     }
 
+    /**
+     * Selects a user from the User List for editing and redirects to the Edit User screen.
+     * @return destination page name
+     */
     public String editUser() {
         Query lookupUser = entityManager.createNamedQuery("UserEntity.findUserByUsername");
         lookupUser.setParameter("username", this.editedUserName);
@@ -167,6 +171,58 @@ public class UserManagementBean {
         }
         return null;
     }
+    
+    /**
+     * Saves changes made in the Edit User screen and redirects to the User List screen.
+     * @return destination page name
+     */
+    public String saveUserChanges() {
+        
+        String destinationPage = null;
+        try {
+            // If there's no user selected for editing, something's broken. Bail!
+            if (this.editedUser == null) {
+                InPageMessage.addErrorMessage("Something went wrong. Please return to the User List and try again.");
+                return null;
+            }
+            
+            // Open a transaction to update the edited user.
+            ut.begin();        
+            // Actually update the edited user
+            entityManager.merge(this.editedUser);
+            // Commit transaction
+            ut.commit();
+            
+            // If the previous steps were successful, our next stop is the User List.
+            destinationPage = "userList";
+            
+        // Big ol' stack of possible exceptions to catch.
+        } catch (RollbackException ex) {
+            Logger.getLogger(UserManagementBean.class.getName()).log(Level.SEVERE, null, ex);
+            InPageMessage.addErrorMessage(("Something went wrong saving this user. Please refresh and try again."));
+        } catch (HeuristicMixedException ex) {
+            Logger.getLogger(UserManagementBean.class.getName()).log(Level.SEVERE, null, ex);
+            InPageMessage.addErrorMessage(("Something went wrong saving this user. Please refresh and try again."));
+        } catch (HeuristicRollbackException ex) {
+            Logger.getLogger(UserManagementBean.class.getName()).log(Level.SEVERE, null, ex);
+            InPageMessage.addErrorMessage(("Something went wrong saving this user. Please refresh and try again."));
+        } catch (SecurityException ex) {
+            Logger.getLogger(UserManagementBean.class.getName()).log(Level.SEVERE, null, ex);
+            InPageMessage.addErrorMessage(("Something went wrong saving this user. Please refresh and try again."));
+        } catch (IllegalStateException ex) {
+            Logger.getLogger(UserManagementBean.class.getName()).log(Level.SEVERE, null, ex);
+            InPageMessage.addErrorMessage(("Something went wrong saving this user. Please refresh and try again."));
+        } catch (NotSupportedException ex) {
+            Logger.getLogger(UserManagementBean.class.getName()).log(Level.SEVERE, null, ex);
+            InPageMessage.addErrorMessage(("Something went wrong saving this user. Please refresh and try again."));
+        } catch (SystemException ex) {
+            Logger.getLogger(UserManagementBean.class.getName()).log(Level.SEVERE, null, ex);
+            InPageMessage.addErrorMessage(("Something went wrong saving this user. Please refresh and try again."));
+        }
+        
+        // Redirect wherever we need to go.
+        return destinationPage;
+    }
 
     public String deleteUser() {
         try {
@@ -177,6 +233,13 @@ public class UserManagementBean {
             Query lookupUser = entityManager.createNamedQuery("UserEntity.findUserByUsername");
             lookupUser.setParameter("username", this.editedUserName);
             UserEntity userToDelete = (UserEntity) lookupUser.getSingleResult();
+            
+            /** 
+             * But wait, you ask, what if we don't find the user to delete?
+             * No problem! The named query will throw a NoResultException,
+             * which gets caught below.
+             **/
+            
 
             // Delete the user
             entityManager.remove(userToDelete);
@@ -203,6 +266,9 @@ public class UserManagementBean {
         } catch (NotSupportedException ex) {
             Logger.getLogger(UserManagementBean.class.getName()).log(Level.SEVERE, null, ex);
             InPageMessage.addErrorMessage("Something went wrong. Please refresh and try again.");
+        } catch (NoResultException ex) {
+            Logger.getLogger(UserManagementBean.class.getName()).log(Level.SEVERE, null, ex);
+            InPageMessage.addErrorMessage("It doesn't look like that user exists. Please refresh and try again.");
         } catch (SystemException ex) {
             Logger.getLogger(UserManagementBean.class.getName()).log(Level.SEVERE, null, ex);
             InPageMessage.addErrorMessage("Something went wrong. Please refresh and try again.");

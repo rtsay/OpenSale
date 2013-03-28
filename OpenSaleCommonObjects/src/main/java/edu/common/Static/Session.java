@@ -4,6 +4,7 @@
  */
 package edu.common.Static;
 
+import edu.common.Exceptions.NoCurrentSessionException;
 import java.util.Stack;
 import edu.common.UserObjects.User;
 
@@ -14,22 +15,26 @@ import edu.common.UserObjects.User;
  * @author mcbeckler
  */
 public class Session {
-    private static Stack<User> currentUsers;
+    private static Stack<User> currentUsers = new Stack<User>();
     
-    public static User getCurrentUser()
+    public static User getCurrentUser() throws NoCurrentSessionException
     {
-        return currentUsers.peek();
+        if (!currentUsers.empty())
+            return currentUsers.peek();
+        else
+            throw new NoCurrentSessionException();
     }
     
     public static void Login(User currentUser)
     {
-        if (currentUsers == null)
-            currentUsers = new Stack<User>();
         currentUsers.push(currentUser);
     }
     
-    public static void Logout()
+    public static void Logout() throws NoCurrentSessionException
     {
-        currentUsers.pop();
+        if (!currentUsers.empty())
+            currentUsers.pop();
+        else
+            throw new NoCurrentSessionException();
     }
 }

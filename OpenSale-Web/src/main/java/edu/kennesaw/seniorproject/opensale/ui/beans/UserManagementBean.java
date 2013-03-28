@@ -1,6 +1,6 @@
-
 package edu.kennesaw.seniorproject.opensale.ui.beans;
 
+import edu.common.Exceptions.NoCurrentSessionException;
 import edu.common.UserObjects.User;
 import edu.kennesaw.seniorproject.opensale.entities.UserEntity;
 import edu.kennesaw.seniorproject.opensale.ui.utilities.InPageMessage;
@@ -24,24 +24,21 @@ import javax.transaction.UserTransaction;
 
 /**
  * The bean (viewmodel) behind the User Management screen.
+ *
  * @author Jacob
  */
-
-@ManagedBean(name="userManagementBean")
+@ManagedBean(name = "userManagementBean")
 @SessionScoped
 public class UserManagementBean {
 
     @PersistenceContext
     private EntityManager entityManager;
-    
     @Resource
     private UserTransaction ut;
-    
     @ManagedProperty("#{loginBean}")
     LoginBean loginBean;
-    
     // Fields    
-    private UserEntity editedUser = null;        
+    private UserEntity editedUser = null;
     private String editedUserName;
     private Collection<User> allUsers;
 
@@ -51,7 +48,7 @@ public class UserManagementBean {
 
     public void setLoginBean(LoginBean loginBean) {
         this.loginBean = loginBean;
-    }        
+    }
 
     public UserEntity getEditedUser() {
         return editedUser;
@@ -59,7 +56,7 @@ public class UserManagementBean {
 
     public void setEditedUser(UserEntity editedUser) {
         this.editedUser = editedUser;
-    }        
+    }
 
     public String getEditedUserName() {
         return editedUserName;
@@ -67,71 +64,71 @@ public class UserManagementBean {
 
     public void setEditedUserName(String editedUserName) {
         this.editedUserName = editedUserName;
-    }        
-    
+    }
+
     public EntityManager getEntityManager() {
         return entityManager;
     }
 
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
-    }       
-    
-    public String createUser(User user){
+    }
+
+    public String createUser(User user) {
         entityManager.persist(user);
         return "userManagement";
     }
-    
+
     /**
      * Fetches users editable by the current user.
+     *
      * @return List<User>
      */
-    public List<User> getUsers(){
+    public List<User> getUsers() throws NoCurrentSessionException {
         // Fetch editable users with a Named Query
         Query userSearch = entityManager.createNamedQuery("UserEntity.getEditableUsers");
-        userSearch.setParameter("loggedInUserType", 
+        userSearch.setParameter("loggedInUserType",
                 this.loginBean.getCurrentUser().getUserType());
-        
-        List<User> searchedUser  = null; 
+
+        List<User> searchedUser = null;
         try {
             searchedUser = (List<User>) userSearch.getResultList();
-        } catch(javax.persistence.NoResultException e) {
-            InPageMessage.addErrorMessage("No Users exist.");            
+        } catch (javax.persistence.NoResultException e) {
+            InPageMessage.addErrorMessage("No Users exist.");
         }
-        
-        return searchedUser;        
+
+        return searchedUser;
     }
-    
+
     public String editUser() {
         Query lookupUser = entityManager.createNamedQuery("UserEntity.findUserByUsername");
         lookupUser.setParameter("username", this.editedUserName);
-        
-        try {            
-            this.editedUser = (UserEntity)lookupUser.getSingleResult();
+
+        try {
+            this.editedUser = (UserEntity) lookupUser.getSingleResult();
             return "editUser";
-        } catch(javax.persistence.NoResultException e) {
-            InPageMessage.addErrorMessage("Something went wrong. Please refresh and try again.");            
+        } catch (javax.persistence.NoResultException e) {
+            InPageMessage.addErrorMessage("Something went wrong. Please refresh and try again.");
         }
         return null;
     }
-    
-    
-    public String deleteUser(){        
+
+    public String deleteUser() {
         try {
             // Start a UserTransaction to edit entities
             ut.begin();
-            
+
             // Look up the user in the database by username
             Query lookupUser = entityManager.createNamedQuery("UserEntity.findUserByUsername");
             lookupUser.setParameter("username", this.editedUserName);
-            UserEntity userToDelete = (UserEntity)lookupUser.getSingleResult();            
-        
+            UserEntity userToDelete = (UserEntity) lookupUser.getSingleResult();
+
             // Delete the user
-            entityManager.remove(userToDelete);        
-            
+            entityManager.remove(userToDelete);
+
             // Commit the transaction
-            ut.commit();       
-            
+            ut.commit();
+
             // A giant stack of catch blocks
         } catch (RollbackException ex) {
             Logger.getLogger(UserManagementBean.class.getName()).log(Level.SEVERE, null, ex);
@@ -157,7 +154,4 @@ public class UserManagementBean {
         }
         return null;
     }
-    
-   
-
 }

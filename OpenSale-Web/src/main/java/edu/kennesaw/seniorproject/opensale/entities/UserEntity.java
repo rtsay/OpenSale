@@ -1,6 +1,9 @@
 package edu.kennesaw.seniorproject.opensale.entities;
 
 // TODO: Add actual user fields, methods.
+import edu.common.Exceptions.InsufficentPermissionException;
+import edu.common.Exceptions.NoCurrentSessionException;
+import edu.common.Static.Session;
 import edu.common.UserObjects.EUserTypes;
 import edu.common.UserObjects.Permissions;
 import edu.common.UserObjects.User;
@@ -39,11 +42,18 @@ public class UserEntity extends User implements Serializable {
     public UserEntity() {
     }
 
-    public UserEntity(String userName, String password, EUserTypes userType, Permissions permission) {
-        this.userName = userName;
-        this.password = password;
-        this.userType = userType;
-        this.permissions = permission;
+    /*
+     * Use this constructor when making new Users.
+     */
+    public UserEntity(String userName, String password, EUserTypes userType, Permissions permission, User manager) throws InsufficentPermissionException {
+            if (manager.isAllowed(User.class)) {
+                this.userName = userName;
+                this.password = password;
+                this.userType = userType;
+                this.permissions = permission;
+            } else {
+                throw new InsufficentPermissionException();
+            }
     }
 
     public Long getId() {

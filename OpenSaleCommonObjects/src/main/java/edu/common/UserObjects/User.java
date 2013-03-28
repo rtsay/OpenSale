@@ -5,6 +5,8 @@
 package edu.common.UserObjects;
 
 import edu.common.Exceptions.InsufficentPermissionException;
+import edu.common.Exceptions.NoCurrentSessionException;
+import edu.common.Static.Session;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
@@ -66,6 +68,6 @@ public abstract class User implements Serializable {
     }
 
     public boolean isAllowed(Class toCheck) {
-        return this.permissions.isAllowed(toCheck);
+        return this.permissions.isAllowed(toCheck, this);
     }
 }

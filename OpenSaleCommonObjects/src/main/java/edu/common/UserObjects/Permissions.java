@@ -5,7 +5,6 @@
 package edu.common.UserObjects;
 
 import edu.common.Exceptions.InsufficentPermissionException;
-import edu.common.Static.Session;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,8 +37,8 @@ public class Permissions implements Serializable {
         }
     }
 
-    public boolean isAllowed(Class currentProcess) {
-        if (Session.getCurrentUser().getUserType() == EUserTypes.SuperUser) {
+    public boolean isAllowed(Class currentProcess, User currentUser) {
+        if (currentUser.getUserType() == EUserTypes.SuperUser) {
             return true;
         }
         return permissions.contains(currentProcess);

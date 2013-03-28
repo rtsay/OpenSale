@@ -1,6 +1,10 @@
 package edu.kennesaw.seniorproject.opensale.ui.beans;
 
+import edu.common.Exceptions.InsufficentPermissionException;
 import edu.common.Exceptions.NoCurrentSessionException;
+import edu.common.Static.Session;
+import edu.common.UserObjects.EUserTypes;
+import edu.common.UserObjects.Permissions;
 import edu.common.UserObjects.User;
 import edu.kennesaw.seniorproject.opensale.entities.UserEntity;
 import edu.kennesaw.seniorproject.opensale.ui.utilities.InPageMessage;
@@ -37,10 +41,42 @@ public class UserManagementBean {
     private UserTransaction ut;
     @ManagedProperty("#{loginBean}")
     LoginBean loginBean;
+    
     // Fields    
     private UserEntity editedUser = null;
-    private String editedUserName;
     private Collection<User> allUsers;
+    private String editedUserName, newUserName, newPassword;
+    private EUserTypes newUserType;
+
+    //AN INFINITE LAND OF GETTER AND SETTERS!
+    
+    public int getNewUserType() {
+        return newUserType.getValue();
+    }
+
+    public void setNewUserType(int newUserType) {
+        for (EUserTypes a : EUserTypes.values()) {
+            if (a.getValue() == newUserType) {
+                this.newUserType = a;
+            }
+        }
+    }
+   
+    public String getNewUserName() {
+        return newUserName;
+    }
+
+    public void setNewUserName(String newUserName) {
+        this.newUserName = newUserName;
+    }
+
+    public String getNewPassword() {
+        return newPassword;
+    }
+
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
+    }
 
     public LoginBean getLoginBean() {
         return loginBean;
@@ -98,6 +134,25 @@ public class UserManagementBean {
         }
 
         return searchedUser;
+    }
+    /**
+     * Creates a new user and adds it to the databasssssss
+     * @return NOTHING... except a direction
+     */
+    public String addNewUser() {
+        User newUser;
+        try {
+            newUser = new UserEntity(newUserName, newPassword, newUserType, new Permissions(), Session.getCurrentUser());
+        } catch (InsufficentPermissionException ex) {
+            Logger.getLogger(UserManagementBean.class.getName()).log(Level.SEVERE, null, ex);
+            InPageMessage.addErrorMessage("You're not allowed to do this.");
+            return null;
+        } catch (NoCurrentSessionException ex) {
+            Logger.getLogger(UserManagementBean.class.getName()).log(Level.SEVERE, null, ex);
+            InPageMessage.addErrorMessage("No one is logged in?!?");
+            return null;
+        }
+        return "userManagement";
     }
 
     public String editUser() {

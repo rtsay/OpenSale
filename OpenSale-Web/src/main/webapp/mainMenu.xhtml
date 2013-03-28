@@ -19,22 +19,18 @@
                     <h:panelGrid columns="4">
                         <h:panelGroup layout="block" id="cashier-functions"
                                       class="span3 menuPanel"> <!-- this creates a div -->
-                            <h:panelGroup class="content">
-                                <ul class="menu" id="menu">
-                                    <li>
-                                        <h5>Cashier functions</h5>
-                                        <img src="img\admin.jpg">
-                                        </img>
-                                        <h:panelGroup class="box">
-                                            <a href="#">
-                                                <a href="#">Transaction</a><br/>
-                                                <a href="#">Catalog</a>
-                                            </a>
-                                        </h:panelGroup>
-                                        <span class="active"></span>
-                                        <span class="wrap"></span>
-                                    </li>
-                                </ul>
+                            <h:panelGroup class="content" layout="block">
+                                <h5>Cashier functions</h5>
+                                <h:graphicImage name="img/admin.jpg"/>
+                                <h:panelGroup class="box">
+                                    <ul>
+                                        <li><a href="#">New Sale</a></li>
+                                        <li><a href="#">New Refund</a></li>
+                                        <li><a href="#">View Catalog</a></li>
+                                    </ul>
+                                </h:panelGroup>
+                                <span class="active"></span>
+                                <span class="wrap"></span>
                             </h:panelGroup>
                         </h:panelGroup>
                         <h:panelGroup layout="block" id="manager-functions"
@@ -42,78 +38,50 @@
                                       rendered="#{loginBean.currentUserIsManager()
                                                   || loginBean.currentUserIsAdmin()
                                                   || loginBean.currentUserIsSuperUser()}">
-                            <h:panelGroup class="content">
-                                <ul class="menu" id="menu">
-                                    <li>
-                                        <h5>Manager functions</h5>
-                                        <img src="img\admin.jpg">
-                                        </img>
-                                        <h:panelGroup class="box">
-                                            <a href="#">
-                                                <a href="#">Transaction</a><br/>
-                                                <a href="#">Refund</a><br/>
-                                                <a href="#">Discount</a><br/>
-                                                <a href="#">Catalog</a>
-                                            </a>
-                                        </h:panelGroup>
-                                        <span class="active"></span>
-                                        <span class="wrap"></span>
-                                    </li>
-                                </ul>
+                            <h:panelGroup class="content" layout="block">
+                                <h5>Manager functions</h5>
+                                <h:graphicImage name="img/admin.jpg"/>
+                                <h:panelGroup class="box" layout="block">
+                                    <ul>                                        
+                                    </ul>
+                                </h:panelGroup>
+                                <span class="active"></span>
+                                <span class="wrap"></span>
                             </h:panelGroup>
                         </h:panelGroup>
                         <h:panelGroup layout="block" id="admin-functions"
                                       class="span3 menuPanel"
                                       rendered="#{loginBean.currentUserIsAdmin()
                                                   || loginBean.currentUserIsSuperUser()}">
-                            <h:panelGroup class="content">
-                                <ul class="menu" id="menu">
-                                    <li>
-                                        <h5>Admin functions</h5>
-                                        <img src="img\admin.jpg">
-                                        </img>
-                                        <h:panelGroup class="box">
-                                            <a href="#">
-                                                <a href="registration.html">New Registration</a><br/>
-                                                <a href="#">User List</a><br/>
-                                                <a href="#">Catalog</a>
-                                            </a>
-                                        </h:panelGroup>
-                                        <span class="active"></span>
-                                        <span class="wrap"></span>
-                                    </li>
-                                </ul>
+                            <h:panelGroup class="content" layout="block">
+                                <h5>Admin functions</h5>
+                                <h:graphicImage name="img/admin.jpg"/>
+                                <h:panelGroup class="box" layout="block">
+                                    <ul>                                                
+                                        <li><h:form><h:commandLink action="userList">User list</h:commandLink></h:form></li>
+                                        <li><a href="#">Manage Catalog</a></li>
+                                    </ul>
+                                </h:panelGroup>
+                                <span class="active"></span>
+                                <span class="wrap"></span>
                             </h:panelGroup>           
                         </h:panelGroup>
                         <h:panelGroup layout="block" id="superuser-functions"
                                       class="span3 menuPanel"
                                       rendered="#{loginBean.currentUserIsSuperUser()}">
-                            <h:panelGroup class="content">
-                                <ul class="menu" id="menu">
-                                    <li>
-                                        <h5>Super User functions</h5>
-                                        <img src="img\admin.jpg">
-                                        </img>
-                                        <h:panelGroup class="box">
-                                            <a href="#">
-                                                <a href="#">New Registration</a><br/>
-                                                <a href="#">User List</a><br/>
-                                                <a href="#">Catalog</a>
-                                            </a>
-                                        </h:panelGroup>
-                                        <span class="active"></span>
-                                        <span class="wrap"></span>
-                                    </li>
-                                </ul> 
+                            <h:panelGroup class="content">                             
+                                <h5>Super User functions</h5>
+                                <h:graphicImage name="img/admin.jpg"/>
+                                <h:panelGroup class="box" layout="block">
+                                    <ul>
+                                    </ul>
+                                </h:panelGroup>
+                                <span class="active"></span>
+                                <span class="wrap"></span>
                                </h:panelGroup>
-                        
-                        
                         </h:panelGroup>
                     </h:panelGrid>
-                </div>   
-                <script src="js/bootstrap.js"></script>
-                <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-                <script type="text/javascript" src="jquery.easing.1.3.js"></script>
+                </div>                   
                 <script type="text/javascript">
                     $(document).ready(function() {
                         $('#menu > li').click(function() {

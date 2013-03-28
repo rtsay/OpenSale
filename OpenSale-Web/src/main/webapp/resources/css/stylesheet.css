@@ -1,5 +1,5 @@
 body{
-	background: url("../img/backgroundimg.jpg");
+	background: url(#{resource['img/backgroundimg.jpg']});
 	background-size: cover;
 	background-repeat: no-repeat;
 	text-align:center;
@@ -30,3 +30,5 @@ body{
 
 .todo { color: red; }
 .todo:before { content: "TO DO: "; }
+
+li { display: block }

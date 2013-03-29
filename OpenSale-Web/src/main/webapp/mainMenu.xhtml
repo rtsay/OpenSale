@@ -19,32 +19,118 @@
                     <h:panelGrid columns="4">
                         <h:panelGroup layout="block" id="cashier-functions"
                                       class="span3 menuPanel"> <!-- this creates a div -->
-                            <h5>Cashier functions</h5>
-                            <span class="todo">Add links here!</span>
+                            <h:panelGroup class="content" layout="block">
+                                <h5>Cashier functions</h5>
+                                <h:graphicImage name="img/admin.jpg"/>
+                                <h:panelGroup class="box">
+                                    <ul>
+                                        <li><a href="#">New Sale</a></li>
+                                        <li><a href="#">New Refund</a></li>
+                                        <li><a href="#">View Catalog</a></li>
+                                    </ul>
+                                </h:panelGroup>
+                                <span class="active"></span>
+                                <span class="wrap"></span>
+                            </h:panelGroup>
                         </h:panelGroup>
                         <h:panelGroup layout="block" id="manager-functions"
-                                      class="span3"
+                                      class="span3 menuPanel"
                                       rendered="#{loginBean.currentUserIsManager()
                                                   || loginBean.currentUserIsAdmin()
                                                   || loginBean.currentUserIsSuperUser()}">
-                            <h5>Manager functions</h5>
-                            <span class="todo">Add links here!</span>
+                            <h:panelGroup class="content" layout="block">
+                                <h5>Manager functions</h5>
+                                <h:graphicImage name="img/admin.jpg"/>
+                                <h:panelGroup class="box" layout="block">
+                                    <ul>                                        
+                                    </ul>
+                                </h:panelGroup>
+                                <span class="active"></span>
+                                <span class="wrap"></span>
+                            </h:panelGroup>
                         </h:panelGroup>
                         <h:panelGroup layout="block" id="admin-functions"
-                                      class="span3"
+                                      class="span3 menuPanel"
                                       rendered="#{loginBean.currentUserIsAdmin()
                                                   || loginBean.currentUserIsSuperUser()}">
-                            <h5>Admin functions</h5>
-                            <span class="todo">Add links here!</span>
+                            <h:panelGroup class="content" layout="block">
+                                <h5>Admin functions</h5>
+                                <h:graphicImage name="img/admin.jpg"/>
+                                <h:panelGroup class="box" layout="block">
+                                    <ul>                                                
+                                        <li><h:form><h:commandLink action="userList">User list</h:commandLink></h:form></li>
+                                        <li><a href="#">Manage Catalog</a></li>
+                                    </ul>
+                                </h:panelGroup>
+                                <span class="active"></span>
+                                <span class="wrap"></span>
+                            </h:panelGroup>           
                         </h:panelGroup>
                         <h:panelGroup layout="block" id="superuser-functions"
-                                      class="span3"
+                                      class="span3 menuPanel"
                                       rendered="#{loginBean.currentUserIsSuperUser()}">
-                            <h5>Super User functions</h5>
-                            <span class="todo">Add links here!</span>
+                            <h:panelGroup class="content">                             
+                                <h5>Super User functions</h5>
+                                <h:graphicImage name="img/admin.jpg"/>
+                                <h:panelGroup class="box" layout="block">
+                                    <ul>
+                                    </ul>
+                                </h:panelGroup>
+                                <span class="active"></span>
+                                <span class="wrap"></span>
+                               </h:panelGroup>
                         </h:panelGroup>
                     </h:panelGrid>
-                </div>
+                </div>                   
+                <script type="text/javascript">
+                    $(document).ready(function() {
+                        $('#menu > li').click(function() {
+                            var $elem = $(this);
+                            $elem.find('img')
+                                    .stop(true)
+                                    .animate({
+                                'width': '170px',
+                                'height': '170px',
+                                'left': '0px'
+                            }, 400, 'easeOutBack')
+                                    .andSelf()
+                                    .find('.wrap')
+                                    .stop(true)
+                                    .animate({'top': '140px'}, 500, 'easeOutBack')
+                                    .andSelf()
+                                    .find('.active')
+                                    .stop(true)
+                                    .animate({'height': '170px'}, 300, function() {
+                                var $sub_menu = $elem.find('.box');
+                                if ($sub_menu.length) {
+                                    var left = '170px';
+                                    if ($elem.parent().children().length == $elem.index() + 1)
+                                        left = '-170px';
+                                    $sub_menu.show().animate({'left': left}, 200);
+                                }
+                            });
+                        }).bind('mouseleave', function() {
+                            var $elem = $(this);
+                            var $sub_menu = $elem.find('.box');
+                            if ($sub_menu.length)
+                                $sub_menu.hide().css('left', '0px');
+
+                            $elem.find('.active')
+                                    .stop(true)
+                                    .animate({'height': '0px'}, 300)
+                                    .andSelf().find('img')
+                                    .stop(true)
+                                    .animate({
+                                'width': '0px',
+                                'height': '0px',
+                                'left': '85px'}, 400)
+                                    .andSelf()
+                                    .find('.wrap')
+                                    .stop(true)
+                                    .animate({'top': '25px'}, 500);
+                        });
+                    });
+                </script>
             </ui:define>
 
         </ui:composition>

@@ -3,6 +3,7 @@ package edu.kennesaw.seniorproject.opensale.ui.beans;
 import com.google.common.hash.HashCode;
 import com.google.common.hash.HashFunction;
 import com.google.common.hash.Hashing;
+import edu.common.Exceptions.NoCurrentSessionException;
 import edu.common.Static.Session;
 import edu.common.UserObjects.EUserTypes;
 import edu.common.UserObjects.User;
@@ -40,7 +41,7 @@ public class LoginBean {
         this.entityManager = entityManager;
     }
 
-    public User getCurrentUser() { 
+    public User getCurrentUser() throws NoCurrentSessionException { 
        return Session.getCurrentUser();
     }
 
@@ -64,24 +65,24 @@ public class LoginBean {
         this.password = password;
     }
     
-    public boolean isLoggedIn() {
+    public boolean isLoggedIn() throws NoCurrentSessionException {
         return (Session.getCurrentUser() != null);
     }
     
-    private boolean currentUserIsRole(EUserTypes role) {
+    private boolean currentUserIsRole(EUserTypes role) throws NoCurrentSessionException {
         return (Session.getCurrentUser().getUserType() != null && 
                 Session.getCurrentUser().getUserType() == role);
     }
     
-    public boolean currentUserIsManager() {
+    public boolean currentUserIsManager() throws NoCurrentSessionException {
         return this.currentUserIsRole(EUserTypes.Manager);
     }
     
-    public boolean currentUserIsAdmin() {
+    public boolean currentUserIsAdmin() throws NoCurrentSessionException {
         return this.currentUserIsRole(EUserTypes.Adminstrator);
     }
     
-    public boolean currentUserIsSuperUser() {
+    public boolean currentUserIsSuperUser() throws NoCurrentSessionException {
         return this.currentUserIsRole(EUserTypes.SuperUser);
     }    
 

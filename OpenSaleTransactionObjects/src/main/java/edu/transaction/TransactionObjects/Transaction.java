@@ -4,6 +4,7 @@
  */
 package edu.transaction.TransactionObjects;
 
+import edu.common.Permissions.VerifyPermissions;
 import edu.common.UserObjects.User;
 import edu.opensale.Payment.LegalTender;
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import javax.persistence.MappedSuperclass;
  *
  * @author Jacob
  */
+@VerifyPermissions
 @MappedSuperclass
 public abstract class Transaction {
     

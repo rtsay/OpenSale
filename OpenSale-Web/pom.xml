@@ -84,7 +84,12 @@
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
             <version>3.5</version>
-        </dependency>      
+        </dependency>   
+        <dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+            <version>0.9.9-RC1</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -175,7 +180,20 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>            
+            </plugin> 
+            <plugin>
+                <groupId>org.reflections</groupId>
+                <artifactId>reflections-maven</artifactId>
+                <version>0.9.9-RC1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>reflections</goal>
+                        </goals>
+                        <phase>process-classes</phase>
+                    </execution>
+                </executions>
+            </plugin>           
         </plugins>
     </build>
     <repositories>

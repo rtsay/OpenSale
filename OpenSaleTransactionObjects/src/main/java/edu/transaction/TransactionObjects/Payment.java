@@ -4,10 +4,13 @@
  */
 package edu.transaction.TransactionObjects;
 
+import edu.common.Permissions.VerifyPermissions;
+
 /**
  *
  * @author mcbeckler
  */
+@VerifyPermissions
 public class Payment {
     
 }

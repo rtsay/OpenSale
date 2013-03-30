@@ -4,9 +4,9 @@
  */
 package edu.common.UserObjects;
 
+import edu.common.Permissions.Permissions;
 import edu.common.Exceptions.InsufficentPermissionException;
-import edu.common.Exceptions.NoCurrentSessionException;
-import edu.common.Static.Session;
+import edu.common.Permissions.VerifyPermissions;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
@@ -15,6 +15,7 @@ import javax.persistence.MappedSuperclass;
  *
  * @author mcbeckler
  */
+@VerifyPermissions
 @MappedSuperclass
 public abstract class User implements Serializable {
 

@@ -5,7 +5,7 @@ import edu.common.Exceptions.InsufficentPermissionException;
 import edu.common.Exceptions.NoCurrentSessionException;
 import edu.common.Static.Session;
 import edu.common.UserObjects.EUserTypes;
-import edu.common.UserObjects.Permissions;
+import edu.common.Permissions.Permissions;
 import edu.common.UserObjects.User;
 import java.io.Serializable;
 import javax.persistence.Entity;

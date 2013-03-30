@@ -5,10 +5,8 @@ import edu.common.Exceptions.NoCurrentSessionException;
 import edu.common.Static.Session;
 import edu.common.UserObjects.EUserTypes;
 import edu.common.Permissions.Permissions;
-import edu.common.UserObjects.User;
 import edu.kennesaw.seniorproject.opensale.entities.UserEntity;
 import edu.kennesaw.seniorproject.opensale.ui.utilities.InPageMessage;
-import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,7 +15,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.transaction.HeuristicMixedException;
@@ -173,6 +170,16 @@ public class UserManagementBean {
     }
     
     /**
+     * Helper method to reset fields to make sure we don't auto-populate them
+     * again in the future.
+     */
+    private void resetUserFields() {
+        this.newUserName = null;
+        this.newPassword = null;
+        this.newUserType = null;
+    }
+    
+    /**
      * Creates a new user and adds it to the databasssssss
      * @return NOTHING... except a direction
      */
@@ -181,7 +188,11 @@ public class UserManagementBean {
         try {
             // Try to create a new user using provided details.
             newUser = new UserEntity(newUserName, newPassword, newUserType, new Permissions(), Session.getCurrentUser());            
-            return saveUser(newUser);            
+            String destinationPage = saveUser(newUser);                    
+            
+            // Reset newUserName, etc so we don't try to create the same user again.
+            resetUserFields();
+            return destinationPage;
          } catch (InsufficentPermissionException ex) {
             Logger.getLogger(UserManagementBean.class.getName()).log(Level.SEVERE, null, ex);
             InPageMessage.addErrorMessage("You're not allowed to do this.");

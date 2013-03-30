@@ -184,7 +184,7 @@
             <plugin>
                 <groupId>org.reflections</groupId>
                 <artifactId>reflections-maven</artifactId>
-                <version>the latest version...</version>
+                <version>0.9.9-RC1</version>
                 <executions>
                     <execution>
                         <goals>

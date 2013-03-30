@@ -18,9 +18,12 @@
                     <p:fieldset>
                         <p:dataTable value="#{userManagementBean.users}"
                                      var="rowuser" rows="10" paginator="true">
-
-                            <p:column headerText="User Name" sortBy="#{userManagementBean.users}" filterBy="#{userManagementBean.user}">
-                                <h:outputText value="#{rowuser.user}"/>        
+                            <p:column headerText="ID">
+                                <h:outputText value="#{rowuser.id}"/>
+                            </p:column>
+                            
+                            <p:column headerText="User Name" sortBy="#{userManagementBean.users}" filterBy="#{userManagementBean.users}">
+                                <h:outputText value="#{rowuser.userName}"/>        
                             </p:column>
 
                             <p:column headerText="Password">
@@ -39,7 +42,7 @@
                             </p:column>  
                             <p:column>
                                 <h:form>                        
-                                    <h:commandButton action="#{userManagementBean.editedUser}"
+                                    <h:commandButton action="#{userManagementBean.editUser()}"
                                                      value="Edit"
                                                      class="btn">
                                         <!-- I had to look this up. Basically, this just says
@@ -67,13 +70,10 @@
                             <f:param name="Registration" />
                         </p:button>
                         <p:button outcome="Registration" value="Edit User">
-                            <f:setPropertyActionListener target="#{userManagementBean.editedUserId}"
-                                                         value="#{rowuser.id}"/>
+                            <f:param name="Registration" />
                         </p:button>
-                        <p:button outcome="Registration" value="Delete User">
-                            <f:setPropertyActionListener target="#{userManagementBean.deleteUser}"
-                                                         value="#{rowuser.id}"/>
-                            
+                       <p:button outcome="Registration" value="Delete">
+                            <f:param name="Registration" />
                         </p:button>
                     </p:fieldset>
                 </div>

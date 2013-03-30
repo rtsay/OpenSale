@@ -26,14 +26,14 @@
                                 
                                 <h5>Cashier functions</h5>
                                 <h:graphicImage name="img/admin.jpg"/>
-                                <h:panelGroup class="box">
+                                <h:panelGroup class="box" layout="block">
                                     <p:accordionPanel multiple="true">
                                         <p:tab title="Cashier">
                                             <h:panelGrid columns="2">
                                                 <ul>
-                                                    <li><h:form><h:commandLink action="NewSale">New Sale</h:commandLink></h:form></li>
-                                                    <li><h:form><h:commandLink action="NewRefund">New Refund</h:commandLink></h:form></li>
-                                                    <li><h:form><h:commandLink action="ViewCatalog">View Catalog</h:commandLink></h:form></li>
+                                                    <li><h:form><h:outputLink value="NewSale">New Sale</h:outputLink></h:form></li>
+                                                    <li><h:form><h:outputLink value="NewRefund">New Refund</h:outputLink></h:form></li>
+                                                    <li><h:form><h:outputLink value="ViewCatalog">View Catalog</h:outputLink></h:form></li>
                                                 </ul>
                                             </h:panelGrid>
                                         </p:tab>
@@ -54,10 +54,10 @@
                                         <p:tab title="Manager">
                                             <h:panelGrid columns="2">
                                                 <ul>
-                                                    <li><h:form><h:commandLink action="NewSale">New Sale</h:commandLink></h:form></li>
-                                                    <li><h:form><h:commandLink action="NewRefund">New Refund</h:commandLink></h:form></li>
-                                                    <li><h:form><h:commandLink action="ExtraDiscount">Extra Discount</h:commandLink></h:form></li>
-                                                    <li><h:form><h:commandLink action="ViewCatalog">View Catalog</h:commandLink></h:form></li>
+                                                    <li><h:form><h:outputLink value="NewSale">New Sale</h:outputLink></h:form></li>
+                                                    <li><h:form><h:outputLink value="NewRefund">New Refund</h:outputLink></h:form></li>
+                                                    <li><h:form><h:outputLink value="ExtraDiscount">Extra Discount</h:outputLink></h:form></li>
+                                                    <li><h:form><h:outputLink value="ViewCatalog">View Catalog</h:outputLink></h:form></li>
                                                 </ul>
                                             </h:panelGrid>
                                         </p:tab>
@@ -79,8 +79,8 @@
                                         <p:tab title="Admin">
                                             <h:panelGrid columns="2">
                                                 <ul>
-                                                    <li><h:form><h:commandLink action="UserList">User List</h:commandLink></h:form></li>
-                                                     <li><h:form><h:commandLink action="ManageCatalog">Manage Catalog</h:commandLink></h:form></li>
+                                                    <li><h:form><h:outputLink value="userList.xhtml">User List</h:outputLink></h:form></li>
+                                                    <li><h:form><h:outputLink value="ManageCatalog">Manage Catalog</h:outputLink></h:form></li>
                                                 </ul>
                                             </h:panelGrid>
                                         </p:tab>
@@ -100,8 +100,8 @@
                                         <p:tab title="Super User">
                                             <h:panelGrid columns="2">
                                                 <ul>
-                                                    <li><h:form><h:commandLink action="userList">User List</h:commandLink></h:form></li>
-                                                     <li><h:form><h:commandLink action="manageCatalog">Manage Catalog</h:commandLink></h:form></li>
+                                                    <li><h:form><h:outputLink value="userList">User List</h:outputLink></h:form></li>
+                                                     <li><h:form><h:outputLink value="manageCatalog">Manage Catalog</h:outputLink></h:form></li>
                                                 </ul>
                                             </h:panelGrid>
                                         </p:tab>

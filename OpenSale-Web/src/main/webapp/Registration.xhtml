@@ -21,17 +21,17 @@
 
                         <h:panelGrid columns="2" id="matchGrid" styleClass="centered">  
                             
-                            <h:outputText value="User Name: *" />
-                            <p:inputText  required="true" label="User Name"/>
+                            <h:outputText value="User Name: *"/>
+                            <p:inputText  required="true" label="User Name" value="#{userManagementBean.newUserName}" />
 
                             <h:outputLabel for="pwd1" value="Password: *" />
-                            <p:password id="pwd1" value="password" match="pwd2" label="Password" required="true" />
+                            <p:password id="pwd1" value="#{userManagementBean.newPassword}" match="pwd2" label="Password" required="true" />
 
                             <h:outputLabel for="pwd2" value="Confirm Password: *" />
-                            <p:password id="pwd2" value="password" label="Confirmation" required="true" />
+                            <p:password id="pwd2" value="#{userManagementBean.newPassword}" label="Confirmation" required="true" />
 
                             <h:outputText value="First Name: " />
-                            <p:inputText required="true" label="First Name"/>
+                            <p:inputText required="true" label="First Name" />
 
                             <h:outputText value="Last Name: "/>
                             <p:inputText required="true" label="Last Name" />
@@ -45,14 +45,14 @@
                            
                             <p:panelMenu>
                                 <p:submenu label="Position">
-                                    <p:menuitem value="User"/>
+                                    <p:menuitem value="User" />
                                     <p:menuitem value="Manager"/>
                                     <p:menuitem value="Admin"/>
                                 </p:submenu>
                             </p:panelMenu>
                             <br/>
                             <h:panelGroup>
-                                <p:commandButton id="createUser" update="matchGrid" value="Create Account" />
+                                <p:commandButton id="submit" update="matchGrid" value="#{userManagementBean.addNewUser}" />
                                 <p:commandButton value="Reset" update="panel" process="@this">
                                     <p:resetInput target="panel"/>
                                 </p:commandButton>

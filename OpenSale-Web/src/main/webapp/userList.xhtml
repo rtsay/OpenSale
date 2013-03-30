@@ -19,8 +19,8 @@
                         <p:dataTable value="#{userManagementBean.users}"
                                      var="rowuser" rows="10" paginator="true">
 
-                            <p:column headerText="User Name" sortBy="#{userManagementBean.userName}" filterBy="#{userManagementBean.userName}">
-                                <h:outputText value="#{rowuser.userName}"/>        
+                            <p:column headerText="User Name" sortBy="#{userManagementBean.users}" filterBy="#{userManagementBean.user}">
+                                <h:outputText value="#{rowuser.user}"/>        
                             </p:column>
 
                             <p:column headerText="Password">
@@ -39,7 +39,7 @@
                             </p:column>  
                             <p:column>
                                 <h:form>                        
-                                    <h:commandButton action="#{userManagementBean.editUser()}"
+                                    <h:commandButton action="#{userManagementBean.editedUser}"
                                                      value="Edit"
                                                      class="btn">
                                         <!-- I had to look this up. Basically, this just says
@@ -47,16 +47,16 @@
                                             and passes the current user's username to the
                                             UserManagementBean -->
                                         <f:setPropertyActionListener 
-                                            target="#{userManagementBean.editedUserName}"
-                                            value="#{rowuser.userName}"/>                            
+                                            target="#{userManagementBean.editedUserId}"
+                                            value="#{rowuser.id}"/>                            
                                     </h:commandButton>
                                     <h:commandButton action="#{userManagementBean.deleteUser}"
                                                      value="Delete"
                                                      class="btn btn-danger"
-                                                     onclick="return confirm('Are you sure you want to delete #{rowuser.userName}?');">
+                                                     onclick="return confirm('Are you sure you want to delete #{rowuser.id}?');">
                                         <f:setPropertyActionListener 
-                                            target="#{userManagementBean.editedUserName}"
-                                            value="#{rowuser.userName}"/>
+                                            target="#{userManagementBean.editedUserId}"
+                                            value="#{rowuser.id}"/>
                                     </h:commandButton>
 
                                 </h:form>       
@@ -67,10 +67,13 @@
                             <f:param name="Registration" />
                         </p:button>
                         <p:button outcome="Registration" value="Edit User">
-                            <f:param name="Registration" />
+                            <f:setPropertyActionListener target="#{userManagementBean.editedUserId}"
+                                                         value="#{rowuser.id}"/>
                         </p:button>
                         <p:button outcome="Registration" value="Delete User">
-                            <f:param name="Registration" />
+                            <f:setPropertyActionListener target="#{userManagementBean.deleteUser}"
+                                                         value="#{rowuser.id}"/>
+                            
                         </p:button>
                     </p:fieldset>
                 </div>

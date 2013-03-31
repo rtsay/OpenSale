@@ -115,14 +115,14 @@ public class LoginBean {
             searchedUser = (UserEntity) userSearch.getSingleResult();
         } catch(javax.persistence.NoResultException e) {
             InPageMessage.addErrorMessage("Invalid username/password.");
-            Logger.getLogger("LoginBean").log(Level.INFO, "Invalid login attempt for user: " + this.username);
+            Logger.getLogger("LoginBean").log(Level.INFO, "Invalid login attempt for user: {0}", this.username);
         }
 
         // If we find a user with that username,
         if (searchedUser != null) {
             
            // Log the login
-           Logger.getLogger("LoginBean").log(Level.INFO, "Logged in user: " + this.username);            
+           Logger.getLogger("LoginBean").log(Level.INFO, "Logged in user: {0}", this.username);            
             
             /* Set current user as a property of this session 
              * bean so that we can access it later.  */

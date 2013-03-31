@@ -15,6 +15,7 @@
 
             <ui:define name="content">
                 <div class="hero-unit">
+                    #{loginBean.currentUser.permissions}
                     <p:fieldset>
                         <p:dataTable value="#{userManagementBean.users}"
                                      var="rowuser" rows="10" paginator="true">
@@ -66,15 +67,9 @@
 
                             </p:column>
                         </p:dataTable><br/>   
-                        <p:button outcome="Registration" value="Add User">
-                            <f:param name="Registration" />
-                        </p:button>
-                        <p:button outcome="Registration" value="Edit User">
-                            <f:param name="Registration" />
-                        </p:button>
-                       <p:button outcome="Registration" value="Delete">
-                            <f:param name="Registration" />
-                        </p:button>
+                        <h:form>
+                            <p:commandButton action="#{userManagementBean.addNewUser()}" value="Add User"/>
+                        </h:form>
                     </p:fieldset>
                 </div>
 

@@ -2,10 +2,8 @@ package edu.kennesaw.seniorproject.opensale.ui.beans;
 
 import edu.common.Exceptions.InsufficentPermissionException;
 import edu.common.Exceptions.NoCurrentSessionException;
-import edu.common.Static.Session;
-import edu.common.UserObjects.EUserTypes;
-import edu.common.Permissions.Permissions;
 import edu.kennesaw.seniorproject.opensale.entities.UserEntity;
+import edu.kennesaw.seniorproject.opensale.ui.beans.users.EditUserBean;
 import edu.kennesaw.seniorproject.opensale.ui.utilities.InPageMessage;
 import java.util.List;
 import java.util.logging.Level;
@@ -26,8 +24,8 @@ import javax.transaction.UserTransaction;
 
 /**
  * The bean (viewmodel) behind the User Management screen.
- *
  * @author Jacob
+ * @author spencer
  */
 @ManagedBean(name = "userManagementBean")
 @SessionScoped
@@ -38,44 +36,17 @@ public class UserManagementBean {
     @Resource
     private UserTransaction ut;
     @ManagedProperty("#{loginBean}")
-    LoginBean loginBean;
+    private LoginBean loginBean;
+    
+    @ManagedProperty("#{editUserBean}")
+    private EditUserBean editUserBean;
     
     // Fields    
-    private UserEntity editedUser = null;
-    private Long editedUserId;
-    private String newUserName, newPassword;
-    private EUserTypes newUserType;
+    private UserEntity editedUser;
+    private Long editedUserId; 
 
     //AN INFINITE LAND OF GETTER AND SETTERS!
-    
-    public int getNewUserType() {
-        return newUserType.getValue();
-    }
-
-    public void setNewUserType(int newUserType) {        
-        for (EUserTypes a : EUserTypes.values()) {
-            if (a.getValue() == newUserType) {
-                this.newUserType = a;
-            }
-        }
-    }
-   
-    public String getNewUserName() {
-        return newUserName;
-    }
-
-    public void setNewUserName(String newUserName) {
-        this.newUserName = newUserName;
-    }
-
-    public String getNewPassword() {
-        return newPassword;
-    }
-
-    public void setNewPassword(String newPassword) {
-        this.newPassword = newPassword;
-    }
-
+        
     public LoginBean getLoginBean() {
         return loginBean;
     }
@@ -108,6 +79,16 @@ public class UserManagementBean {
         this.entityManager = entityManager;
     }           
 
+    public EditUserBean getEditUserBean() {
+        return editUserBean;
+    }
+
+    public void setEditUserBean(EditUserBean editUserBean) {
+        this.editUserBean = editUserBean;
+    }
+    
+    
+
     /**
      * Fetches users editable by the current user.
      *
@@ -119,121 +100,65 @@ public class UserManagementBean {
         userSearch.setParameter("loggedInUserType",
                 this.loginBean.getCurrentUser().getUserType());
 
-        List<UserEntity> searchedUser = null;
+        // If all goes well, we'll have a List of UserEntities.
+        List<UserEntity> userList = null;
         try {
-            searchedUser = (List<UserEntity>) userSearch.getResultList();
+            userList = (List<UserEntity>) userSearch.getResultList();
         } catch (javax.persistence.NoResultException e) {
             InPageMessage.addErrorMessage("No Users exist.");
         }
 
-        return searchedUser;
+        return userList;
     }
-    
+   
     /**
-     * Helper method to handle adding or updating user entities.
-     * @param u UserEntity to save.
-     * @return next page redirect.
-     */
-    private String saveUser(UserEntity u) {
-        try {
-            ut.begin();
-            if (entityManager.contains(u)) {
-                entityManager.merge(u);
-            } else {
-                entityManager.persist(u);
-            }
-            ut.commit();
-            return "userList";            
-        } catch (RollbackException ex) {
-            Logger.getLogger(UserManagementBean.class.getName()).log(Level.SEVERE, null, ex);
-            InPageMessage.addErrorMessage(("Something went wrong saving this user. Please refresh and try again."));
-        } catch (HeuristicMixedException ex) {
-            Logger.getLogger(UserManagementBean.class.getName()).log(Level.SEVERE, null, ex);
-            InPageMessage.addErrorMessage(("Something went wrong saving this user. Please refresh and try again."));
-        } catch (HeuristicRollbackException ex) {
-            Logger.getLogger(UserManagementBean.class.getName()).log(Level.SEVERE, null, ex);
-            InPageMessage.addErrorMessage(("Something went wrong saving this user. Please refresh and try again."));
-        } catch (SecurityException ex) {
-            Logger.getLogger(UserManagementBean.class.getName()).log(Level.SEVERE, null, ex);
-            InPageMessage.addErrorMessage(("Something went wrong saving this user. Please refresh and try again."));
-        } catch (IllegalStateException ex) {
-            Logger.getLogger(UserManagementBean.class.getName()).log(Level.SEVERE, null, ex);
-            InPageMessage.addErrorMessage(("Something went wrong saving this user. Please refresh and try again."));
-        } catch (NotSupportedException ex) {
-            Logger.getLogger(UserManagementBean.class.getName()).log(Level.SEVERE, null, ex);
-            InPageMessage.addErrorMessage(("Something went wrong saving this user. Please refresh and try again."));
-        } catch (SystemException ex) {
-            Logger.getLogger(UserManagementBean.class.getName()).log(Level.SEVERE, null, ex);
-            InPageMessage.addErrorMessage(("Something went wrong saving this user. Please refresh and try again."));
-        }
-        return null;
-    }
-    
-    /**
-     * Helper method to reset fields to make sure we don't auto-populate them
-     * again in the future.
-     */
-    private void resetUserFields() {
-        this.newUserName = null;
-        this.newPassword = null;
-        this.newUserType = null;
-    }
-    
-    /**
-     * Creates a new user and adds it to the databasssssss
-     * @return NOTHING... except a direction
+     * Creates a new user and preps the EditUser page.
+     * @return next page redirect
      */
     public String addNewUser() {
-        UserEntity newUser;
-        try {
+        String destinationPage = null;
+//        try {
             // Try to create a new user using provided details.
-            newUser = new UserEntity(newUserName, newPassword, newUserType, new Permissions(), Session.getCurrentUser());            
-            String destinationPage = saveUser(newUser);                    
+            UserEntity newUser = new UserEntity();
             
-            // Reset newUserName, etc so we don't try to create the same user again.
-            resetUserFields();
-            return destinationPage;
-         } catch (InsufficentPermissionException ex) {
+            // Set the EditUserBean's user to edit as this one.
+            editUserBean.setUser(newUser);
+            
+            // next stop: editUser!
+            destinationPage = "editUser";
+/*         } catch (InsufficentPermissionException ex) {
             Logger.getLogger(UserManagementBean.class.getName()).log(Level.SEVERE, null, ex);
             InPageMessage.addErrorMessage("You're not allowed to do this.");
-            return null;
         } catch (NoCurrentSessionException ex) {
             Logger.getLogger(UserManagementBean.class.getName()).log(Level.SEVERE, null, ex);
             InPageMessage.addErrorMessage("No one is logged in?!?");
-            return "index";    
-        }        
+            destinationPage = "index";    
+        }*/
+        return destinationPage;
     }
 
     /**
      * Selects a user from the User List for editing and redirects to the Edit User screen.
      * @return destination page name
      */
-    public String editUser() {
-        this.editedUser = entityManager.find(UserEntity.class, this.editedUserId);
-        if (this.editedUser == null) {
-            InPageMessage.addErrorMessage("Something went wrong. Please refresh and try again.");
-            return null;
-        }
-        return "editUser";        
+    public String editUser() {        
+        String destinationPage = null;
+                
+        // Look up user to edit by Id.        
+        editedUser = entityManager.find(UserEntity.class, this.editedUserId);
+        if (editedUser == null) { // If we don't find one,  show an error message.
+            InPageMessage.addErrorMessage("Something went wrong. Please refresh and try again.");                        
+        } else { // If we do find one,
+            // set that as the user to be edited by editUserBean
+            editUserBean.setUser(editedUser);                        
+            // next stop: edit user page.
+            destinationPage = "editUser";        
+        }   
+        // reset the selected user Id.
+        this.editedUserId = null;       
+        return destinationPage;
     }
-    
-    /**
-     * Saves changes made in the Edit User screen and redirects to the User List screen.
-     * @return destination page name
-     */
-    public String saveUserChanges() {
         
-        String destinationPage = null;        
-        
-        // If there's no user selected for editing, something's broken. Bail!
-        if (this.editedUser == null) {
-            InPageMessage.addErrorMessage("Something went wrong. Please return to the User List and try again.");
-            return null;
-        }
-            
-        return saveUser(this.editedUser);                        
-    }
-
     /**
      * Deletes a user from the database -- ONLY if they exist.
      * @return redirect to the appropriate page (usually the userList)

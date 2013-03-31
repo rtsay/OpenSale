@@ -11,29 +11,39 @@
         <ui:composition template="./OpenSaleTemplate.xhtml">
 
             <ui:define name="PageTitle">
-                Main menu
+                Main Menu
             </ui:define>
 
             <ui:define name="content">
                 <div id="mainMenu" class="span10 offset1">
-                    <h2>Welcome, #{loginBean.currentUser.userName}!</h2>
-                    <h4>What would you like to do today?</h4>
+                    <h2>#{loginBean.currentUser.userName}</h2>                   
+                    
                     <h:form>
+                        
                     <h:panelGrid columns="4">
+                        
                         <h:panelGroup layout="block" id="cashier-functions"
                                       class="span3 menuPanel"> <!-- this creates a div -->
-                            <h:panelGroup class="content" layout="block">
+                            <h:panelGroup class="content" layout="block">                               
                                 
-                                <h5>Cashier functions</h5>
                                 <h:graphicImage name="img/admin.jpg"/>
                                 <h:panelGroup class="box" layout="block">
                                     <p:accordionPanel multiple="true">
                                         <p:tab title="Cashier">
                                             <h:panelGrid columns="2">
-                                                <ul>
-                                                    <li><h:form><h:outputLink value="NewSale">New Sale</h:outputLink></h:form></li>
-                                                    <li><h:form><h:outputLink value="NewRefund">New Refund</h:outputLink></h:form></li>
-                                                    <li><h:form><h:outputLink value="ViewCatalog">View Catalog</h:outputLink></h:form></li>
+                                                <ul>                                                                                              
+                                                    <li ><h:commandButton action="newSale"
+                                                                     accesskey=""                                                                     
+                                                                     value="New Sale"
+                                                                     class="btn"/></li>
+                                                    <li><h:commandButton action="newRefund"
+                                                                     accesskey=""
+                                                                     value="New Refund"
+                                                                     class="btn"/></li>
+                                                    <li><h:commandButton action="viewCatalog"
+                                                                     accesskey=""
+                                                                     value="View Catalog"
+                                                                     class="btn"/></li>
                                                 </ul>
                                             </h:panelGrid>
                                         </p:tab>
@@ -41,23 +51,37 @@
                                 </h:panelGroup>
                             </h:panelGroup>
                         </h:panelGroup>
+                        
+                        
+                        
                         <h:panelGroup layout="block" id="manager-functions"
                                       class="span3 menuPanel"
                                       rendered="#{loginBean.currentUserIsManager()
                                                   || loginBean.currentUserIsAdmin()
                                                   || loginBean.currentUserIsSuperUser()}">
-                            <h:panelGroup class="content" layout="block">
-                                <h5>Manager functions</h5>
+                            <h:panelGroup class="content" layout="block">                                
                                  <h:graphicImage name="img/admin.jpg"/>
                                  <h:panelGroup class="box">
                                     <p:accordionPanel multiple="true">
                                         <p:tab title="Manager">
                                             <h:panelGrid columns="2">
                                                 <ul>
-                                                    <li><h:form><h:outputLink value="NewSale">New Sale</h:outputLink></h:form></li>
-                                                    <li><h:form><h:outputLink value="NewRefund">New Refund</h:outputLink></h:form></li>
-                                                    <li><h:form><h:outputLink value="ExtraDiscount">Extra Discount</h:outputLink></h:form></li>
-                                                    <li><h:form><h:outputLink value="ViewCatalog">View Catalog</h:outputLink></h:form></li>
+                                                    <li ><h:commandButton action="newSale"
+                                                                     accesskey=""                                                                     
+                                                                     value="New Sale"
+                                                                     class="btn"/></li>
+                                                    <li><h:commandButton action="newRefund"
+                                                                     accesskey=""
+                                                                     value="New Refund"
+                                                                     class="btn"/></li>
+                                                    <li><h:commandButton action="extraDiscount"
+                                                                     accesskey=""
+                                                                     value="Extra Discount"
+                                                                     class="btn"/></li>
+                                                    <li><h:commandButton action="viewCatalog"
+                                                                     accesskey=""
+                                                                     value="View Catalog"
+                                                                     class="btn"/></li>
                                                 </ul>
                                             </h:panelGrid>
                                         </p:tab>
@@ -67,20 +91,28 @@
                                 <span class="wrap"></span>
                             </h:panelGroup>
                         </h:panelGroup>
+                        
+                        
+                        
                         <h:panelGroup layout="block" id="admin-functions"
                                       class="span3 menuPanel"
                                       rendered="#{loginBean.currentUserIsAdmin()
                                                   || loginBean.currentUserIsSuperUser()}">
-                            <h:panelGroup class="content" layout="block">
-                                <h5>Admin functions</h5>
+                            <h:panelGroup class="content" layout="block">                                
                                 <h:graphicImage name="img/admin.jpg"/>
                                  <h:panelGroup class="box">
                                     <p:accordionPanel multiple="true">
                                         <p:tab title="Admin">
                                             <h:panelGrid columns="2">
-                                                <ul>
-                                                    <li><h:form><h:outputLink value="userList.xhtml">User List</h:outputLink></h:form></li>
-                                                    <li><h:form><h:outputLink value="ManageCatalog">Manage Catalog</h:outputLink></h:form></li>
+                                                <ul>                                                    
+                                                    <li><h:commandButton action="userList"
+                                                                     accesskey=""
+                                                                     value="User List"
+                                                                     class="btn"/></li>
+                                                     <li><h:commandButton action="manageCatalog"
+                                                                     accesskey=""
+                                                                     value="Manage Catalog"
+                                                                     class="btn"/></li>
                                                 </ul>
                                             </h:panelGrid>
                                         </p:tab>
@@ -90,29 +122,42 @@
                                 <span class="wrap"></span>
                             </h:panelGroup>           
                         </h:panelGroup>
+                        
+                        
                         <h:panelGroup layout="block" id="superuser-functions"
                                       class="span3 menuPanel"
                                       rendered="#{loginBean.currentUserIsSuperUser()}">
                             <h:panelGroup class="content">                             
                                 <h5>Super User functions</h5>
                                 <h:graphicImage name="img/admin.jpg"/>
-                                    <p:accordionPanel multiple="true">
-                                        <p:tab title="Super User">
+                                    <p:accordionPanel multiple="true" >
+                                        <p:tab title="Supeer User">
                                             <h:panelGrid columns="2">
                                                 <ul>
-                                                    <li><h:form><h:outputLink value="userList">User List</h:outputLink></h:form></li>
-                                                     <li><h:form><h:outputLink value="manageCatalog">Manage Catalog</h:outputLink></h:form></li>
+                                                     <li><h:form><h:outputLink value="userList">User List</h:outputLink></h:form></li>
+                                                     <li><h:form><h:outputLink value="manageCatalog">Manage Catalog</h:outputLink></h:form></li>                                                     
+                                                     <li><h:commandButton action="userList"
+                                                                     accesskey=""
+                                                                     value="User List"
+                                                                     class="btn"/></li>
+                                                     <li><h:commandButton action="manageCatalog"
+                                                                     accesskey=""
+                                                                     value="Manage Catalog"
+                                                                     class="btn"/></li>
                                                 </ul>
                                             </h:panelGrid>
                                         </p:tab>
                                     </p:accordionPanel>
                                 <span class="active"></span>
                                 <span class="wrap"></span>
-                               </h:panelGroup>
+                               </h:panelGroup> 
                         </h:panelGroup>
+                        
                     </h:panelGrid>
                     </h:form>
+                    
                 </div>
+               
             </ui:define>
 
         </ui:composition>

@@ -1,19 +1,26 @@
 body{
-	background: url(#{resource['img/backgroundimg.jpg']});
 	background-size: cover;
 	background-repeat: no-repeat;
 	text-align:center;
 }
 
 .login{
-	color: white;
-	width:250px;
+	color: black;
+	width:225px;
 	margin:0px auto;
 	text-align:left;
+        background-color: #f1f1f1;        
+        color: black;
+        padding: 1em;
+        box-shadow: 0 0 1em #444;       
+}
+
+ h4{    
+        font-size: 150%;   
 }
 
 #logo {
-        margin-bottom: 2em;
+        margin-bottom: 2em;       
 }
 
 #mainMenu {
@@ -21,7 +28,25 @@ body{
         color: black;
         padding: 1em;
         box-shadow: 0 0 1em #444;       
+        width:750px;        
 }
+
+#userList{
+        background-color: #f1f1f1;        
+        color: black;
+        padding: 1em;
+        box-shadow: 0 0 1em #444;       
+        width:1250px;
+}
+
+#editUser{
+        background-color: #f1f1f1;        
+        color: black;
+        padding: 1em;
+        box-shadow: 0 0 1em #444;       
+        width:750px;
+}
+
 
 .menuPanel {
         background-color: white;
@@ -31,4 +56,6 @@ body{
 .todo { color: red; }
 .todo:before { content: "TO DO: "; }
 
-li { display: block }
+li{
+    display: block;
+}

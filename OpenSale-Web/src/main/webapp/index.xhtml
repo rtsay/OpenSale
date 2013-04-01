@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
     <body>
 
         <ui:composition template="./OpenSaleTemplate.xhtml">
@@ -16,7 +17,7 @@
                 <!-- Login information -->
                 <div class="login">
                     <h:form>
-                        <label>Username</label>
+                        <h4>Username</h4>
                         <h:inputText class="span3" 
                                      value="#{loginBean.username}"
                                      requiredMessage="Username is required"
@@ -24,7 +25,7 @@
                             <f:validateRequired/>
                         </h:inputText>
                         <h:messages for="username"/>
-                        <label>Password</label>
+                        <h4>Password</h4>
                         <h:inputSecret class="span3" 
                                        value="#{loginBean.password}"
                                        requiredMessage="Password is required"
@@ -39,6 +40,10 @@
                     </h:form>
                 </div>
                 <script src="js/bootstrap.js"></script>
+                
+               
+                
+                
             </ui:define>
         </ui:composition>
 

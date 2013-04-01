@@ -34,10 +34,21 @@ public class UserEntity extends User implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    public UserEntity() {
+    public UserEntity() { }
+    
+    /**
+     * Creates a new user, checking to make sure that the currently-logged in 
+     * user has permission to do so.
+     * @param manager
+     * @throws InsufficentPermissionException 
+     */
+    public UserEntity(User manager) throws InsufficentPermissionException {
+        if (!manager.isAllowed(User.class)) {
+            throw new InsufficentPermissionException();
+        }
     }
 
     /*

@@ -1,5 +1,6 @@
 package edu.kennesaw.seniorproject.opensale.entities;
 
+import edu.product.ProductObjects.Product;
 import java.io.Serializable;
 import javax.persistence.*;
 
@@ -10,21 +11,25 @@ import javax.persistence.*;
 @Entity
 @NamedQueries({
     @NamedQuery(
-        name="findProductByUPC",
+        name="ProductEntity.findProductByUPC",
         query="select p from ProductEntity p where p.UPC = :UPC"
     ), // used for lookup by UPC; mostly just a meaningfully-named alias for using em.find
     @NamedQuery(
-        name="listProductsByName",
+        name="ProductEntity.listProductsByName",
         query="select p from ProductEntity p where p.productName like :pattern"
     ), // used for product search by name
     @NamedQuery(
-        name="search",
+        name="ProductEntity.search",
         query="select p from ProductEntity p where p.UPC = :UPC or p.productName like :pattern"
-    ) // used for product search by name or UPC
+    ), // used for product search by name or UPC
+    @NamedQuery(
+        name="ProductEntity.listAllProducts",
+        query="select p from ProductEntity p"
+    )
 })
-public class ProductEntity implements Serializable {
+public class ProductEntity extends Product implements Serializable {
 
-	@Id
+	@Id        
 	private Integer UPC;
 	
 	private String productName;

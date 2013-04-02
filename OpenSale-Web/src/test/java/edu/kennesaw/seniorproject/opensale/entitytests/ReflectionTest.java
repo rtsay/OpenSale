@@ -5,7 +5,7 @@
 package edu.kennesaw.seniorproject.opensale.entitytests;
 
 import edu.kennesaw.seniorproject.opensale.bootloaderObjects.AnnotationFinder;
-import edu.kennesaw.seniorproject.opensale.ui.beans.UserManagementBean;
+import edu.kennesaw.seniorproject.opensale.ui.beans.users.UserManagementBean;
 import java.util.Set;
 import org.junit.After;
 import org.junit.Before;

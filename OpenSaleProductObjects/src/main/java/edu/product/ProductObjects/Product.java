@@ -4,10 +4,13 @@
  */
 package edu.product.ProductObjects;
 
+import javax.persistence.MappedSuperclass;
+
 /**
  *
  * @author mcbeckler
  */
+@MappedSuperclass
 public class Product {
     
     public Integer getUPC() {

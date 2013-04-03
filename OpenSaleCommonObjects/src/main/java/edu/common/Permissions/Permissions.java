@@ -5,7 +5,6 @@
 package edu.common.Permissions;
 
 import edu.common.Exceptions.InsufficentPermissionException;
-import edu.common.Permissions.VerifyPermissions;
 import edu.common.UserObjects.EUserTypes;
 import edu.common.UserObjects.User;
 import java.io.Serializable;

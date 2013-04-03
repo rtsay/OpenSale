@@ -1,8 +1,9 @@
-package edu.kennesaw.seniorproject.opensale.ui.beans;
+package edu.kennesaw.seniorproject.opensale.ui.beans.users;
 
 import edu.common.Exceptions.InsufficentPermissionException;
 import edu.common.Exceptions.NoCurrentSessionException;
 import edu.kennesaw.seniorproject.opensale.entities.UserEntity;
+import edu.kennesaw.seniorproject.opensale.ui.beans.LoginBean;
 import edu.kennesaw.seniorproject.opensale.ui.beans.users.EditUserBean;
 import edu.kennesaw.seniorproject.opensale.ui.utilities.InPageMessage;
 import java.util.List;
@@ -86,9 +87,7 @@ public class UserManagementBean {
     public void setEditUserBean(EditUserBean editUserBean) {
         this.editUserBean = editUserBean;
     }
-    
-    
-
+        
     /**
      * Fetches users editable by the current user.
      *
@@ -105,7 +104,7 @@ public class UserManagementBean {
         try {
             userList = (List<UserEntity>) userSearch.getResultList();
         } catch (javax.persistence.NoResultException e) {
-            InPageMessage.addErrorMessage("No Users exist.");
+            InPageMessage.addInfoMessage("No Users exist.");
         }
 
         return userList;
@@ -154,8 +153,6 @@ public class UserManagementBean {
             // next stop: edit user page.
             destinationPage = "editUser";        
         }   
-        // reset the selected user Id.
-        this.editedUserId = null;       
         return destinationPage;
     }
         

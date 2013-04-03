@@ -4,39 +4,14 @@
  */
 package edu.product.ProductObjects;
 
-import edu.common.Permissions.VerifyPermissions;
-import java.io.Serializable;
-import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
 /**
  *
  * @author mcbeckler
  */
-@VerifyPermissions
 @MappedSuperclass
-public class Product implements Serializable {
-    
-    @Column(nullable = false)
-    protected Integer UPC;
-    
-    @Column(nullable = false)
-    protected String productName;
-    
-    @Column(nullable = false)
-    protected String productDescription;
-    
-    @Column(nullable = false)
-    protected Double price;
-    
-    @Column(nullable = true)
-    protected String memberName;
-    
-    @Column(nullable = true)
-    protected Double weight;
-    
-    @Column(nullable = true)
-    protected Boolean priceByWeight;
+public class Product {
     
     public Integer getUPC() {
         return UPC;

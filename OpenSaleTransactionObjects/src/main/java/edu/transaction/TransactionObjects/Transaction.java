@@ -6,6 +6,7 @@ package edu.transaction.TransactionObjects;
 
 import edu.common.Permissions.VerifyPermissions;
 import edu.common.UserObjects.User;
+import edu.common.globalSettings.GlobalSettings;
 import edu.opensale.Payment.LegalTender;
 import java.util.ArrayList;
 import javax.persistence.MappedSuperclass;
@@ -81,6 +82,10 @@ public abstract class Transaction {
             }
         }
        return amount;
+    }
+    
+    public double generateTotal() {
+        return this.generateSubtotal() * GlobalSettings.getTaxRate();
     }
    
     public boolean processPayment(LegalTender legalTender)

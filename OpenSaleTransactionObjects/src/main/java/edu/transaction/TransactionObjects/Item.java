@@ -5,31 +5,55 @@
 package edu.transaction.TransactionObjects;
 
 import edu.product.ProductObjects.Product;
+import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
 
 /**
  *
  * @author mcbeckler
  */
-public abstract class Item {
+@MappedSuperclass
+public abstract class Item implements Serializable{
 
+    @Column(nullable = false)
     protected Product product;
+    @Column(nullable = false)
     protected Integer quantity;
+    @Column(nullable = false)
     protected Integer UPC;
+    @Column(nullable = true)
     protected Double purchasedWeight;
 
-    public abstract Product getProduct();
+    public Product getProduct() {
+        return this.product;
+    }
 
-    public abstract void setProduct(Product product);
+    public void setProduct(Product product) {
+        this.product = product;
+    }
 
-    public abstract Integer getQuantity();
+    public Integer getQuantity() {
+        return this.quantity;
+    }
 
-    public abstract void setQuantity(Integer quantity);
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
 
-    public abstract Integer getUPC();
+    public Integer getUPC() {
+        return this.UPC;
+    }
 
-    public abstract void setUPC(Integer UPC);
+    public void setUPC(Integer UPC) {
+        this.UPC = UPC;
+    }
 
-    public abstract Double getPurchasedWeight();
+    public Double getPurchasedWeight() {
+        return this.purchasedWeight;
+    }
 
-    public abstract void setPurchasedWeight(Double purchasedWeight);
+    public void setPurchasedWeight(Double purchasedWeight) {
+        this.purchasedWeight = purchasedWeight;
+    }
 }

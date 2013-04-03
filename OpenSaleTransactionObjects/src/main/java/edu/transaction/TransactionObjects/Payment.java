@@ -5,12 +5,13 @@
 package edu.transaction.TransactionObjects;
 
 import edu.common.Permissions.VerifyPermissions;
+import java.io.Serializable;
 
 /**
  *
  * @author mcbeckler
  */
 @VerifyPermissions
-public class Payment {
+public class Payment implements Serializable {
     
 }

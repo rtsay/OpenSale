@@ -25,14 +25,33 @@ public class MainMenuBean {
      * as a property of the current class. The "Value" field specifies the name
      * of the bean we're referencing (as it's known by JSF -- see the "name"
      * property in the @ManagedBean decorator in each bean class. */    
-    @ManagedProperty(value="transactionBean")
+    @ManagedProperty(value="#{transactionBean}")
     private TransactionBean transactionBean;
+    
+    @ManagedProperty(value="#{loginBean}")
+    private LoginBean loginBean;
     
     /**
      * Creates a new instance of MainMenuBean
      */
     public MainMenuBean() {
     }
+
+    public TransactionBean getTransactionBean() {
+        return transactionBean;
+    }
+
+    public void setTransactionBean(TransactionBean transactionBean) {
+        this.transactionBean = transactionBean;
+    }
+
+    public LoginBean getLoginBean() {
+        return loginBean;
+    }
+
+    public void setLoginBean(LoginBean loginBean) {
+        this.loginBean = loginBean;
+    }   
     
     /**
      * Creates a new PaymentTransaction and redirects to the menu view.
@@ -57,7 +76,7 @@ public class MainMenuBean {
         if(refundAuthorized) {
             Transaction refundTransaction = new RefundTransaction();
             transactionBean.setCurrentTransaction(refundTransaction);
-            return "currentTransaction";
+            return "transaction";
         } else {
             return "mainMenu";
         }

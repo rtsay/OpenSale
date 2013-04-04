@@ -21,14 +21,21 @@ import javax.persistence.NamedQuery;
 @Entity
 @NamedQueries({
     @NamedQuery(
-            name = "UserEntity.findUserByUsername",
-            query = "select u from UserEntity u where u.userName = :username"), // Used for editing users -- fetch a user by username
+        name = "UserEntity.findUserByUsername",
+        query = "select u from UserEntity u where u.userName = :username"
+    ), // Used for editing users -- fetch a user by username
     @NamedQuery(
-            name = "UserEntity.findUserByLogin",
-            query = "select u from UserEntity u where u.userName = :username and u.password = :password"), // Used for login -- fetch a user by username and (hashed) password
+        name = "UserEntity.findUserByLogin",
+        query = "select u from UserEntity u where u.userName = :username and u.password = :password"
+    ), // Used for login -- fetch a user by username and (hashed) password
     @NamedQuery(
-            name = "UserEntity.getEditableUsers",
-            query = "select u from UserEntity u where u.userType <= :loggedInUserType"), // Used for User Management screen -- users may only edit lower-role users
+        name = "UserEntity.getEditableUsers",
+        query = "select u from UserEntity u where u.userType <= :loggedInUserType"
+    ), // Used for User Management screen -- users may only edit lower-role users
+    @NamedQuery(
+        name = "UserEntity.findManagerByLogin",
+        query = "select u from UserEntity u where u.userName = :username and u.password = :password and u.userType >= edu.common.UserObjects.EUserTypes.Manager"
+    ) // Used to verify authorization of Refund transactions
 })
 public class UserEntity extends User implements Serializable {
 

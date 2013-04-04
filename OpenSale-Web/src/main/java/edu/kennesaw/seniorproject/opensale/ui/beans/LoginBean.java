@@ -1,13 +1,11 @@
 package edu.kennesaw.seniorproject.opensale.ui.beans;
 
-import com.google.common.hash.HashCode;
-import com.google.common.hash.HashFunction;
-import com.google.common.hash.Hashing;
 import edu.common.Exceptions.NoCurrentSessionException;
 import edu.common.Static.Session;
 import edu.common.UserObjects.EUserTypes;
 import edu.common.UserObjects.User;
 import edu.kennesaw.seniorproject.opensale.entities.UserEntity;
+import edu.kennesaw.seniorproject.opensale.ui.utilities.Hasher;
 import edu.kennesaw.seniorproject.opensale.ui.utilities.InPageMessage;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,7 +14,6 @@ import javax.faces.bean.SessionScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import sun.misc.BASE64Encoder;
 
 @ManagedBean(name = "loginBean")
 @SessionScoped
@@ -85,14 +82,6 @@ public class LoginBean {
     public boolean currentUserIsSuperUser() throws NoCurrentSessionException {
         return this.currentUserIsRole(EUserTypes.SuperUser);
     }    
-
-    private String hashPassword() {
-        HashFunction hf = Hashing.sha256();
-        HashCode hc = hf.hashString(this.password);
-        BASE64Encoder base64 = new BASE64Encoder();
-        String hashedPassword = base64.encode(hc.asBytes());
-       return hashedPassword;
-    }
     
     /**
      * Checks to see if a user with the provided username exists. If so, checks
@@ -102,14 +91,12 @@ public class LoginBean {
      */
     public String login() {
         // Default to bounce back to the login page
-        String destinationPage = null;
+        String destinationPage = null;                
         
-        // First, prep the password by hashing it.
-        
-        // Search for a user with the username given           
+        // Search for a user with the given username and password (hashed).
         Query userSearch = entityManager.createNamedQuery("UserEntity.findUserByLogin");
         userSearch.setParameter("username", this.username);
-        userSearch.setParameter("password", this.hashPassword());
+        userSearch.setParameter("password", Hasher.hashPassword(this.password));
         UserEntity searchedUser = null;
         try {
             searchedUser = (UserEntity) userSearch.getSingleResult();

@@ -47,6 +47,38 @@ public class CatalogManagementBean {
      * Creates a new instance of CatalogManagementBean
      */
     public CatalogManagementBean() {}
+
+    public LoginBean getLoginBean() {
+        return loginBean;
+    }
+
+    public void setLoginBean(LoginBean loginBean) {
+        this.loginBean = loginBean;
+    }
+
+    public EditProductBean getEditProductBean() {
+        return editProductBean;
+    }
+
+    public void setEditProductBean(EditProductBean editProductBean) {
+        this.editProductBean = editProductBean;
+    }
+
+    public Product getEditedProduct() {
+        return editedProduct;
+    }
+
+    public void setEditedProduct(Product editedProduct) {
+        this.editedProduct = editedProduct;
+    }
+
+    public Long getEditedProductUPC() {
+        return editedProductUPC;
+    }
+
+    public void setEditedProductUPC(Long editedProductUPC) {
+        this.editedProductUPC = editedProductUPC;
+    }        
     
     /**
      * Fetches a list of all products.

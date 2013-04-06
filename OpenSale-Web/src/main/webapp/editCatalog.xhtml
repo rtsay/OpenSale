@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./OpenSaleTemplate.xhtml">
+
+            <ui:define name="PageTitle">
+                Product Registration
+            </ui:define>
+
+            <ui:define name="content">
+                <div id="mainMenu" class="span10 offset1">
+                <h:form id="form">
+                    <p:panel id="panel" header="Register Product">
+                        <p:messages id="messages" showDetail="true" autoUpdate="true"/>
+
+                        <h:outputText value="#{editProductBean.product.UPC}"/>
+                        
+                        <h:panelGrid columns="2" id="matchGrid" styleClass="centered"> 
+                            <h:outputText value="UPC: *" />
+                            <p:inputText required="true" label="UPC Name" value="#{editProductBean.product.UPC}" />
+
+                            
+                            <h:outputText value="Product Name: *" />
+                            <p:inputText required="true" label="Produce Name" value="#{editProductBean.product.productName}" />
+
+                            <h:outputText value="Description: " />
+                            <p:inputText label="Description" value="#{editProductBean.product.productDescription}"/>
+                            
+                            <h:outputText value="Price: *"/>
+                            <p:inputText required="true" label="Price" value="#{editProductBean.product.price}"/>
+                            
+                            <h:outputText value="Price (by weight):"/>
+                            <p:inputText label="Price (by weight)" value="#{editProductBean.product.priceByWeight}"/>
+                            
+                            <h:outputText value="Weight: "/>
+                            <p:inputText label="Weight" value="#{editProductBean.product.weight}"/>
+                            
+                            <br/>
+                            <h:panelGroup>
+                                <p:commandButton id="submit" update="matchGrid" value="Add Product" action="#{editProductBean.save()}" ajax="false" />
+                                <p:commandButton value="Reset" update="panel" process="@this">
+                                    <p:resetInput target="panel"/>
+                                </p:commandButton>
+                                <p:commandButton value="Cancel" update="matchGrid" action="catalog" immediate="true"/>
+                            </h:panelGroup>
+                        </h:panelGrid>
+
+                    </p:panel>
+
+                </h:form>
+                </div>
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>

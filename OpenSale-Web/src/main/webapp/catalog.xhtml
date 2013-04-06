@@ -10,7 +10,7 @@
 
         <ui:composition template="./OpenSaleTemplate.xhtml">            
             <ui:define name="PageTitle">
-                User List
+                Catalog
             </ui:define>
 
             <ui:define name="content">
@@ -19,6 +19,7 @@
                   
                     <p:dataTable value="#{catalogManagementBean.productList}"
                                      var="rowuser" rows="10" paginator="true">
+                        
                             <p:column headerText="Member Name">
                                 <h:outputText value="#{rowuser.memberName}"/>
                             </p:column>
@@ -40,7 +41,7 @@
                             <p:column headerText="Weight">
                                 <h:outputText value="#{rowuser.weight}"/>
                             </p:column>
-                            <p:column>
+                            <p:column>  
                                 <h:form>                        
                                     <h:commandButton action="#{catalogManagementBean.editProduct()}"
                                                      value="Edit"
@@ -51,7 +52,7 @@
                                             UserManagementBean -->
                                         <f:setPropertyActionListener 
                                             target="#{catalogManagementBean.editProduct}"
-                                            value="#{rowuser.memberName}"/>                            
+                                            value="#{rowuser.productName}"/>                            
                                     </h:commandButton>
                                     <h:commandButton action="#{catalogManagementBean.deleteProduct()}"
                                                      value="Delete"
@@ -67,7 +68,7 @@
                             </p:column>
                         </p:dataTable><br/>   
                         <h:form>
-                            <h:commandButton action="#{catalogManagementBean.addNewProduct()}" value="Add User" class="btn"/>                          
+                            <h:commandButton action="#{catalogManagementBean.addNewProduct()}" value="Add Product" class="btn"/>                          
                             <h:commandButton action="mainMenu" value="Cancel" class="btn"/>
                         </h:form>                               
                  </div>

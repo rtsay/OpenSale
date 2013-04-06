@@ -45,7 +45,7 @@
                             <br/>
                             <h:panelGroup>
                                 <p:commandButton id="submit" update="matchGrid" value="Add Product" action="#{editProductBean.save()}" ajax="false" />
-                                <p:commandButton value="Reset" update="panel" process="@this">
+                                <p:commandButton value="Reset" update="panel" process="@this" immediate="true">
                                     <p:resetInput target="panel"/>
                                 </p:commandButton>
                                 <p:commandButton value="Cancel" update="matchGrid" action="catalog" immediate="true"/>

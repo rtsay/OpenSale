@@ -7,10 +7,13 @@ import edu.common.UserObjects.User;
 import edu.kennesaw.seniorproject.opensale.entities.UserEntity;
 import edu.kennesaw.seniorproject.opensale.ui.utilities.Hasher;
 import edu.kennesaw.seniorproject.opensale.ui.utilities.InPageMessage;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -119,5 +122,32 @@ public class LoginBean {
             InPageMessage.addErrorMessage("Invalid username/password."); 
         }       
         return destinationPage;
+    }
+    
+    /**
+     * Logs out the current user (destroying the session in the process).
+     * @return "index" redirect to login page.
+     */
+    public String logout() {
+        // This is a magic thing I did have to look up.
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        
+        // Next stop: index page.
+        return "index";
+    }
+    
+    public void checkLogin() throws IOException {
+        try {
+            if(this.getCurrentUser() == null) {
+                InPageMessage.addErrorMessage("Please log in.");
+                ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+                ec.redirect(ec.getRequestContextPath() + "/index.xhtml");
+            }
+        } catch (NoCurrentSessionException ex) {
+            Logger.getLogger(LoginBean.class.getName()).log(Level.SEVERE, null, ex);
+            InPageMessage.addErrorMessage("Please log in.");
+            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+            ec.redirect(ec.getRequestContextPath() + "/index.xhtml");
+        }
     }
 }

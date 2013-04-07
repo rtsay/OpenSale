@@ -23,7 +23,7 @@
                 <div class="navbar navbar-inverse">
                     <div class="navbar-inner">
 
-                        <a class="brand" href="mainMenu.xhtml">OpenSale |</a>
+                        <h:link class="brand" outcome="mainMenu">OpenSale | </h:link>
                         <h:form rendered="#{view.viewId != '/index.xhtml'}">
                             <div class="nav-collapse collapse">
                                 <ui:insert name="navBar">Navbar</ui:insert>                               
@@ -31,7 +31,7 @@
                             </div> 
 
                             <div class="nav-collapse pull-right">
-                                <h:commandButton action="#{bean.logout()}"
+                                <h:commandButton action="#{loginBean.logout()}"
                                                  value="Logout" class="btn btn-primary"/>    
                             </div>
                         </h:form>

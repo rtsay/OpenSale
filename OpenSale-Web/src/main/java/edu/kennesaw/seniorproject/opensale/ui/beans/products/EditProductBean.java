@@ -81,7 +81,7 @@ public class EditProductBean {
             ut.commit();            
             
             // next stop: productList page
-            destinationPage = "productList";
+            destinationPage = "catalog";
             
         } catch (RollbackException ex) {
             Logger.getLogger(EditUserBean.class.getName()).log(Level.SEVERE, null, ex);

@@ -41,7 +41,7 @@ public class CatalogManagementBean {
     private EditProductBean editProductBean;
     
     private Product editedProduct;
-    private Long editedProductUPC;
+    private Integer editedProductUPC;
     
     /**
      * Creates a new instance of CatalogManagementBean
@@ -72,11 +72,11 @@ public class CatalogManagementBean {
         this.editedProduct = editedProduct;
     }
 
-    public Long getEditedProductUPC() {
+    public Integer getEditedProductUPC() {
         return editedProductUPC;
     }
 
-    public void setEditedProductUPC(Long editedProductUPC) {
+    public void setEditedProductUPC(Integer editedProductUPC) {
         this.editedProductUPC = editedProductUPC;
     }        
     

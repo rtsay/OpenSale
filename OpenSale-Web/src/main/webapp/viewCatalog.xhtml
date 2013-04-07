@@ -15,7 +15,7 @@
 
             <ui:define name="content">
                 <div id="userList" class="span8 offset2">
-                    #{loginBean.currentUser.permissions}
+                    #{LoginBean.currentUser.permissions}
 
                     <p:dataTable value="#{catalogManagementBean.productList}"
                                  var="rowuser" rows="10" paginator="true">     

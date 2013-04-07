@@ -17,7 +17,7 @@
                 <div id="userList" class="span8 offset2">
                     #{loginBean.currentUser.permissions}
                   
-                    <p:dataTable value="#{catalogManagementBean.productList}"
+                    <p:dataTable value="#{CatalogManagementBean.productList}"
                                      var="rowuser" rows="10" paginator="true">
                              <p:column headerText="productName">
                                 <h:outputText value="#{rowuser.productName}"/>

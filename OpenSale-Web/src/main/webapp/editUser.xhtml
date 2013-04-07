@@ -33,13 +33,13 @@
                             <h:outputLabel for="pwd2" value="Confirm Password: *" />
                             <p:password id="pwd2" label="Confirmation" required="true" />
 
-                            <h:outputText value="First Name: " />
+                            <h:outputText value="First Name: *" />
                             <p:inputText required="true" label="First Name" />
 
-                            <h:outputText value="Last Name: "/>
+                            <h:outputText value="Last Name: *"/>
                             <p:inputText required="true" label="Last Name" />
 
-                            <h:outputText value="Address: " />
+                            <h:outputText value="Address: *" />
                             <p:inputText required="true" label="Address"/>
 
                             <h:outputText value="Telephone: " />
@@ -53,7 +53,7 @@
                             <br/>
                             <h:panelGroup>
                                 <p:commandButton id="submit" update="matchGrid" value="Submit" action="#{editUserBean.save()}" ajax="false" />
-                                <p:commandButton value="Reset" update="panel" process="@this">
+                                <p:commandButton value="Reset" update="panel" process="@this" immediate="true">
                                     <p:resetInput target="panel"/>
                                 </p:commandButton>
                                 <p:commandButton value="Cancel" update="matchGrid" action="userList" immediate="true"/>

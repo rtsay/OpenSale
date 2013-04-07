@@ -9,20 +9,27 @@
     <body>
 
         <ui:composition template="./OpenSaleTemplate.xhtml">
+            
+            <ui:define name="navBar">
+                <div class="brand">Edit User</div>
+            </ui:define>
 
             <ui:define name="PageTitle">
                 Edit User
             </ui:define>
 
             <ui:define name="content">
-                <div id="EditUser" class="span8 offset2">
+                <div id="editUser" class="span8 offset3">
                 <h:form id="form">
                     <p:panel id="panel" header="Edit User">
                         <p:messages id="messages" showDetail="true" autoUpdate="true"/>
 
-                        <h:outputText value="#{editUserBean.user.id}"/>
+                        
                         
                         <h:panelGrid columns="2" id="matchGrid" styleClass="centered">  
+                            
+                            <h:outputText value="ID: "/>
+                            <h:outputText value="#{editUserBean.user.id}"/>
                             
                             <h:outputText value="User Name: *"/>
                             <p:inputText  required="true" label="User Name" value="#{editUserBean.user.userName}" />

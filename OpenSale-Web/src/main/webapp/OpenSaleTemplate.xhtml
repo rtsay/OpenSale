@@ -26,8 +26,7 @@
                         <a class="brand" href="mainMenu.xhtml">OpenSale |</a>
                         <h:form rendered="#{view.viewId != '/index.xhtml'}">
                             <div class="nav-collapse collapse">
-
-                                <div class="brand">Welcome #{loginBean.currentUser.userName} </div>
+                                <ui:insert name="navBar">Navbar</ui:insert>                               
 
                             </div> 
 

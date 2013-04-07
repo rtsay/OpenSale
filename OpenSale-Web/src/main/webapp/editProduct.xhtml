@@ -10,44 +10,60 @@
 
         <ui:composition template="./OpenSaleTemplate.xhtml">
 
+            <ui:define name="navBar">
+                <div class="brand">Edit Product</div>
+            </ui:define>
+
+            <ui:define name="PageTitle">
+                Edit Product
+            </ui:define>
+
             <ui:define name="content">
-                <div id="editUser" class="span8 offset2">
-                <h:form id="form">
-                    <p:panel id="panel" header="Edit Product">
-                        <p:messages id="messages" showDetail="true" autoUpdate="true"/>
 
-                        <h:outputText value="#{EditUserBean.user.id}"/>
-                        
-                        <h:panelGrid columns="2" id="matchGrid" styleClass="centered">  
-                            
-                            <h:outputText value="Product Name: "/>
-                            <p:inputText  required="true" label="Product Name" value="#{EditProduct.product.productName}" />
 
-                            <h:outputText value="UPC: "/>
-                            <p:inputText  required="true" label="UPC" value="#{EditProduct.product.UPC}" />
 
-                            <h:outputText value="Product Description: "/>
-                            <p:inputText  required="true" label="Product Description" value="#{EditProduct.product.productDescription}" />
 
-                            <h:outputText value="Price: "/>
-                            <p:inputText  required="true" label="Price" value="#{EditProduct.product.price}" />
 
-                            <h:outputText value="Weight: "/>
-                            <p:inputText  required="true" label="Weight" value="#{EditProduct.product.weight}" />
-                                                  
-                            <br/>
-                            <h:panelGroup>
-                                <p:commandButton id="submit" update="matchGrid" value="Submit" action="#{EditProductBean.save()}" ajax="false" />
-                                <p:commandButton value="Reset" update="panel" process="@this">
-                                    <p:resetInput target="panel"/>
-                                </p:commandButton>
-                                <p:commandButton value="Cancel" update="matchGrid" action="catalog" immediate="true"/>
-                            </h:panelGroup>
-                        </h:panelGrid>
+                <div id="editProduct" class="span8 offset3">
+                    <h:form id="form">
+                        <p:panel id="panel" header="Edit Product">
+                            <p:messages id="messages" showDetail="true" autoUpdate="true"/>
 
-                    </p:panel>
 
-                </h:form>
+
+                            <h:panelGrid columns="2" id="matchGrid" styleClass="centered">  
+
+                                <h:outputText value="Product Name: "/>
+                                <p:inputText required="true" 
+                                             label="Product Name" 
+                                             value="#{editProductBean.product.productName}" 
+                                             />
+
+                                <h:outputText value="UPC: "/>
+                                <p:inputText  required="true" label="UPC" value="#{editProductBean.product.UPC}" />
+
+                                <h:outputText value="Product Description: "/>
+                                <p:inputText  required="true" label="Product Description" value="#{editProductBean.product.productDescription}" />
+
+                                <h:outputText value="Price: "/>
+                                <p:inputText  required="true" label="Price" value="#{editProductBean.product.price}" />
+
+                                <h:outputText value="Weight: "/>
+                                <p:inputText  required="true" label="Weight" value="#{editProductBean.product.weight}" />
+
+                                <br/>
+                                <h:panelGroup>
+                                    <p:commandButton id="submit" update="matchGrid" value="Submit" action="#{editProductBean.save()}" ajax="false" />
+                                    <p:commandButton value="Reset" update="panel" process="@this">
+                                        <p:resetInput target="panel"/>
+                                    </p:commandButton>
+                                    <p:commandButton value="Cancel" update="matchGrid" action="catalog" immediate="true"/>
+                                </h:panelGroup>
+                            </h:panelGrid>
+
+                        </p:panel>
+
+                    </h:form>
                 </div>
             </ui:define>
         </ui:composition>

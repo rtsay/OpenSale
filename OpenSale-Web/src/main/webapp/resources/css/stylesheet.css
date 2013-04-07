@@ -23,6 +23,10 @@ body{
         margin:0px auto;
 }
 
+.editProduct{
+    
+}
+
 
 
 h4{    
@@ -61,7 +65,15 @@ h5{
         color: black;
         padding: 1em;
         box-shadow: 0 0 1em #444;       
-        width:750px;
+        width:500px;
+}
+
+#editProduct{
+        background-color: #f1f1f1;        
+        color: black;
+        padding: 1em;
+        box-shadow: 0 0 1em #444;
+        width:500px;
 }
 
 .btn-large{

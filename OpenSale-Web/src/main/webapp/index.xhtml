@@ -8,9 +8,13 @@
     <body>
 
         <ui:composition template="./OpenSaleTemplate.xhtml">
+            
+            <ui:define name="navBar">
+               <div class="brand">Index</div>
+            </ui:define>
 
             <ui:define name="PageTitle">
-                Home
+                Index
             </ui:define>
 
             <ui:define name="content">
@@ -20,7 +24,7 @@
                         <h4>Username</h4>
                         <h:inputText class="span2"    
                                      
-                                     value="#{LoginBean.username}"
+                                     value="#{loginBean.username}"
                                      requiredMessage="Username is required"
                                      id="username">                                     
                             <f:validateRequired/>

@@ -2,16 +2,48 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"      
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
 
     <h:head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>        
         <h:outputStylesheet name="css/bootstrap.css"/>
         <h:outputStylesheet name="css/stylesheet.css"/>
+        <h:outputStylesheet name="css/bootstrap-responsive.css"/>
         <title>OpenSale - <ui:insert name="PageTitle">Home</ui:insert></title>
     </h:head>
 
     <h:body>
+
+        <div class="navbar">
+            <div class="container">
+
+                <div class="navbar navbar-inverse">
+                    <div class="navbar-inner">
+
+                        <a class="brand" href="mainMenu.xhtml">OpenSale |</a>
+                        <h:form rendered="#{view.viewId != '/index.xhtml'}">
+                            <div class="nav-collapse collapse">
+
+                                <div class="brand">Welcome #{loginBean.currentUser.userName} </div>
+
+                            </div> 
+
+                            <div class="nav-collapse pull-right">
+                                <h:commandButton action="#{Bean.logout()}"
+                                                 value="Logout" class="btn btn-primary"/>    
+                            </div>
+                        </h:form>
+                    </div><!-- /.navbar-inner -->
+                </div><!-- /.navbar -->
+
+            </div> <!-- /.container -->
+        </div><!-- /.navbar-wrapper -->
+
+
+
         <div id="logo">
             <!-- Input OpenSale image -->
             <h:graphicImage name="img/OpenSale3Inverted.gif"/>
@@ -21,7 +53,9 @@
         </div>
         <h:outputScript name="js/bootstrap.min.js"/>
         <h:outputScript name="js/jquery.min.js"/>
-        <h:outputScript name="js/jquery.easing.1.3.js"/>        
+        <h:outputScript name="js/jquery.easing.1.3.js"/>  
+        <h:outputScript name="js/bootstrap-collapse.js"/>
+
     </h:body>
 
 </html>

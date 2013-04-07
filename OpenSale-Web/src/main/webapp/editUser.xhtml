@@ -11,13 +11,13 @@
         <ui:composition template="./OpenSaleTemplate.xhtml">
 
             <ui:define name="PageTitle">
-                Registration
+                Edit User
             </ui:define>
 
             <ui:define name="content">
-                <div id="mainMenu" class="span10 offset1">
+                <div id="editUser" class="span8 offset2">
                 <h:form id="form">
-                    <p:panel id="panel" header="Login Account">
+                    <p:panel id="panel" header="Edit User">
                         <p:messages id="messages" showDetail="true" autoUpdate="true"/>
 
                         <h:outputText value="#{editUserBean.user.id}"/>

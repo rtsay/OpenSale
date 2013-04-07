@@ -18,15 +18,16 @@
                 <div class="login">
                     <h:form>
                         <h4>Username</h4>
-                        <h:inputText class="span3" 
+                        <h:inputText class="span2"    
+                                     
                                      value="#{loginBean.username}"
                                      requiredMessage="Username is required"
-                                     id="username">
+                                     id="username">                                     
                             <f:validateRequired/>
                         </h:inputText>
                         <h:messages for="username"/>
                         <h4>Password</h4>
-                        <h:inputSecret class="span3" 
+                        <h:inputSecret class="span2" 
                                        value="#{loginBean.password}"
                                        requiredMessage="Password is required"
                                        id="password">

@@ -12,9 +12,11 @@
             <ui:define name="PageTitle">
                 User List
             </ui:define>
+            
+            
 
             <ui:define name="content">
-                <div id="userList" class="span8 offset0">
+                <div id="userList" class="span8 offset2">
                     #{loginBean.currentUser.permissions}
                   
                         <p:dataTable value="#{userManagementBean.users}"
@@ -23,24 +25,15 @@
                                 <h:outputText value="#{rowuser.id}"/>
                             </p:column>
                             
-                            <p:column headerText="User Name" sortBy="#{userManagementBean.users}" filterBy="#{userManagementBean.users}">
+                            <p:column headerText="User Name">
                                 <h:outputText value="#{rowuser.userName}"/>        
                             </p:column>
 
-                            <p:column headerText="Password">
-                                <h:outputText value="#{rowuser.password}"/>
-                            </p:column>
-
-                            <p:column headerText="User Type" sortBy="#{userManagementBean.userType}" filterBy="#{userManagementBean.userType}">
+                            <p:column headerText="User Type">
                                 <h:outputText value="#{rowuser.userType}"/>
                             </p:column>                       
 
-                            <p:column headerText="First Name" sortBy="#{userManagementBean.firstName}" filterBy="#{userManagementBean.firstName}">
-                            </p:column>        
-                            <p:column headerText="Last Name" sortBy="#{userManagementBean.lastName}" filterBy="#{userManagementBean.lastName}">
-                            </p:column>  
-                            <p:column headerText="Phone">
-                            </p:column>  
+                            
                             <p:column>
                                 <h:form>                        
                                     <h:commandButton action="#{userManagementBean.editUser()}"

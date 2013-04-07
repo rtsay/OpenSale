@@ -4,39 +4,56 @@ body{
 	text-align:center;
 }
 
-.login{
-	color: black;
-	width:225px;
-	margin:0px auto;
-	text-align:left;
+.login{	
         background-color: #f1f1f1;        
         color: black;
         padding: 1em;
-        box-shadow: 0 0 1em #444;       
+        box-shadow: 0 0 1em #444;    
+        width:200px;
+        margin:0px auto;     
 }
 
- h4{    
+.mainMenu{
+        background-color: #f1f1f1;        
+        color: black; 
+        padding: 1em;
+        padding-right:25px;
+        box-shadow: 0 0 1em #444;
+        width: 250px;       
+        margin:0px auto;
+}
+
+
+
+h4{    
         font-size: 150%;   
+}
+
+h5{    
+        font-size: 200%;   
+}
+
+.navbar .navbarFont{
+  display: block;
+  float: left;
+  padding: 10px 20px 10px;
+  margin-left: -20px;
+  font-size: 20px;
+  font-weight: 200;
+  color: #777777;
+  text-shadow: 0 1px 0 #ffffff;
 }
 
 #logo {
         margin-bottom: 2em;       
 }
 
-#mainMenu {
-        background-color: #f1f1f1;        
-        color: black;
-        padding: 1em;
-        box-shadow: 0 0 1em #444;       
-        width:750px;        
-}
 
 #userList{
         background-color: #f1f1f1;        
         color: black;
         padding: 1em;
-        box-shadow: 0 0 1em #444;       
-        width:1250px;
+        box-shadow: 0 0 1em #444;   
 }
 
 #editUser{
@@ -47,11 +64,16 @@ body{
         width:750px;
 }
 
+.btn-large{
+    margin: 5px;
+}
 
 .menuPanel {
         background-color: white;
         box-shadow: 0 0 0.5em #444;
 }
+
+
 
 .todo { color: red; }
 .todo:before { content: "TO DO: "; }

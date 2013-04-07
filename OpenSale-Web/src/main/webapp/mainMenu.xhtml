@@ -15,149 +15,51 @@
             </ui:define>
 
             <ui:define name="content">
-                <div id="mainMenu" class="span10 offset1">
-                    <h2>#{loginBean.currentUser.userName}</h2>                   
-                    
-                    <h:form>
+
+                <div class="mainMenu">
+
+                    <h:form >
+
+
+                        <ul>
+                            <li><h5>Sales</h5></li>
+                            <li><h:commandButton action="#{mainMenuBean.createSale()}"
+                                                 value="New Sale"
+                                                 class="btn btn-large"/></li>
+                            <li><h:commandButton action="#{mainMenuBean.createRefund()}"                                        
+                                                 value="New Refund"
+                                                 class="btn btn-large"/></li>
+                            <li><h:commandButton action="viewCatalog"                                         
+                                                 value="View Catalog"
+                                                 class="btn btn-large" /></li> 
+                            <li rendered="#{loginBean.currentUserIsManager()
+                                        || loginBean.currentUserIsAdmin()
+                                        || loginBean.currentUserIsSuperUser()}"><h:commandButton action="extraDiscount"
+                                                 accesskey=""
+                                                 value="Extra Discount"
+                                                 class="btn btn-large"/></li>  
+                        </ul>                       
+                       
                         
-                    <h:panelGrid columns="4">
-                        
-                        <h:panelGroup layout="block" id="cashier-functions"
-                                      class="span3 menuPanel"> <!-- this creates a div -->
-                            <h:panelGroup class="content" layout="block">                               
-                                
-                                <h:graphicImage name="img/admin.jpg"/>
-                                <h:panelGroup class="box" layout="block">
-                                    <p:accordionPanel multiple="true">
-                                        <p:tab title="Cashier">
-                                            <h:panelGrid columns="2">
-                                                <ul>                                                                                              
-                                                    <li><h:commandButton action="#{mainMenuBean.createSale()}"
-                                                                     accesskey=""                                                                     
-                                                                     value="New Sale"
-                                                                     class="btn"/></li>
-                                                    <li><h:commandButton action="#{mainMenuBean.createRefund()}"
-                                                                     accesskey=""
-                                                                     value="New Refund"
-                                                                     class="btn"/></li>
-                                                    <li><h:commandButton action="viewCatalog"
-                                                                     accesskey=""
-                                                                     value="View Catalog"
-                                                                     class="btn"/></li>
-                                                </ul>
-                                            </h:panelGrid>
-                                        </p:tab>
-                                    </p:accordionPanel>
-                                </h:panelGroup>
-                            </h:panelGroup>
-                        </h:panelGroup>
-                        
-                        
-                        
-                        <h:panelGroup layout="block" id="manager-functions"
-                                      class="span3 menuPanel"
-                                      rendered="#{loginBean.currentUserIsManager()
-                                                  || loginBean.currentUserIsAdmin()
-                                                  || loginBean.currentUserIsSuperUser()}">
-                            <h:panelGroup class="content" layout="block">                                
-                                 <h:graphicImage name="img/admin.jpg"/>
-                                 <h:panelGroup class="box">
-                                    <p:accordionPanel multiple="true">
-                                        <p:tab title="Manager">
-                                            <h:panelGrid columns="2">
-                                                <ul>
-                                                    <li><h:commandButton action="#{mainMenuBean.createSale()}"
-                                                                     accesskey=""                                                                     
-                                                                     value="New Sale"
-                                                                     class="btn"/></li>
-                                                    <li><h:commandButton action="#{mainMenuBean.createRefund()}"
-                                                                     accesskey=""
-                                                                     value="New Refund"
-                                                                     class="btn"/></li>
-                                                    <li><h:commandButton action="extraDiscount"
-                                                                     accesskey=""
-                                                                     value="Extra Discount"
-                                                                     class="btn"/></li>
-                                                    <li><h:commandButton action="viewCatalog"
-                                                                     accesskey=""
-                                                                     value="View Catalog"
-                                                                     class="btn"/></li>
-                                                </ul>
-                                            </h:panelGrid>
-                                        </p:tab>
-                                    </p:accordionPanel>
-                                </h:panelGroup>
-                                <span class="active"></span>
-                                <span class="wrap"></span>
-                            </h:panelGroup>
-                        </h:panelGroup>
-                        
-                        
-                        
-                        <h:panelGroup layout="block" id="admin-functions"
-                                      class="span3 menuPanel"
-                                      rendered="#{loginBean.currentUserIsAdmin()
-                                                  || loginBean.currentUserIsSuperUser()}">
-                            <h:panelGroup class="content" layout="block">                                
-                                <h:graphicImage name="img/admin.jpg"/>
-                                 <h:panelGroup class="box">
-                                    <p:accordionPanel multiple="true">
-                                        <p:tab title="Admin">
-                                            <h:panelGrid columns="2">
-                                                <ul>                                                    
-                                                    <li><h:commandButton action="userList"
-                                                                     accesskey=""
-                                                                     value="User List"
-                                                                     class="btn"/></li>
-                                                     <li><h:commandButton action="manageCatalog"
-                                                                     accesskey=""
-                                                                     value="Manage Catalog"
-                                                                     class="btn"/></li>
-                                                </ul>
-                                            </h:panelGrid>
-                                        </p:tab>
-                                    </p:accordionPanel>
-                                </h:panelGroup>
-                                <span class="active"></span>
-                                <span class="wrap"></span>
-                            </h:panelGroup>           
-                        </h:panelGroup>
-                        
-                        
-                        <h:panelGroup layout="block" id="superuser-functions"
-                                      class="span3 menuPanel"
-                                      rendered="#{loginBean.currentUserIsSuperUser()}">
-                            <h:panelGroup class="content">                             
-                                <h5>Super User functions</h5>
-                                <h:graphicImage name="img/admin.jpg"/>
-                                    <p:accordionPanel multiple="true" >
-                                        <p:tab title="Supeer User">
-                                            <h:panelGrid columns="2">
-                                                <ul>
-                                                     <li><h:form><h:outputLink value="userList">User List</h:outputLink></h:form></li>
-                                                     <li><h:form><h:outputLink value="manageCatalog">Manage Catalog</h:outputLink></h:form></li>                                                     
-                                                     <li><h:commandButton action="userList"
-                                                                     accesskey=""
-                                                                     value="User List"
-                                                                     class="btn"/></li>
-                                                     <li><h:commandButton action="manageCatalog"
-                                                                     accesskey=""
-                                                                     value="Manage Catalog"
-                                                                     class="btn"/></li>
-                                                </ul>
-                                            </h:panelGrid>
-                                        </p:tab>
-                                    </p:accordionPanel>
-                                <span class="active"></span>
-                                <span class="wrap"></span>
-                               </h:panelGroup> 
-                        </h:panelGroup>
-                        
-                    </h:panelGrid>
-                    </h:form>
+                        <ul rendered="#{loginBean.currentUserIsAdmin()
+                                        || loginBean.currentUserIsSuperUser()}">
+                            <li><h5>User/Catalog</h5></li>
+                            <li><h:commandButton action="userList"
+                                                 accesskey=""
+                                                 value="User List"
+                                                 class="btn btn-large"/></li>                          
+                            <li><h:commandButton action="catalogModify"
+                                                 accesskey=""
+                                                 value="Manage Catalog"
+                                                 class="btn btn-large"/></li>
+
+                        </ul>
+
+
+                    </h:form>  
                     
                 </div>
-               
+
             </ui:define>
 
         </ui:composition>

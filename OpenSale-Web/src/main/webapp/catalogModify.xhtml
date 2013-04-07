@@ -14,32 +14,35 @@
             </ui:define>
 
             <ui:define name="content">
-                <div id="userList" class="span8 offset0">
+                <div id="userList" class="span8 offset2">
                     #{loginBean.currentUser.permissions}
                   
                     <p:dataTable value="#{catalogManagementBean.productList}"
                                      var="rowuser" rows="10" paginator="true">
-                            <p:column headerText="Member Name">
-                                <h:outputText value="#{rowuser.memberName}"/>
+                             <p:column headerText="productName">
+                                <h:outputText value="#{rowuser.productName}"/>
                             </p:column>
+                        
                             <p:column headerText="UPC">
                                 <h:outputText value="#{rowuser.UPC}"/>
                             </p:column>
-                            <p:column headerText="productName">
-                                <h:outputText value="#{rowuser.productName}"/>
-                            </p:column>
+                           
                             <p:column headerText="Description">
                                 <h:outputText value="#{rowuser.productDescription}"/>
                             </p:column>
+                        
                             <p:column headerText="Price">
                                 <h:outputText value="#{rowuser.price}"/>
                             </p:column>
+                        
                             <p:column headerText="Price per weight">
                                 <h:outputText value="#{rowuser.priceByWeight}"/>
                             </p:column>
+                        
                             <p:column headerText="Weight">
                                 <h:outputText value="#{rowuser.weight}"/>
                             </p:column>
+                        
                             <p:column>
                                 <h:form>                        
                                     <h:commandButton action="#{catalogManagementBean.editProduct()}"
@@ -67,7 +70,7 @@
                             </p:column>
                         </p:dataTable><br/>   
                         <h:form>
-                            <h:commandButton action="#{catalogManagementBean.addNewProduct()}" value="Add User" class="btn"/>                          
+                            <h:commandButton action="#{catalogManagementBean.addNewProduct()}" value="Add Product" class="btn"/>                          
                             <h:commandButton action="mainMenu" value="Cancel" class="btn"/>
                         </h:form>                               
                  </div>

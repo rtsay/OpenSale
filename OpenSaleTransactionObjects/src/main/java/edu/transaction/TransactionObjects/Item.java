@@ -24,6 +24,16 @@ public abstract class Item implements Serializable{
     protected Integer UPC;
     @Column(nullable = true)
     protected Double purchasedWeight;
+    @Column(nullable = true)
+    protected Boolean isVoided;
+
+    public Boolean getIsVoided() {
+        return isVoided;
+    }
+
+    public void setIsVoided(Boolean isVoided) {
+        this.isVoided = isVoided;
+    }
 
     public Product getProduct() {
         return this.product;

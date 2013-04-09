@@ -13,5 +13,8 @@ import java.io.Serializable;
  */
 @VerifyPermissions
 public class Payment implements Serializable {
-    
+    public boolean processPayment()
+    {
+        return true;
+    }
 }

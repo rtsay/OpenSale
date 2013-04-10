@@ -5,6 +5,7 @@ import edu.common.Exceptions.InsufficentPermissionException;
 import edu.common.UserObjects.EUserTypes;
 import edu.common.Permissions.Permissions;
 import edu.common.UserObjects.User;
+import edu.kennesaw.seniorproject.opensale.ui.utilities.Hasher;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -70,6 +71,12 @@ public class UserEntity extends User implements Serializable {
             } else {
                 throw new InsufficentPermissionException();
             }
+    }
+    
+    @Override
+    public void setPassword(String password)
+    {
+        this.password = Hasher.hashPassword(password);
     }
 
     public Long getId() {

@@ -32,12 +32,48 @@
                             <div class="nav-collapse pull-right">
                                 <!-- TODO: this commandButton should show the
                                             Supervisor Login dialog -->
-                                <p:commandButton 
+                              	
+                                <p:commandButton onclick="dlgs.show();"
                                     value="Supervisor Login" styleClass="btn btn-warning"/>
+                                
+<!--                                <p:commandButton action="#{loginBean.currentUserIsSuperUser()}"  onclick="dlgs.show();"
+                                    value="Supervisor Login" styleClass="btn btn-warning"/>-->
+                                
                                 <p:commandButton action="#{loginBean.logout()}"
-                                                 value="Logout" styleClass="btn btn-primary"/>    
+                                                 value="Logout" styleClass="btn btn-primary"/>  
+
                             </div>
                         </h:form>
+                        
+                        <p:dialog header="Login" widgetVar="dlgs">
+                            
+                            <h:form>
+                                
+                                <h:panelGrid columns="2" cellpadding="5">
+                                    <h:outputLabel for="username" value="Username: *" />
+                                    <p:inputText value="#{loginBean.username}" 
+                                                 id="username" requiredMessage="Username is required"
+                                                 label="username" >
+                                        <f:validateRequired/>
+                                    </p:inputText>
+                                        
+                                    <h:outputLabel for="password" value="Password: *" />
+                                    <h:inputSecret value="#{loginBean.password}" 
+                                                   id="password" requiredMessage="Password is required"
+                                                   label="password">
+                                        <f:validateRequired/>
+                                    </h:inputSecret>
+
+                                    <f:facet name="loginbtn">
+                                        <h:commandButton action="#{loginBean.login()}"
+                                                         value="Login" class="btn btn-primary"/>                        
+                                        <button class="btn" type="reset">Clear</button>
+                                    </f:facet>
+                                </h:panelGrid>
+
+                            </h:form>
+                        </p:dialog>
+                        
                     </div><!-- /.navbar-inner -->
                 </div><!-- /.navbar -->
 

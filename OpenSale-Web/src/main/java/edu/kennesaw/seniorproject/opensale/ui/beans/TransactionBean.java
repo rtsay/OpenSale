@@ -62,8 +62,13 @@ public class TransactionBean {
      * @param i Item to remove from the current transaction
      * @return redirect to the Transaction View page.
      */
-    public String removeItem(Item i) {
-        this.currentTransaction.removeItem(i);
+    public String removeItem(Integer upc) {
+        for (Item i : this.currentTransaction.getItems()) {
+            if (i.getProduct().getUPC() == upc)
+            {
+                this.currentTransaction.removeItem(i);
+            }
+        }
         return "currentTransaction";
     }
     

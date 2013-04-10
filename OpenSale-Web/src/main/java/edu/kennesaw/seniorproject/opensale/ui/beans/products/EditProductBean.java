@@ -1,4 +1,3 @@
-
 package edu.kennesaw.seniorproject.opensale.ui.beans.products;
 
 import edu.kennesaw.seniorproject.opensale.ui.beans.LoginBean;
@@ -22,9 +21,10 @@ import javax.transaction.UserTransaction;
 
 /**
  * Backing bean for editProduct page
+ *
  * @author spencer
  */
-@ManagedBean(name="editProductBean")
+@ManagedBean(name = "editProductBean")
 @SessionScoped
 public class EditProductBean {
 
@@ -34,7 +34,6 @@ public class EditProductBean {
     private UserTransaction ut;
     @ManagedProperty("#{loginBean}")
     private LoginBean loginBean;
-    
     private Product product;
 
     public LoginBean getLoginBean() {
@@ -52,16 +51,16 @@ public class EditProductBean {
     public void setProduct(Product product) {
         this.product = product;
     }
-        
-    
+
     /**
      * Creates a new instance of EditProductBean
      */
     public EditProductBean() {
     }
-    
+
     /**
      * Saves the edited Product's current state.
+     *
      * @return a JSF navigation redirect.
      */
     public String save() {
@@ -69,20 +68,21 @@ public class EditProductBean {
         try {
             // Open a Transaction
             ut.begin();
-            
-            // If the product doesn't have an Id, that means it's new.
-            if (product.getUPC() == null) {
-                entityManager.persist(product);
-            } else { // if it does have an Id, it's an existing product.
+
+            try {
+                entityManager.find(Product.class, product.getUPC());
                 entityManager.merge(product);
+                ut.commit();
+            } catch (javax.persistence.EntityNotFoundException e) {
+                entityManager.persist(product);
+                // Commit transaction
+                ut.commit();
+            } catch (Exception e) {
+                InPageMessage.addErrorMessage("SOMETHING WENT HORRIBLY WRONG");
+            } finally {
+                // next stop: productList page
+                destinationPage = "catalog";
             }
-            
-            // Commit transaction
-            ut.commit();            
-            
-            // next stop: productList page
-            destinationPage = "catalog";
-            
         } catch (RollbackException ex) {
             Logger.getLogger(EditUserBean.class.getName()).log(Level.SEVERE, null, ex);
             InPageMessage.addErrorMessage("Error saving product. Please return to the product list and try again.");
@@ -105,8 +105,7 @@ public class EditProductBean {
             Logger.getLogger(EditUserBean.class.getName()).log(Level.SEVERE, null, ex);
             InPageMessage.addErrorMessage("Error saving product. Please return to the product list and try again.");
         }
-        
+
         return destinationPage;
     }
-    
 }

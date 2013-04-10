@@ -90,7 +90,6 @@ public abstract class Transaction {
    
     public boolean processPayment(LegalTender legalTender)
     {
-        
         return true;
     }
     

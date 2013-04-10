@@ -7,6 +7,7 @@ package edu.product.ProductObjects;
 import edu.common.Permissions.VerifyPermissions;
 import java.io.Serializable;
 import javax.persistence.Column;
+import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 /**
@@ -17,6 +18,7 @@ import javax.persistence.MappedSuperclass;
 @MappedSuperclass
 public class Product implements Serializable {
     
+    @Id
     @Column(nullable = false)
     protected Integer UPC;
     

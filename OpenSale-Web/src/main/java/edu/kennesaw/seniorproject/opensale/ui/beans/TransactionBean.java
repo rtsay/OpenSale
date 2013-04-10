@@ -1,11 +1,15 @@
 package edu.kennesaw.seniorproject.opensale.ui.beans;
 
+import edu.kennesaw.seniorproject.opensale.entities.ItemEntity;
+import edu.kennesaw.seniorproject.opensale.ui.utilities.InPageMessage;
+import edu.product.ProductObjects.Product;
 import edu.transaction.TransactionObjects.Item;
 import edu.transaction.TransactionObjects.Transaction;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  * Backing bean for Transaction view pages.
@@ -35,8 +39,20 @@ public class TransactionBean {
      * @param i Item to add to the current transaction
      * @return redirect to the Transaction View page.
      */
-    public String addItem(Item i) {
-        this.currentTransaction.addItem(i);
+    public String addItem(Integer upc, Double weight, Integer quantity) {
+        Query q = em.createNamedQuery("ProductEntity.findProductByUPC");
+        q.setParameter("upc", upc);
+        try {
+            Product p = (Product)q.getSingleResult();
+            Item i = new ItemEntity();
+            i.setProduct(p);
+            i.setPurchasedWeight(weight);
+            i.setQuantity(quantity);
+            em.persist(i);
+            this.currentTransaction.addItem(i);
+        } catch(javax.persistence.NoResultException e) {
+            InPageMessage.addErrorMessage("Product does not exist.");
+        } 
         return "currentTransaction";
     }
     

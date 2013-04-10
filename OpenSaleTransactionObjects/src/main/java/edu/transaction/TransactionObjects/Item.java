@@ -20,8 +20,6 @@ public abstract class Item implements Serializable{
     protected Product product;
     @Column(nullable = false)
     protected Integer quantity;
-    @Column(nullable = false)
-    protected Integer UPC;
     @Column(nullable = true)
     protected Double purchasedWeight;
     @Column(nullable = true)
@@ -49,14 +47,6 @@ public abstract class Item implements Serializable{
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
-    }
-
-    public Integer getUPC() {
-        return this.UPC;
-    }
-
-    public void setUPC(Integer UPC) {
-        this.UPC = UPC;
     }
 
     public Double getPurchasedWeight() {

@@ -37,4 +37,8 @@ public class Session {
         else
             throw new NoCurrentSessionException();
     }
+    
+    public static Integer getStackSize() {
+        return currentUsers.size();
+    }
 }

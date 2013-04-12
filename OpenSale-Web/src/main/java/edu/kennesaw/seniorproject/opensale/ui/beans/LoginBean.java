@@ -129,11 +129,22 @@ public class LoginBean {
      * @return "index" redirect to login page.
      */
     public String logout() {
-        // This is a magic thing I did have to look up.
-        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-        
-        // Next stop: index page.
-        return "index";
+        String destination = null;
+        try { 
+            if (Session.getStackSize() > 1) { // IF there are multiple users logged in
+                destination = "mainMenu"; // we're just popping the top one off, so go back to the Main Menu
+                Session.Logout(); // logout the current user
+            } else { // if there's only one user logged in.
+                destination = "index"; // next stop is the index.
+                Session.Logout(); // log out the current user
+                // This is a magic thing I did have to look up to destroy the current browser session (just to be safe)
+                FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+            }                        
+        } catch (NoCurrentSessionException ex) { // if for some reason someone tries to log out without having first logged in           
+            destination = "index"; // eh, just bounce back to the login page.
+        } finally {
+            return destination;
+        }                       
     }
     
     public void checkLogin() throws IOException {

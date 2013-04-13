@@ -1,6 +1,8 @@
 
 package edu.kennesaw.seniorproject.opensale.ui.beans;
 
+import edu.common.Exceptions.NoCurrentSessionException;
+import edu.common.UserObjects.EUserTypes;
 import edu.kennesaw.seniorproject.opensale.entities.PaymentTransaction;
 import edu.kennesaw.seniorproject.opensale.entities.RefundTransaction;
 import edu.kennesaw.seniorproject.opensale.entities.UserEntity;
@@ -91,31 +93,23 @@ public class MainMenuBean {
     public String createRefund() {   
         // Next-stop page, as a string
         String destinationPage = null;
-        
-        // Extra safety: check to make sure we actually got a username/password
-        if (authorizingManagerUsername == null || authorizingManagerPassword == null) {
-            InPageMessage.addErrorMessage("Please specify both username and password.");            
-        } else {
-        
-            // Look up the authorizing manager by the given username and (hashed) password
-            Query lookupAuthorizingManager = em.createNamedQuery("UserEntity.findManagerByLogin");
-            lookupAuthorizingManager.setParameter("username", authorizingManagerUsername);
-            lookupAuthorizingManager.setParameter("password", Hasher.hashPassword(authorizingManagerPassword));
-            UserEntity authorizingManager;
-            try { // anything inside this block assumes we found at least one result
-                // store the authorizingManager -- TODO: have authorizing managers stored as part of RefundTransaction metadata.
-                authorizingManager = (UserEntity) lookupAuthorizingManager.getSingleResult();            
-
+        try {                        
+            // Check to see if we have permission
+            if (loginBean.getCurrentUser().getUserType().getValue() >= EUserTypes.Manager.getValue()) {
+                
                 // Create a new RefundTransaction and set it as the current transaction for transactionBean
                 Transaction refundTransaction = new RefundTransaction();
                 transactionBean.setCurrentTransaction(refundTransaction);
-
+                
                 // next stop: transaction page
                 destinationPage = "transaction";            
-            } catch(javax.persistence.NoResultException e) { // in this block, we didn't find at least one result.
-                InPageMessage.addErrorMessage("Authorizing manager not recognized");
-                Logger.getLogger("MainMenuBean").log(Level.INFO, "Invalid refund authorization attempt for user: {0}", authorizingManagerUsername);
-            }                
+            } else {
+                InPageMessage.addErrorMessage("You are not authorized to create refund transactions.");
+            }    
+        } catch (NoCurrentSessionException ex) {
+            Logger.getLogger(MainMenuBean.class.getName()).log(Level.SEVERE, null, ex);
+            destinationPage = "index";
+            InPageMessage.addErrorMessage("Please log in.");
         }
         return destinationPage;
     }

@@ -12,7 +12,7 @@
         <ui:composition template="./OpenSaleTemplate.xhtml">
             <f:event type="preRenderView" listener="#{loginBean.checkLogin}"/>
             <ui:define name="navBar">
-             <div class="brand">Welcome, #{loginBean.username}</div>
+                <div class="brand">Welcome, #{loginBean.currentUser.userName}</div>
             </ui:define>
 
             <ui:define name="PageTitle">

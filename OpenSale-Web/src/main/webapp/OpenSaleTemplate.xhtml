@@ -16,7 +16,35 @@
     </h:head>
 
     <h:body>
-
+        <p:dialog header="Supervisor Login" widgetVar="dlg">
+            
+            <h:form id="supervisorLoginForm">
+                
+                <h:panelGrid columns="2" cellpadding="5">
+                    <h:outputLabel for="username" value="Username: *" />
+                    <p:inputText value="#{loginBean.username}" 
+                                 id="username" requiredMessage="Username is required"
+                                 label="username" >
+                        <f:validateRequired/>
+                    </p:inputText>
+                        
+                    <h:outputLabel for="password" value="Password: *" />
+                    <h:inputSecret value="#{loginBean.password}" 
+                                   id="password" requiredMessage="Password is required"
+                                   label="password">
+                        <f:validateRequired/>
+                    </h:inputSecret>
+                        
+                    <f:facet name="footer">
+                        <h:commandButton action="#{loginBean.login()}"
+                                         value="Login" class="btn btn-primary"/>                        
+                        <button class="btn" type="reset">Clear</button>
+                    </f:facet>
+                </h:panelGrid>
+                    
+            </h:form>
+        </p:dialog>
+        
         <div class="navbar">
             <div class="container">
 
@@ -33,46 +61,16 @@
                                 <!-- TODO: this commandButton should show the
                                             Supervisor Login dialog -->
                               	
-                                <p:commandButton onclick="dlgs.show();"
-                                    value="Supervisor Login" styleClass="btn btn-warning"/>
+                                <p:commandButton type="button" onclick="dlg.show()"
+                                    value="Supervisor Login" styleClass="btn btn-warning"
+                                    id="supervisorLoginButton" 
+                                    rendered="#{!loginBean.currentUserIsSuperUser()}"/>
                                 
-<!--                                <p:commandButton action="#{loginBean.currentUserIsSuperUser()}"  onclick="dlgs.show();"
-                                    value="Supervisor Login" styleClass="btn btn-warning"/>-->
-                                
-                                <p:commandButton action="#{loginBean.logout()}"
-                                                 value="Logout" styleClass="btn btn-primary"/>  
+                                <h:commandButton action="#{loginBean.logout()}"
+                                                 value="Logout" styleClass="btn btn-primary" />  
 
                             </div>
-                        </h:form>
-                        
-                        <p:dialog header="Login" widgetVar="dlgs">
-                            
-                            <h:form>
-                                
-                                <h:panelGrid columns="2" cellpadding="5">
-                                    <h:outputLabel for="username" value="Username: *" />
-                                    <p:inputText value="#{loginBean.username}" 
-                                                 id="username" requiredMessage="Username is required"
-                                                 label="username" >
-                                        <f:validateRequired/>
-                                    </p:inputText>
-                                        
-                                    <h:outputLabel for="password" value="Password: *" />
-                                    <h:inputSecret value="#{loginBean.password}" 
-                                                   id="password" requiredMessage="Password is required"
-                                                   label="password">
-                                        <f:validateRequired/>
-                                    </h:inputSecret>
-
-                                    <f:facet name="loginbtn">
-                                        <h:commandButton action="#{loginBean.login()}"
-                                                         value="Login" class="btn btn-primary"/>                        
-                                        <button class="btn" type="reset">Clear</button>
-                                    </f:facet>
-                                </h:panelGrid>
-
-                            </h:form>
-                        </p:dialog>
+                        </h:form>                                                
                         
                     </div><!-- /.navbar-inner -->
                 </div><!-- /.navbar -->
@@ -89,10 +87,7 @@
         <div id="content" class="container">
             <ui:insert name="content">Content</ui:insert>
         </div>
-        <h:outputScript name="js/bootstrap.min.js"/>
-        <h:outputScript name="js/jquery.min.js"/>
-        <h:outputScript name="js/jquery.easing.1.3.js"/>  
-        <h:outputScript name="js/bootstrap-collapse.js"/>
+        <h:outputScript name="js/bootstrap.min.js"/>        
 
     </h:body>
 

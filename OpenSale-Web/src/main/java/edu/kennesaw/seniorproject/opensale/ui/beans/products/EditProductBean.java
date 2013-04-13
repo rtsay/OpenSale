@@ -1,9 +1,9 @@
 package edu.kennesaw.seniorproject.opensale.ui.beans.products;
 
+import edu.kennesaw.seniorproject.opensale.entities.ProductEntity;
 import edu.kennesaw.seniorproject.opensale.ui.beans.LoginBean;
 import edu.kennesaw.seniorproject.opensale.ui.beans.users.EditUserBean;
 import edu.kennesaw.seniorproject.opensale.ui.utilities.InPageMessage;
-import edu.product.ProductObjects.Product;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
@@ -34,7 +34,7 @@ public class EditProductBean {
     private UserTransaction ut;
     @ManagedProperty("#{loginBean}")
     private LoginBean loginBean;
-    private Product product;
+    private ProductEntity product;
 
     public LoginBean getLoginBean() {
         return loginBean;
@@ -44,11 +44,11 @@ public class EditProductBean {
         this.loginBean = loginBean;
     }
 
-    public Product getProduct() {
+    public ProductEntity getProduct() {
         return product;
     }
 
-    public void setProduct(Product product) {
+    public void setProduct(ProductEntity product) {
         this.product = product;
     }
 
@@ -70,7 +70,7 @@ public class EditProductBean {
             ut.begin();
 
             try {
-                entityManager.find(Product.class, product.getUPC());
+                entityManager.find(ProductEntity.class, product.getUPC());
                 entityManager.merge(product);
                 ut.commit();
             } catch (javax.persistence.EntityNotFoundException e) {
@@ -78,6 +78,7 @@ public class EditProductBean {
                 // Commit transaction
                 ut.commit();
             } catch (Exception e) {
+                InPageMessage.addErrorMessage(e.getMessage());
                 InPageMessage.addErrorMessage("SOMETHING WENT HORRIBLY WRONG");
             } finally {
                 // next stop: productList page

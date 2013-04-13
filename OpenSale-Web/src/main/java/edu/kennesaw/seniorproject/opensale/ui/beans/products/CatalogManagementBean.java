@@ -40,7 +40,7 @@ public class CatalogManagementBean {
     @ManagedProperty("#{editProductBean}")
     private EditProductBean editProductBean;
     
-    private Product editedProduct;
+    private ProductEntity editedProduct;
     private Integer editedProductUPC;
     
     /**
@@ -68,7 +68,7 @@ public class CatalogManagementBean {
         return editedProduct;
     }
 
-    public void setEditedProduct(Product editedProduct) {
+    public void setEditedProduct(ProductEntity editedProduct) {
         this.editedProduct = editedProduct;
     }
 
@@ -103,7 +103,7 @@ public class CatalogManagementBean {
         String destinationPage = null;
   //      try {
             // Try to create a new ProductEntity
-            Product newProduct = new ProductEntity();
+            ProductEntity newProduct = new ProductEntity();
             
             // Set the EditProductBean to edit this new product
             editProductBean.setProduct(newProduct);

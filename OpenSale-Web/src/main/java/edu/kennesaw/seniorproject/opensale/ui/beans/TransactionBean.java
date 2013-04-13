@@ -44,6 +44,37 @@ public class TransactionBean {
         this.currentTransaction = currentTransaction;
     }
 
+    public Integer getNewItemUPC() {
+        return newItemUPC;
+    }
+
+    public void setNewItemUPC(Integer newItemUPC) {
+        this.newItemUPC = newItemUPC;
+    }
+
+    public Integer getNewItemQuantity() {
+        return newItemQuantity;
+    }
+
+    public void setNewItemQuantity(Integer newItemQuantity) {
+        this.newItemQuantity = newItemQuantity;
+    }
+
+    public Double getNewItemWeight() {
+        return newItemWeight;
+    }
+
+    public void setNewItemWeight(Double newItemWeight) {
+        this.newItemWeight = newItemWeight;
+    }
+
+    public Double getPaymentAmount() {
+        return paymentAmount;
+    }
+
+    public void setPaymentAmount(Double paymentAmount) {
+        this.paymentAmount = paymentAmount;
+    }    
    
     /**
      * Adds a given item to the current transaction and redirects/refreshes the

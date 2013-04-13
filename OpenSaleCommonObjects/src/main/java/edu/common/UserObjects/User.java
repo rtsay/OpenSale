@@ -19,7 +19,7 @@ import javax.persistence.MappedSuperclass;
 @MappedSuperclass
 public abstract class User implements Serializable {
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     protected String userName;
     @Column(nullable = false)
     protected String password;

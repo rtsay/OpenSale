@@ -18,8 +18,8 @@ import javax.persistence.MappedSuperclass;
 @MappedSuperclass
 public class Product implements Serializable {
     
-    @Id
-    @Column(nullable = false)
+    @Id    
+    @Column(nullable = false, unique = true)
     protected Integer UPC;
     
     @Column(nullable = false)

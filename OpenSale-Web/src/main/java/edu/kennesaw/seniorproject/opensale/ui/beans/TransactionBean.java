@@ -5,13 +5,21 @@ import edu.kennesaw.seniorproject.opensale.ui.utilities.InPageMessage;
 import edu.opensale.Payment.LegalTender;
 import edu.product.ProductObjects.Product;
 import edu.transaction.TransactionObjects.Item;
-import edu.transaction.TransactionObjects.Payment;
 import edu.transaction.TransactionObjects.Transaction;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.Resource;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
+import javax.transaction.RollbackException;
+import javax.transaction.SystemException;
+import javax.transaction.UserTransaction;
 
 /**
  * Backing bean for Transaction view pages.
@@ -24,7 +32,9 @@ public class TransactionBean {
     public TransactionBean() { }
     
     @PersistenceContext
-    private EntityManager em;    
+    private EntityManager em;
+    @Resource
+    private UserTransaction ut;
     private Transaction currentTransaction;
     
     private Integer newItemUPC, newItemQuantity;
@@ -85,13 +95,39 @@ public class TransactionBean {
         Query q = em.createNamedQuery("ProductEntity.findProductByUPC");
         q.setParameter("UPC", newItemUPC);
         try {
-            Product p = (Product)q.getSingleResult();
+            Product p = (Product)q.getSingleResult(); // look up product by UPC
+            
+            // Create a new Item
             Item i = new ItemEntity();
-            i.setProduct(p);
-            i.setPurchasedWeight(newItemWeight);
-            i.setQuantity(newItemQuantity);
-            em.persist(i);
-            this.currentTransaction.addItem(i);
+            i.setProduct(p); // set the Product for that Item
+            i.setPurchasedWeight(newItemWeight); // set the weight for the Item
+            i.setQuantity(newItemQuantity); // set the Quantity
+            
+            ut.begin(); // open a transaction to persist the Item
+            em.persist(i); // persist it
+            ut.commit(); // commit the transaction
+            this.currentTransaction.addItem(i); // add the item to the transaction. 
+        } catch (RollbackException ex) {
+            Logger.getLogger(TransactionBean.class.getName()).log(Level.SEVERE, null, ex);
+            InPageMessage.addErrorMessage("Something went wrong; please try again.");
+        } catch (HeuristicMixedException ex) {
+            Logger.getLogger(TransactionBean.class.getName()).log(Level.SEVERE, null, ex);
+            InPageMessage.addErrorMessage("Something went wrong; please try again.");
+        } catch (HeuristicRollbackException ex) {
+            Logger.getLogger(TransactionBean.class.getName()).log(Level.SEVERE, null, ex);
+            InPageMessage.addErrorMessage("Something went wrong; please try again.");
+        } catch (SecurityException ex) {
+            Logger.getLogger(TransactionBean.class.getName()).log(Level.SEVERE, null, ex);
+            InPageMessage.addErrorMessage("Something went wrong; please try again.");
+        } catch (IllegalStateException ex) {
+            Logger.getLogger(TransactionBean.class.getName()).log(Level.SEVERE, null, ex);
+            InPageMessage.addErrorMessage("Something went wrong; please try again.");
+        } catch (NotSupportedException ex) {
+            Logger.getLogger(TransactionBean.class.getName()).log(Level.SEVERE, null, ex);
+            InPageMessage.addErrorMessage("Something went wrong; please try again.");
+        } catch (SystemException ex) {
+            Logger.getLogger(TransactionBean.class.getName()).log(Level.SEVERE, null, ex);
+            InPageMessage.addErrorMessage("Something went wrong; please try again.");
         } catch(javax.persistence.NoResultException e) {
             InPageMessage.addErrorMessage("Product does not exist.");
         } 

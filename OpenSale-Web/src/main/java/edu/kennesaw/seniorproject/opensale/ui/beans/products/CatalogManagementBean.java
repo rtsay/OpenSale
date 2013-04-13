@@ -43,6 +43,7 @@ public class CatalogManagementBean {
     private ProductEntity editedProduct;
     private Integer editedProductUPC;
     
+    
     /**
      * Creates a new instance of CatalogManagementBean
      */

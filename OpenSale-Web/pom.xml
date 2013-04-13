@@ -175,6 +175,7 @@
                         <configuration>
                             <srcFiles>
                                 <srcFile>${basedir}/src/main/resources/sql/create_users.sql</srcFile>
+                                <srcFile>${basedir}/src/main/resources/sql/create_test_products.sql</srcFile>
                             </srcFiles>
                             <onError>continue</onError>
                         </configuration>

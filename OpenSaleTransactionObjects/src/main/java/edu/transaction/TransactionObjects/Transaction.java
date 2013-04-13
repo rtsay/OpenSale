@@ -29,8 +29,16 @@ public abstract class Transaction {
         this.items.add(item);
     }
     
-    public void removeItem(Item item){
-        this.items.remove(item);
+    public void voidItem(Item item){
+        Item i = this.items.get(this.items.indexOf(item));
+        i.setIsVoided(true);
+        this.items.set(this.items.indexOf(item), i);
+    }
+    
+    public void unvoidItem(Item item) {
+        Item i = this.items.get(this.items.indexOf(item));
+        i.setIsVoided(false);
+        this.items.set(this.items.indexOf(item), i);
     }
     
     public void setPayment(LegalTender legalTender){

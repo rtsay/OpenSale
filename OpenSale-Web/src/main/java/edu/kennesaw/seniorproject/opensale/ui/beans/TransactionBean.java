@@ -27,7 +27,9 @@ public class TransactionBean {
     private EntityManager em;    
     private Transaction currentTransaction;
     
-        
+    private Integer newItemUPC, newItemQuantity;
+    private Double newItemWeight;
+            
     
     /* TODO: figure out how to determine Payment Type, use PaymentFactory to 
      * create an appropriate Payment from given payment details.
@@ -46,18 +48,17 @@ public class TransactionBean {
     /**
      * Adds a given item to the current transaction and redirects/refreshes the
      * Transaction View page
-     * @param i Item to add to the current transaction
      * @return redirect to the Transaction View page.
      */
-    public String addItem(Integer upc, Double weight, Integer quantity) {
+    public String addItem() {        
         Query q = em.createNamedQuery("ProductEntity.findProductByUPC");
-        q.setParameter("upc", upc);
+        q.setParameter("upc", newItemUPC);
         try {
             Product p = (Product)q.getSingleResult();
             Item i = new ItemEntity();
             i.setProduct(p);
-            i.setPurchasedWeight(weight);
-            i.setQuantity(quantity);
+            i.setPurchasedWeight(newItemWeight);
+            i.setQuantity(newItemQuantity);
             em.persist(i);
             this.currentTransaction.addItem(i);
         } catch(javax.persistence.NoResultException e) {
@@ -65,18 +66,34 @@ public class TransactionBean {
         } 
         return "currentTransaction";
     }
-    
+        
     /**
-     * Removes a given item from the current transaction and redirects/refreshes
+     * Voids a given item from the current transaction and redirects/refreshes
      * the Transaction View page
-     * @param i Item to remove from the current transaction
+     * @param upc UPC of Item to void from the current transaction
      * @return redirect to the Transaction View page.
      */
-    public String removeItem(Integer upc) {
+    public String voidItem(Integer upc) {
         for (Item i : this.currentTransaction.getItems()) {
             if (i.getProduct().getUPC() == upc)
             {
-                this.currentTransaction.removeItem(i);
+                this.currentTransaction.voidItem(i);
+            }
+        }
+        return "currentTransaction";
+    }
+    
+    /**
+     * Unvoids a given item from the current transaction and redirects/refreshes
+     * the Transaction View page
+     * @param upc UPC of Item to void from the current transaction
+     * @return redirect to the Transaction View page.
+     */
+    public String unvoidItem(Integer upc) {
+        for (Item i : this.currentTransaction.getItems()) {
+            if (i.getProduct().getUPC() == upc)
+            {
+                this.currentTransaction.unvoidItem(i);
             }
         }
         return "currentTransaction";

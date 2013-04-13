@@ -83,7 +83,7 @@ public class TransactionBean {
      */
     public String addItem() {        
         Query q = em.createNamedQuery("ProductEntity.findProductByUPC");
-        q.setParameter("upc", newItemUPC);
+        q.setParameter("UPC", newItemUPC);
         try {
             Product p = (Product)q.getSingleResult();
             Item i = new ItemEntity();

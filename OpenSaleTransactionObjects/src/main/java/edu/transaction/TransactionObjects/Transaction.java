@@ -10,6 +10,7 @@ import edu.common.globalSettings.GlobalSettings;
 import edu.opensale.Payment.LegalTender;
 import edu.opensale.Payment.Payment;
 import edu.opensale.PaymentTypes.PaymentFactory;
+import edu.payment.Exceptions.PaymentMethodMissingException;
 import java.util.ArrayList;
 import javax.persistence.MappedSuperclass;
 
@@ -98,10 +99,10 @@ public abstract class Transaction {
         return this.generateSubtotal() * GlobalSettings.getTaxRate();
     }
    
-    public void processPayment(LegalTender legalTender, PaymentFactory factory)
+    public boolean processPayment(LegalTender legalTender, PaymentFactory factory) throws PaymentMethodMissingException
     {
         Payment p = factory.create();
-        p.execute(legalTender);
+        return p.execute(legalTender);
     }
     
     public abstract boolean verifyPermission(User user);

@@ -6,6 +6,7 @@ package edu.opensale.PaymentMethods;
 
 import edu.opensale.Payment.LegalTender;
 import edu.opensale.Payment.Payment;
+import edu.payment.Exceptions.PaymentMethodMissingException;
 
 /**
  *
@@ -14,8 +15,8 @@ import edu.opensale.Payment.Payment;
 public class CashPayment extends Payment {
 
     @Override
-    public void execute(LegalTender payment) {
-        
+    public boolean execute(LegalTender payment) throws PaymentMethodMissingException {
+        return true;
     }
     
 }

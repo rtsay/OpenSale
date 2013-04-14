@@ -3,7 +3,6 @@
  * and open the template in the editor.
  */
 package edu.opensale.Payment;
-import edu.opensale.PaymentTypes.PaymentFactory;
 import edu.payment.Exceptions.PaymentMethodMissingException;
 
 /**
@@ -12,5 +11,5 @@ import edu.payment.Exceptions.PaymentMethodMissingException;
  */
 public abstract class Payment
 { 
-    public abstract void execute(LegalTender payment);
+    public abstract boolean execute(LegalTender payment) throws PaymentMethodMissingException;
 }

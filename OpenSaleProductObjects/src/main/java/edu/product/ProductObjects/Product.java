@@ -16,12 +16,18 @@ import javax.persistence.MappedSuperclass;
  */
 @VerifyPermissions
 @MappedSuperclass
-public class Product implements Serializable {
+public class Product implements Serializable {       
     
-    @Id    
-    @Column(nullable = false, unique = true)
     protected Integer UPC;
-    
+
+    public Integer getUPC() {
+        return UPC;
+    }
+
+    public void setUPC(Integer UPC) {
+        this.UPC = UPC;
+    }
+        
     @Column(nullable = false)
     protected String productName;
     
@@ -38,15 +44,7 @@ public class Product implements Serializable {
     protected Double weight;
     
     @Column(nullable = true)
-    protected Boolean priceByWeight;
-    
-    public Integer getUPC() {
-        return UPC;
-    }
-
-    public void setUPC(Integer UPC) {
-        this.UPC = UPC;
-    }
+    protected Boolean priceByWeight;       
 
     public String getProductName() {
         return productName;

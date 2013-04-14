@@ -1,0 +1,169 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./OpenSaleTemplate.xhtml">
+
+            <ui:define name="PageTitle">
+                Transaction
+            </ui:define>
+
+            <ui:define name="navBar">
+                <div class="brand">Transaction</div>
+            </ui:define>
+
+            <ui:define name="content">
+
+                <div id="userList" class="span8 offset2"> 
+
+                    <h:form>
+                        <p:dataTable value="#{transactionBean.currentTransaction.items}"
+                                     var="rowuser" rows="10" paginator="true">
+
+                            <p:column headerText="Item Name">
+                                <h:outputText value="#{rowuser.product.productName}"/>
+                            </p:column>
+
+                            <p:column headerText="Price">
+                                <h:outputText value="#{rowuser.product.price}"/>
+                            </p:column>
+
+                            <p:column headerText="Quantity">
+                                <h:outputText value="#{rowuser.quantity}"/>
+                            </p:column>
+
+                            <p:column headerText="Purchased Weight">
+                                <h:outputText value="#{rowuser.purchasedWeight}"/>
+                            </p:column>
+
+                            <p:column>
+
+                                <h:commandButton action="#{transactionBean.voidItem()}"
+                                                 value="Void"
+                                                 class="btn">                                   
+                                    <f:setPropertyActionListener 
+                                        target="#{transactionBean.newItemUPC}"
+                                        value="#{rowuser.UPC}"/>                                    
+                                </h:commandButton>
+
+
+
+
+                            </p:column>
+
+
+
+                        </p:dataTable>
+
+                        <br/>
+
+                        <p:dataTable value="#{catalogManagementBean.productList}"
+                                     var="rowuser" rows="10" paginator="true">
+                            <p:column headerText="Product Name">
+                                <h:outputText value="#{rowuser.productName}"/>
+                            </p:column>
+
+                            <p:column headerText="Price">
+                                <h:outputText value="#{rowuser.price}"/>
+                            </p:column>
+
+                            <p:column headerText="Quantity"> 
+                                <p:inputText  required="false"
+                                              label="quantity"   
+                                              style="width: 10%"
+                                              value="#{transactionBean.newItemQuantity}"/>
+
+                            </p:column>  
+
+                            <h:form rendered="#{rowuser.priceByWeight}">
+                                <p:column headerText="Price by Weight"> 
+
+                                    <p:inputText  required="false" 
+                                                  label="weight"   
+                                                  style="width: 10%"
+                                                  value="#{transactionBean.newItemWeight}"/>
+
+                                </p:column> 
+                            </h:form>
+
+
+                            <p:column>
+
+                                <h:commandButton action="#{transactionBean.addItem()}"
+                                                 value="Add"
+                                                 class="btn">                                   
+                                    <f:setPropertyActionListener 
+                                        target="#{transactionBean.newItemUPC}"
+                                        value="#{rowuser.UPC}"/>                                    
+                                </h:commandButton>
+
+
+
+
+                            </p:column>
+                        </p:dataTable>
+
+                        <br/>
+
+                        <p:commandButton id="showButton" value="Add Item By UPC">  
+                            <f:setPropertyActionListener value="#{true}" target="#{requestScope.renderCampNou}" />  
+                        </p:commandButton>  
+
+                        <p:outputPanel id="panel" autoUpdate="true">  
+                            <br/>
+
+                            <h:form  rendered="#{requestScope.renderCampNou}">
+
+                                <h:outputText value="UPC: "/>
+                                <p:inputText  required="true" 
+                                              label="UPC"
+                                              style="width: 10%"                                              
+                                              value="#{transactionBean.newItemUPC}" />
+
+                                <h:outputText value="Item Quantity: "/>
+                                <p:inputText  required="true"
+                                              label="quantity"   
+                                              style="width: 10%"
+                                              value="#{transactionBean.newItemQuantity}"/>
+
+                                <h:outputText value="Item Weight: "/>
+                                <p:inputText  required="false" 
+                                              label="weight"   
+                                              style="width: 10%"
+                                              value="#{transactionBean.newItemWeight}"/>
+
+
+                                <h:commandButton action="#{transactionBean.addItem()}"
+                                                 value="Add"                                                 
+                                                 class="btn"/>                                 
+
+
+
+                            </h:form>
+
+                        </p:outputPanel>  
+
+
+                    </h:form>
+                </div>
+
+
+
+
+
+
+
+
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

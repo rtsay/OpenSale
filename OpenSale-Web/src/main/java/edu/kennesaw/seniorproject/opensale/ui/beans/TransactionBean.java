@@ -3,6 +3,7 @@ package edu.kennesaw.seniorproject.opensale.ui.beans;
 import edu.kennesaw.seniorproject.opensale.entities.ItemEntity;
 import edu.kennesaw.seniorproject.opensale.ui.utilities.InPageMessage;
 import edu.opensale.Payment.LegalTender;
+import edu.opensale.PaymentTypes.PaymentFactory;
 import edu.product.ProductObjects.Product;
 import edu.transaction.TransactionObjects.Item;
 import edu.transaction.TransactionObjects.Transaction;
@@ -38,13 +39,20 @@ public class TransactionBean {
     private Transaction currentTransaction;
     
     private Integer newItemUPC, newItemQuantity;
+    private Double paymentAmount;
     private Double newItemWeight;
-            
-    
-    /* TODO: figure out how to determine Payment Type, use PaymentFactory to 
+    private PaymentFactory paymentType;
+
+     /* TODO: figure out how to determine Payment Type, use PaymentFactory to 
      * create an appropriate Payment from given payment details.
      */
-    private Double paymentAmount;
+    public PaymentFactory getPaymentType() {
+        return paymentType;
+    }
+
+    public void setPaymentType(PaymentFactory paymentType) {
+        this.paymentType = paymentType;
+    }
 
     public Transaction getCurrentTransaction() {
         return currentTransaction;
@@ -187,7 +195,12 @@ public class TransactionBean {
         LegalTender lt = new LegalTender();
         
         /* 3. Process the payment. */
-        currentTransaction.processPayment(lt);
+        try {
+        currentTransaction.processPayment(lt, paymentType);
+        } catch (Exception ex) {
+            Logger.getLogger(TransactionBean.class.getName()).log(Level.SEVERE, null, ex);
+            InPageMessage.addErrorMessage("Payment failed.");
+        }
                         
         /* 4. Render a view with the results -- we need to create a view for 
               this. */

@@ -8,6 +8,8 @@ import edu.common.Permissions.VerifyPermissions;
 import edu.common.UserObjects.User;
 import edu.common.globalSettings.GlobalSettings;
 import edu.opensale.Payment.LegalTender;
+import edu.opensale.Payment.Payment;
+import edu.opensale.PaymentTypes.PaymentFactory;
 import java.util.ArrayList;
 import javax.persistence.MappedSuperclass;
 
@@ -96,9 +98,10 @@ public abstract class Transaction {
         return this.generateSubtotal() * GlobalSettings.getTaxRate();
     }
    
-    public boolean processPayment(LegalTender legalTender)
+    public void processPayment(LegalTender legalTender, PaymentFactory factory)
     {
-        return true;
+        Payment p = factory.create();
+        p.execute(legalTender);
     }
     
     public abstract boolean verifyPermission(User user);

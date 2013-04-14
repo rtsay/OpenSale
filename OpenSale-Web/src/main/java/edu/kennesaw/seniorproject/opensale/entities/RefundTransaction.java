@@ -5,6 +5,8 @@
 package edu.kennesaw.seniorproject.opensale.entities;
 
 import edu.opensale.Payment.LegalTender;
+import edu.opensale.Payment.Payment;
+import edu.opensale.PaymentTypes.PaymentFactory;
 import edu.transaction.TransactionObjects.Transaction;
 import java.io.Serializable;
 import javax.persistence.Entity;
@@ -18,11 +20,6 @@ import javax.persistence.Id;
 public class RefundTransaction extends Transaction implements Serializable{
     @Id
     private Long id;
-
-    @Override
-    public boolean processPayment(LegalTender legalTender) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     @Override
     public boolean verifyPermission(edu.common.UserObjects.User user) {

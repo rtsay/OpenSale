@@ -6,15 +6,16 @@ package org.paypal.Payment;
 
 import edu.opensale.Payment.LegalTender;
 import edu.opensale.Payment.Payment;
+import edu.payment.Exceptions.PaymentMethodMissingException;
 
 /**
  *
  * @author mcbeckler
  */
 class PayPalPayment extends Payment {
-    
+
     @Override
-    protected void execute(LegalTender payment) {
+    public boolean execute(LegalTender payment) throws PaymentMethodMissingException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

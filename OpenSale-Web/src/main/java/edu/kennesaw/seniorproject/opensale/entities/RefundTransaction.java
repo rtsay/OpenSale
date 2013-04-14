@@ -30,7 +30,7 @@ public class RefundTransaction extends Transaction implements Serializable{
     public boolean applyOverride(edu.common.UserObjects.User manager, double price) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
     public Long getId() {
         return id;
     }

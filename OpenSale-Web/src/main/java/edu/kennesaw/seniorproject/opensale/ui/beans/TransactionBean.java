@@ -131,7 +131,7 @@ public class TransactionBean {
         } catch(javax.persistence.NoResultException e) {
             InPageMessage.addErrorMessage("Product does not exist.");
         } 
-        return "currentTransaction";
+        return "transaction";
     }
         
     /**
@@ -147,7 +147,7 @@ public class TransactionBean {
                 this.currentTransaction.voidItem(i);
             }
         }
-        return "currentTransaction";
+        return "transaction";
     }
     
     /**
@@ -163,7 +163,7 @@ public class TransactionBean {
                 this.currentTransaction.unvoidItem(i);
             }
         }
-        return "currentTransaction";
+        return "transaction";
     }
     
     /**

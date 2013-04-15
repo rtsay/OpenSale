@@ -45,37 +45,37 @@
             </h:form>
         </p:dialog>
         
-        <div class="navbar">
-            <div class="container">
+        <div class="navbar navbar-inverse">
+            <div class="navbar-inner">
+                <div class="container">               
+                    
+                    <h:link class="brand" outcome="mainMenu">OpenSale | </h:link>                        
+                    <h:form rendered="#{view.viewId != '/index.xhtml'}">                            
+                        <div class="nav-collapse collapse">
+                            <ui:insert name="navBar">Navbar</ui:insert>                               
+                        </div> 
 
-                <div class="navbar navbar-inverse">
-                    <div class="navbar-inner">
+                        <a class="btn btn-navbar pull-right" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar icon-white"></span>
+                            <span class="icon-bar icon-white"></span>
+                            <span class="icon-bar icon-white"></span>
+                        </a>
+                        <div class="nav-collapse collapse pull-right">
+                            <!-- TODO: this commandButton should show the
+                                        Supervisor Login dialog -->
 
-                        <h:link class="brand" outcome="mainMenu">OpenSale | </h:link>                        
-                        <h:form rendered="#{view.viewId != '/index.xhtml'}">
-                            <div class="nav-collapse collapse">
-                                <ui:insert name="navBar">Navbar</ui:insert>                               
-                            </div> 
+                            <p:commandButton type="button" onclick="dlg.show()"
+                                value="Supervisor Login" styleClass="btn btn-warning"
+                                id="supervisorLoginButton" 
+                                rendered="#{!loginBean.currentUserIsSuperUser()}"/>                                
+                            <h:commandButton action="#{loginBean.logout()}"
+                                             value="Logout" styleClass="btn btn-primary" />  
 
-                            <div class="nav-collapse pull-right">
-                                <!-- TODO: this commandButton should show the
-                                            Supervisor Login dialog -->
-                              	
-                                <p:commandButton type="button" onclick="dlg.show()"
-                                    value="Supervisor Login" styleClass="btn btn-warning"
-                                    id="supervisorLoginButton" 
-                                    rendered="#{!loginBean.currentUserIsSuperUser()}"/>
-                                
-                                <h:commandButton action="#{loginBean.logout()}"
-                                                 value="Logout" styleClass="btn btn-primary" />  
-
-                            </div>
-                        </h:form>                                                
-                        
-                    </div><!-- /.navbar-inner -->
-                </div><!-- /.navbar -->
-
-            </div> <!-- /.container -->
+                        </div>
+                    </h:form>                                                
+                                        
+                </div> <!-- /.container -->
+            </div><!-- /.navbar-inner -->                
         </div><!-- /.navbar-wrapper -->
 
 

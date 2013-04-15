@@ -25,8 +25,12 @@ public abstract class Transaction {
     protected LegalTender payment;
     protected String transactionType;
     
-    public void addItem(Item item){
-        this.items.add(item);
+    public Transaction() {
+        this.items = new ArrayList<Item>();
+    }
+    
+    public void addItem(Item item){       
+        this.items.add(item);        
     }
     
     public void voidItem(Item item){

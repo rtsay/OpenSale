@@ -96,17 +96,16 @@ public class TransactionBean {
         q.setParameter("UPC", newItemUPC);
         try {
             Product p = (Product)q.getSingleResult(); // look up product by UPC
-            
-            // Create a new Item
-            Item i = new ItemEntity();
+                        
+            Item i = new ItemEntity(); // Create a new Item
             i.setProduct(p); // set the Product for that Item
             i.setPurchasedWeight(newItemWeight); // set the weight for the Item
             i.setQuantity(newItemQuantity); // set the Quantity
-            
-            ut.begin(); // open a transaction to persist the Item
-            em.persist(i); // persist it
-            ut.commit(); // commit the transaction
             this.currentTransaction.addItem(i); // add the item to the transaction. 
+            
+            ut.begin(); // open a UserTransaction to persist the Item
+            em.persist(i); // persist the item            
+            ut.commit(); // commit the UserTransaction            
         } catch (RollbackException ex) {
             Logger.getLogger(TransactionBean.class.getName()).log(Level.SEVERE, null, ex);
             InPageMessage.addErrorMessage("Something went wrong; please try again.");
@@ -129,7 +128,7 @@ public class TransactionBean {
             Logger.getLogger(TransactionBean.class.getName()).log(Level.SEVERE, null, ex);
             InPageMessage.addErrorMessage("Something went wrong; please try again.");
         } catch(javax.persistence.NoResultException e) {
-            InPageMessage.addErrorMessage("Product does not exist.");
+            InPageMessage.addErrorMessage("Product does not exist with UPC " + newItemUPC + ".");
         } 
         return "transaction";
     }

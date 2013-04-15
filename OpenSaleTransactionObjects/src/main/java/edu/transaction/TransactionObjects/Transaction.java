@@ -28,12 +28,14 @@ public abstract class Transaction {
     protected LegalTender payment;
     protected String transactionType;
     
-    public Transaction() {
-        this.items = new ArrayList<Item>();
+    public Transaction() {        
     }
     
     public void addItem(Item item){       
-        this.items.add(item);        
+        if (this.items == null) {
+            this.items = new ArrayList<Item>();
+        }
+        this.items.add(item);               
     }
     
     public void voidItem(Item item){

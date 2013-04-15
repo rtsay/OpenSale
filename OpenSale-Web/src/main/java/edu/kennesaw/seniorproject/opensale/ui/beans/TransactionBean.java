@@ -111,8 +111,13 @@ public class TransactionBean {
             i.setQuantity(newItemQuantity); // set the Quantity
             this.currentTransaction.addItem(i); // add the item to the transaction. 
             
-            ut.begin(); // open a UserTransaction to persist the Item
+            ut.begin(); // open a UserTransaction to persist the Item and transaction            
             em.persist(i); // persist the item            
+            if (em.contains(this.currentTransaction)) { 
+                em.merge(this.currentTransaction); // if we've already persisted the Transaction, update it
+            } else {
+                em.persist(this.currentTransaction); // if we haven't persist it now
+            }
             ut.commit(); // commit the UserTransaction            
         } catch (RollbackException ex) {
             Logger.getLogger(TransactionBean.class.getName()).log(Level.SEVERE, null, ex);

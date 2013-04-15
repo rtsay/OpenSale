@@ -93,3 +93,9 @@ h5{
 li{
     display: block;
 }
+
+.voided { 
+    text-decoration: line-through;
+    font-style: italic;
+    color: red;
+}

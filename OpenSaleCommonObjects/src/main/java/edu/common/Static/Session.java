@@ -15,9 +15,9 @@ import edu.common.UserObjects.User;
  * @author mcbeckler
  */
 public class Session {
-    private static Stack<User> currentUsers = new Stack<User>();
+    private Stack<User> currentUsers = new Stack<User>();
     
-    public static User getCurrentUser() throws NoCurrentSessionException
+    public User getCurrentUser() throws NoCurrentSessionException
     {
         if (!currentUsers.empty())
             return currentUsers.peek();
@@ -25,12 +25,12 @@ public class Session {
             throw new NoCurrentSessionException();
     }
     
-    public static void Login(User currentUser)
+    public void Login(User currentUser)
     {
         currentUsers.push(currentUser);
     }
     
-    public static void Logout() throws NoCurrentSessionException
+    public void Logout() throws NoCurrentSessionException
     {
         if (!currentUsers.empty())
             currentUsers.pop();
@@ -38,7 +38,7 @@ public class Session {
             throw new NoCurrentSessionException();
     }
     
-    public static Integer getStackSize() {
+    public Integer getStackSize() {
         return currentUsers.size();
     }
 }

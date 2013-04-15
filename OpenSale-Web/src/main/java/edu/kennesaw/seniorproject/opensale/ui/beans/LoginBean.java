@@ -32,6 +32,12 @@ public class LoginBean {
     // Fields
     private String username;
     private String password;
+    
+    private Session session;
+    
+    public LoginBean() {
+        session = new Session();
+    }
 
     public EntityManager getEntityManager() {
         return entityManager;
@@ -42,11 +48,11 @@ public class LoginBean {
     }
 
     public User getCurrentUser() throws NoCurrentSessionException { 
-       return Session.getCurrentUser();
+       return session.getCurrentUser();
     }
 
     private void setCurrentUser(User currentUser) {
-        Session.Login(currentUser);
+        session.Login(currentUser);
     }
 
     public String getUsername() {
@@ -66,12 +72,12 @@ public class LoginBean {
     }
     
     public boolean isLoggedIn() throws NoCurrentSessionException {
-        return (Session.getCurrentUser() != null);
+        return (session.getCurrentUser() != null);
     }
     
     private boolean currentUserIsRole(EUserTypes role) throws NoCurrentSessionException {
-        return (Session.getCurrentUser().getUserType() != null && 
-                Session.getCurrentUser().getUserType() == role);
+        return (session.getCurrentUser().getUserType() != null && 
+                session.getCurrentUser().getUserType() == role);
     }
     
     public boolean currentUserIsManager() throws NoCurrentSessionException {
@@ -131,12 +137,12 @@ public class LoginBean {
     public String logout() {
         String destination = null;
         try { 
-            if (Session.getStackSize() > 1) { // IF there are multiple users logged in
+            if (session.getStackSize() > 1) { // If there are multiple users logged in
                 destination = "mainMenu"; // we're just popping the top one off, so go back to the Main Menu
-                Session.Logout(); // logout the current user
+                session.Logout(); // logout the current user
             } else { // if there's only one user logged in.
                 destination = "index"; // next stop is the index.
-                Session.Logout(); // log out the current user
+                session.Logout(); // log out the current user
                 // This is a magic thing I did have to look up to destroy the current browser session (just to be safe)
                 FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
             }                        

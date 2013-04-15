@@ -31,15 +31,17 @@ public class ProductEntity extends Product implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
+        @Id
+        protected Integer UPC;
+        
 	public ProductEntity() {
 		super();
 	}   
-        @Override
+        
 	public Integer getUPC() {
 		return this.UPC;
 	}
-
-        @Override
+        
 	public void setUPC(Integer UPC) {
 		this.UPC = UPC;
 	}   

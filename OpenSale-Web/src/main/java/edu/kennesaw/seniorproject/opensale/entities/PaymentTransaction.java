@@ -21,11 +21,6 @@ public class PaymentTransaction extends Transaction implements Serializable {
     private Long id;
 
     @Override
-    public boolean processPayment(LegalTender legalTender) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public boolean verifyPermission(User user) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

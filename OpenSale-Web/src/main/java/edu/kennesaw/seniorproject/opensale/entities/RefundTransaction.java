@@ -5,6 +5,8 @@
 package edu.kennesaw.seniorproject.opensale.entities;
 
 import edu.opensale.Payment.LegalTender;
+import edu.opensale.Payment.Payment;
+import edu.opensale.PaymentTypes.PaymentFactory;
 import edu.transaction.TransactionObjects.Transaction;
 import java.io.Serializable;
 import javax.persistence.Entity;
@@ -20,11 +22,6 @@ public class RefundTransaction extends Transaction implements Serializable{
     private Long id;
 
     @Override
-    public boolean processPayment(LegalTender legalTender) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public boolean verifyPermission(edu.common.UserObjects.User user) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -33,7 +30,7 @@ public class RefundTransaction extends Transaction implements Serializable{
     public boolean applyOverride(edu.common.UserObjects.User manager, double price) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
     public Long getId() {
         return id;
     }

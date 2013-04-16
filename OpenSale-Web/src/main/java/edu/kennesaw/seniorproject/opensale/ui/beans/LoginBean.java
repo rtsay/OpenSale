@@ -71,8 +71,12 @@ public class LoginBean {
         this.password = password;
     }
     
-    public boolean isLoggedIn() throws NoCurrentSessionException {
-        return (session.getCurrentUser() != null);
+    public boolean isLoggedIn() {
+        try {
+            return (session.getCurrentUser() != null);
+        } catch (NoCurrentSessionException ex) {
+            return false;
+        }        
     }
     
     private boolean currentUserIsRole(EUserTypes role) throws NoCurrentSessionException {

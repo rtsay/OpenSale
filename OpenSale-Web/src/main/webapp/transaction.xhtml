@@ -25,21 +25,46 @@
                     <h:form>                        
                         <p:dataTable value="#{transactionBean.currentTransaction.items}"
                                      var="rowuser"
-                                     rowStyleClass="#{rowuser.isVoided ? 'voided' : null}">
-                            <p:column headerText="Item Name">
+                                     rowStyleClass="#{rowuser.isVoided ? 'voided' : null}"
+                                     editable="true" editMode="cell"
+                                     widgetVar="transactionTable">
+                            
+                            <p:ajax event="cellEdit" update="total"/>
+                            
+                            <p:column headerText="Item Name">                                
                                 <h:outputText value="#{rowuser.product.productName}"/>
                             </p:column>
 
-                            <p:column headerText="Price">
-                                <h:outputText value="#{rowuser.product.price}"/>
+                            <p:column headerText="Price">                                
+                                <h:outputText value="#{rowuser.product.price}">
+                                    <f:convertNumber type="currency"/>
+                                </h:outputText>
                             </p:column>
 
                             <p:column headerText="Quantity">
-                                <h:outputText value="#{rowuser.quantity}"/>
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{rowuser.quantity}"/>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText value="#{rowuser.quantity}">
+                                            <f:validateLongRange minimum="1"/>
+                                        </p:inputText>
+                                    </f:facet>
+                                </p:cellEditor>
                             </p:column>
 
                             <p:column headerText="Purchased Weight">
-                                <h:outputText value="#{rowuser.purchasedWeight}"/>
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{rowuser.purchasedWeight}"/>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText value="#{rowuser.purchasedWeight}">
+                                            <f:validateDoubleRange minimum="0.0"/>
+                                        </p:inputText>
+                                    </f:facet>
+                                </p:cellEditor>
                             </p:column>
 
                             <p:column>                                
@@ -52,6 +77,14 @@
                                                  class="btn btn-danger"
                                                  rendered="#{!(rowuser.isVoided)}"/>
                             </p:column>
+                            
+                            <f:facet name="footer">
+                                Your total is 
+                                <h:outputText value="#{transactionBean.currentTransaction.generateTotal()}"
+                                              id="total">
+                                    <f:convertNumber type="currency"/>
+                                </h:outputText>
+                            </f:facet>
 
                         </p:dataTable>
                     </h:form>
@@ -80,7 +113,10 @@
                                           id="newItemQuantity"
                                           label="Quantity"   
                                           style="width: 10%"
-                                          value="#{transactionBean.newItemQuantity}"/>
+                                          value="#{transactionBean.newItemQuantity}"
+                                          >
+                                <f:validateLongRange minimum="1"/>
+                            </p:inputText>
 
                             <p:outputLabel for="newItemWeight" value="Weight: "/>
                             <p:inputText  required="false" 

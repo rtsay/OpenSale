@@ -36,7 +36,9 @@
                         </p:column>
 
                         <p:column headerText="Price">
-                            <h:outputText value="#{rowuser.price}"/>
+                            <h:outputText value="#{rowuser.price}">
+                                <f:convertNumber type="currency"/>
+                            </h:outputText>
                         </p:column>
 
                         <p:column headerText="Price per weight">
@@ -48,7 +50,8 @@
                         </p:column>
 
                         <p:column>
-                            <h:form>                        
+                            <h:form rendered="#{loginBean.currentUserIsAdmin()
+                                                || loginBean.currentUserIsSuperUser()}">
                                 <h:commandButton action="#{catalogManagementBean.editProduct()}"
                                                  value="Edit"
                                                  class="btn">

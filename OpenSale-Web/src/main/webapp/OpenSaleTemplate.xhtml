@@ -44,10 +44,10 @@
                     
             </h:form>
         </p:dialog>
-        
+    <div class="container">            
         <div class="navbar navbar-inverse">
             <div class="navbar-inner">
-                <div class="container">               
+                           
                     
                     <h:link class="brand" outcome="mainMenu">OpenSale | </h:link>                        
                     <h:form rendered="#{view.viewId != '/index.xhtml'}">                            
@@ -82,7 +82,10 @@
 
         <div id="logo">
             <!-- Input OpenSale image -->
-            <h:graphicImage name="img/fancylogo4.jpg"/>
+            <h:link outcome="mainMenu" rendered="#{loginBean.loggedIn}">
+                <h:graphicImage name="img/fancylogo4.jpg"/>
+            </h:link>
+            <h:graphicImage name="img/fancylogo4.jpg" rendered="#{!(loginBean.loggedIn)}"/>
         </div>
         <div id="content" class="container">
             <ui:insert name="content">Content</ui:insert>

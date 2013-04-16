@@ -94,12 +94,16 @@ public class TransactionBean {
         this.paymentAmount = paymentAmount;
     }    
    
+    public boolean isTransactionInProgress() {
+        return (this.currentTransaction != null);
+    }
+    
     /**
      * Adds a given item to the current transaction and redirects/refreshes the
      * Transaction View page
      * @return redirect to the Transaction View page.
      */
-    public String addItem() {        
+    public String addItem() {
         Query q = em.createNamedQuery("ProductEntity.findProductByUPC");
         q.setParameter("UPC", newItemUPC);
         try {
@@ -107,6 +111,9 @@ public class TransactionBean {
                         
             Item i = new ItemEntity(); // Create a new Item
             i.setProduct(p); // set the Product for that Item
+            if (newItemWeight == null) { // default item weight is 0lbs
+                newItemWeight = 0.0; 
+            }
             i.setPurchasedWeight(newItemWeight); // set the weight for the Item
             i.setQuantity(newItemQuantity); // set the Quantity
             this.currentTransaction.addItem(i); // add the item to the transaction. 

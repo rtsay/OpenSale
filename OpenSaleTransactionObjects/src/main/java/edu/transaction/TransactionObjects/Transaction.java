@@ -29,12 +29,10 @@ public abstract class Transaction {
     protected String transactionType;
     
     public Transaction() {        
+        this.items = new ArrayList<Item>();
     }
     
     public void addItem(Item item){       
-        if (this.items == null) {
-            this.items = new ArrayList<Item>();
-        }
         this.items.add(item);               
     }
     
@@ -89,6 +87,9 @@ public abstract class Transaction {
     public double generateSubtotal() {  
        double amount = 0.0;
         for (Item temp : items) {
+            if (temp.getIsVoided()) { // don't include voided items in total
+                continue;
+            }
             if (temp.getProduct().getPriceByWeight())
             {
               amount += (temp.getPurchasedWeight() / temp.getProduct().getWeight()) * temp.getProduct().getPrice();
@@ -102,7 +103,7 @@ public abstract class Transaction {
     }
     
     public double generateTotal() {
-        return this.generateSubtotal() * GlobalSettings.getTaxRate();
+        return this.generateSubtotal() + (this.generateSubtotal() * GlobalSettings.getTaxRate());
     }
    
     public boolean processPayment(LegalTender legalTender, PaymentFactory factory) throws PaymentMethodMissingException

@@ -1,79 +1,81 @@
 body{
-	background-size: cover;
-	background-repeat: no-repeat;
-	text-align:center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    text-align:center;
 }
 
 .login{	
-        background-color: #f1f1f1;        
-        color: black;
-        padding: 1em;
-        box-shadow: 0 0 1em #444;    
-        width:200px;
-        margin:0px auto;     
+    background-color: #f1f1f1;        
+    color: black;
+    padding: 1em;
+    box-shadow: 0 0 1em #444;    
+    width:200px;
+    margin:0px auto;     
 }
 
 .mainMenu{
-        background-color: #f1f1f1;        
-        color: black; 
-        padding: 1em;
-        padding-right:25px;
-        box-shadow: 0 0 1em #444;
-        width: 250px;       
-        margin:0px auto;
+    background-color: #f1f1f1;        
+    color: black; 
+    padding: 1em;
+    padding-right:25px;
+    box-shadow: 0 0 1em #444;
+    width: 250px;       
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1.5em;
 }
 
 .editProduct{
-    
+
 }
 
 
 
 h4{    
-        font-size: 150%;   
+    font-size: 150%;   
 }
 
 h5{    
-        font-size: 200%;   
+    font-size: 200%;   
 }
 
 .navbar .navbarFont{
-  display: block;
-  float: left;
-  padding: 10px 20px 10px;
-  margin-left: -20px;
-  font-size: 20px;
-  font-weight: 200;
-  color: #777777;
-  text-shadow: 0 1px 0 #ffffff;
+    display: block;
+    float: left;
+    padding: 10px 20px 10px;
+    margin-left: -20px;
+    font-size: 20px;
+    font-weight: 200;
+    color: #777777;
+    text-shadow: 0 1px 0 #ffffff;
 }
 
 #logo {
-        margin-bottom: 2em;       
+    margin-bottom: 1em;       
 }
 
 
 #userList{
-        background-color: #f1f1f1;        
-        color: black;
-        padding: 1em;
-        box-shadow: 0 0 1em #444;   
+    background-color: #f1f1f1;        
+    color: black;
+    padding: 1em;
+    box-shadow: 0 0 1em #444;   
 }
 
 #editUser{
-        background-color: #f1f1f1;        
-        color: black;
-        padding: 1em;
-        box-shadow: 0 0 1em #444;       
-        width:500px;
+    background-color: #f1f1f1;        
+    color: black;
+    padding: 1em;
+    box-shadow: 0 0 1em #444;       
+    width:500px;
 }
 
 #editProduct{
-        background-color: #f1f1f1;        
-        color: black;
-        padding: 1em;
-        box-shadow: 0 0 1em #444;
-        width:500px;
+    background-color: #f1f1f1;        
+    color: black;
+    padding: 1em;
+    box-shadow: 0 0 1em #444;
+    width:500px;
 }
 
 .btn-large{
@@ -81,8 +83,8 @@ h5{
 }
 
 .menuPanel {
-        background-color: white;
-        box-shadow: 0 0 0.6em #444;
+    background-color: white;
+    box-shadow: 0 0 0.6em #444;
 }
 
 

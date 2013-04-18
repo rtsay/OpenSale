@@ -123,9 +123,8 @@ public class TransactionBean {
                         
             Item i = new ItemEntity(); // Create a new Item
             i.setProduct(p); // set the Product for that Item
-            if (newItemWeight == null) { // default item weight is 0lbs
-                newItemWeight = 0.0; 
-            }
+            newItemQuantity = newItemQuantity == null ? 1 : newItemQuantity; // default quantity is 1
+            newItemWeight = newItemWeight == null ? 0.0 : newItemWeight;  // default item weight is 0lbs                
             i.setPurchasedWeight(newItemWeight); // set the weight for the Item
             i.setQuantity(newItemQuantity); // set the Quantity
             this.currentTransaction.addItem(i); // add the item to the transaction. 
@@ -159,36 +158,36 @@ public class TransactionBean {
             InPageMessage.addErrorMessage("Product does not exist with UPC " + newItemUPC + ".");
         } 
         return "transaction";
-    }
-        
+    }        
+    
     /**
      * Voids a given item from the current transaction and redirects/refreshes
      * the Transaction View page
-     * @param upc UPC of Item to void from the current transaction
+     * @param i Item to void from the current transaction
      * @return redirect to the Transaction View page.
      */
-    public String voidItem(Integer upc) {
-        for (Item i : this.currentTransaction.getItems()) {
-            if (i.getProduct().getUPC() == upc)
-            {
-                this.currentTransaction.voidItem(i);
-            }
+    public String voidItem(Item i) {
+        int indexOfItem = this.currentTransaction.getItems().indexOf(i);
+        if (indexOfItem > -1) {
+            Item itemInList = this.currentTransaction.getItems().get(indexOfItem);
+            itemInList.setIsVoided(true);
+            this.currentTransaction.getItems().set(indexOfItem, itemInList);
         }
         return "transaction";
     }
     
-    /**
+     /**
      * Unvoids a given item from the current transaction and redirects/refreshes
      * the Transaction View page
-     * @param upc UPC of Item to void from the current transaction
+     * @param i Item to void from the current transaction
      * @return redirect to the Transaction View page.
      */
-    public String unvoidItem(Integer upc) {
-        for (Item i : this.currentTransaction.getItems()) {
-            if (i.getProduct().getUPC() == upc)
-            {
-                this.currentTransaction.unvoidItem(i);
-            }
+    public String unvoidItem(Item i) {
+        int indexOfItem = this.currentTransaction.getItems().indexOf(i);
+        if (indexOfItem > -1) {
+            Item itemInList = this.currentTransaction.getItems().get(indexOfItem);
+            itemInList.setIsVoided(false);
+            this.currentTransaction.getItems().set(indexOfItem, itemInList);
         }
         return "transaction";
     }

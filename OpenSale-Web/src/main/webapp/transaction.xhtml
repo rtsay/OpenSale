@@ -67,11 +67,11 @@
                                 </p:column>
 
                                 <p:column>                                
-                                    <p:commandButton action="#{transactionBean.voidItem(rowuser.product.UPC)}"
+                                    <p:commandButton action="#{transactionBean.voidItem(rowuser)}"
                                                      value="Void"
                                                      styleClass="btn-danger"                                                     
                                                      rendered="#{rowuser.isVoided == false}"/>
-                                    <p:commandButton action="#{transactionBean.unvoidItem(rowuser.product.UPC)}"                                                     
+                                    <p:commandButton action="#{transactionBean.unvoidItem(rowuser)}"                                                     
                                                      value="Unvoid"                                                     
                                                      rendered="#{rowuser.isVoided}"/>                                    
                                 </p:column>
@@ -134,7 +134,9 @@
                         <p:inputText  required="true"
                                       label="quantity"   
                                       style="width: 10%"
-                                      value="#{transactionBean.newItemQuantity}"/>
+                                      value="#{transactionBean.newItemQuantity}">
+                            <f:validateLongRange minimum="1"/>
+                        </p:inputText>
 
                         <h:outputText value="Item Weight: "/>
                         <p:inputText  required="false" 

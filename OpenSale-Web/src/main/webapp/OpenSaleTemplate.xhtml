@@ -65,11 +65,11 @@
                                         Supervisor Login dialog -->
 
                             <p:commandButton type="button" onclick="dlg.show()"
-                                value="Supervisor Login" styleClass="btn btn-warning"
+                                value="Supervisor Login" styleClass="btn-warning"
                                 id="supervisorLoginButton" 
                                 rendered="#{!loginBean.currentUserIsSuperUser()}"/>                                
-                            <h:commandButton action="#{loginBean.logout()}"
-                                             value="Logout" styleClass="btn btn-primary" />  
+                            <p:commandButton action="#{loginBean.logout()}" ajax="false"
+                                             value="Logout" styleClass="btn-primary" />  
 
                         </div>
                     </h:form>                                                

@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -37,6 +38,9 @@ public class TransactionBean {
     @Resource
     private UserTransaction ut;
     private Transaction currentTransaction;
+    
+    @ManagedProperty("#{checkoutBean}")
+    private CheckoutBean checkoutBean;
     
     private Integer newItemUPC, newItemQuantity;
     private Double paymentAmount;
@@ -93,6 +97,14 @@ public class TransactionBean {
     public void setPaymentAmount(Double paymentAmount) {
         this.paymentAmount = paymentAmount;
     }    
+
+    public CheckoutBean getCheckoutBean() {
+        return checkoutBean;
+    }
+
+    public void setCheckoutBean(CheckoutBean checkoutBean) {
+        this.checkoutBean = checkoutBean;
+    }    
    
     public boolean isTransactionInProgress() {
         return (this.currentTransaction != null);
@@ -118,14 +130,10 @@ public class TransactionBean {
             i.setQuantity(newItemQuantity); // set the Quantity
             this.currentTransaction.addItem(i); // add the item to the transaction. 
             
-            ut.begin(); // open a UserTransaction to persist the Item and transaction            
-            em.persist(i); // persist the item            
-            if (em.contains(this.currentTransaction)) { 
-                em.merge(this.currentTransaction); // if we've already persisted the Transaction, update it
-            } else {
-                em.persist(this.currentTransaction); // if we haven't persist it now
-            }
-            ut.commit(); // commit the UserTransaction            
+            ut.begin(); // open a UserTransaction to persist the Item
+            em.persist(i); // persist the item                        
+            ut.commit(); // commit the UserTransaction
+            this.saveTransaction(); // save the current transaction
         } catch (RollbackException ex) {
             Logger.getLogger(TransactionBean.class.getName()).log(Level.SEVERE, null, ex);
             InPageMessage.addErrorMessage("Something went wrong; please try again.");
@@ -185,6 +193,19 @@ public class TransactionBean {
         return "transaction";
     }
     
+    public String checkout() {
+        String destinationPage = null;
+        if (this.currentTransaction != null) {
+            this.saveTransaction(); // save the current transaction
+            checkoutBean.setCurrentTransaction(currentTransaction); // send this transaction to the checkoutBean
+            destinationPage = "checkout"; // FIXME: need to figure out correct view name
+        } else {
+            destinationPage = "mainMenu";
+            InPageMessage.addErrorMessage("No transaction in progress!");
+        }
+        return destinationPage; // go to the next page
+    }
+    
     /**
      * TODO: This method
      * @return redirect to the appropriate page.
@@ -216,6 +237,35 @@ public class TransactionBean {
         /* 4. Render a view with the results -- we need to create a view for 
               this. */
         return "mainMenu";
+    }
+    
+    /**
+     * Helper method to persist/update the current transaction.
+     */
+    private void saveTransaction() {
+        try {
+            ut.begin();
+            if (em.contains(this.currentTransaction)) { 
+                 em.merge(this.currentTransaction); // if we've already persisted the Transaction, update it
+            } else {
+                 em.persist(this.currentTransaction); // if we haven't persist it now
+            }
+            ut.commit();
+        } catch (RollbackException ex) {
+            Logger.getLogger(TransactionBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (HeuristicMixedException ex) {
+            Logger.getLogger(TransactionBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (HeuristicRollbackException ex) {
+            Logger.getLogger(TransactionBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SecurityException ex) {
+            Logger.getLogger(TransactionBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalStateException ex) {
+            Logger.getLogger(TransactionBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NotSupportedException ex) {
+            Logger.getLogger(TransactionBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SystemException ex) {
+            Logger.getLogger(TransactionBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
 }

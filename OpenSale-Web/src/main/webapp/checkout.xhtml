@@ -25,7 +25,7 @@
                             <p:dataTable value="#{transactionBean.currentTransaction.items}"
                                          var="rowuser"
                                          rowStyleClass="#{rowuser.isVoided ? 'voided' : null}"
-                                         editable="true" editMode="cell"
+                                         editable="false"
                                          widgetVar="transactionTable">                                                        
 
                                 <p:column headerText="Item Name">                                
@@ -39,29 +39,11 @@
                                 </p:column>
 
                                 <p:column headerText="Quantity">
-                                    <p:cellEditor>
-                                        <f:facet name="output">
-                                            <h:outputText value="#{rowuser.quantity}"/>
-                                        </f:facet>
-                                        <f:facet name="input">
-                                            <p:inputText value="#{rowuser.quantity}">
-                                                <f:validateLongRange minimum="1"/>
-                                            </p:inputText>
-                                        </f:facet>
-                                    </p:cellEditor>
+                                    <h:outputText value="#{rowuser.quantity}"/>                                    
                                 </p:column>
 
-                                <p:column headerText="Purchased Weight">
-                                    <p:cellEditor>
-                                        <f:facet name="output">
-                                            <h:outputText value="#{rowuser.purchasedWeight}"/>
-                                        </f:facet>
-                                        <f:facet name="input">
-                                            <p:inputText value="#{rowuser.purchasedWeight}">
-                                                <f:validateDoubleRange minimum="0.0"/>
-                                            </p:inputText>
-                                        </f:facet>
-                                    </p:cellEditor>
+                                <p:column headerText="Purchased Weight">                                    
+                                    <h:outputText value="#{rowuser.purchasedWeight}"/>                                        
                                 </p:column>
 
 

@@ -3,6 +3,7 @@ package edu.kennesaw.seniorproject.opensale.ui.beans;
 import edu.kennesaw.seniorproject.opensale.entities.ItemEntity;
 import edu.kennesaw.seniorproject.opensale.ui.utilities.InPageMessage;
 import edu.opensale.Payment.LegalTender;
+import edu.opensale.PaymentTypes.PaymentFactory;
 import edu.product.ProductObjects.Product;
 import edu.transaction.TransactionObjects.Item;
 import edu.transaction.TransactionObjects.Transaction;
@@ -10,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -37,14 +39,24 @@ public class TransactionBean {
     private UserTransaction ut;
     private Transaction currentTransaction;
     
-    private Integer newItemUPC, newItemQuantity;
-    private Double newItemWeight;
-            
+    @ManagedProperty("#{checkoutBean}")
+    private CheckoutBean checkoutBean;
     
-    /* TODO: figure out how to determine Payment Type, use PaymentFactory to 
+    private Integer newItemUPC, newItemQuantity;
+    private Double paymentAmount;
+    private Double newItemWeight;
+    private PaymentFactory paymentType;
+
+     /* TODO: figure out how to determine Payment Type, use PaymentFactory to 
      * create an appropriate Payment from given payment details.
      */
-    private Double paymentAmount;
+    public PaymentFactory getPaymentType() {
+        return paymentType;
+    }
+
+    public void setPaymentType(PaymentFactory paymentType) {
+        this.paymentType = paymentType;
+    }
 
     public Transaction getCurrentTransaction() {
         return currentTransaction;
@@ -85,28 +97,42 @@ public class TransactionBean {
     public void setPaymentAmount(Double paymentAmount) {
         this.paymentAmount = paymentAmount;
     }    
+
+    public CheckoutBean getCheckoutBean() {
+        return checkoutBean;
+    }
+
+    public void setCheckoutBean(CheckoutBean checkoutBean) {
+        this.checkoutBean = checkoutBean;
+    }    
    
+    public boolean isTransactionInProgress() {
+        return (this.currentTransaction != null);
+    }
+    
     /**
      * Adds a given item to the current transaction and redirects/refreshes the
      * Transaction View page
      * @return redirect to the Transaction View page.
      */
-    public String addItem() {        
+    public String addItem() {
         Query q = em.createNamedQuery("ProductEntity.findProductByUPC");
         q.setParameter("UPC", newItemUPC);
         try {
             Product p = (Product)q.getSingleResult(); // look up product by UPC
-            
-            // Create a new Item
-            Item i = new ItemEntity();
+                        
+            Item i = new ItemEntity(); // Create a new Item
             i.setProduct(p); // set the Product for that Item
+            newItemQuantity = newItemQuantity == null ? 1 : newItemQuantity; // default quantity is 1
+            newItemWeight = newItemWeight == null ? 0.0 : newItemWeight;  // default item weight is 0lbs                
             i.setPurchasedWeight(newItemWeight); // set the weight for the Item
             i.setQuantity(newItemQuantity); // set the Quantity
-            
-            ut.begin(); // open a transaction to persist the Item
-            em.persist(i); // persist it
-            ut.commit(); // commit the transaction
             this.currentTransaction.addItem(i); // add the item to the transaction. 
+            
+            ut.begin(); // open a UserTransaction to persist the Item
+            em.persist(i); // persist the item                        
+            ut.commit(); // commit the UserTransaction
+            this.saveTransaction(); // save the current transaction
         } catch (RollbackException ex) {
             Logger.getLogger(TransactionBean.class.getName()).log(Level.SEVERE, null, ex);
             InPageMessage.addErrorMessage("Something went wrong; please try again.");
@@ -129,41 +155,54 @@ public class TransactionBean {
             Logger.getLogger(TransactionBean.class.getName()).log(Level.SEVERE, null, ex);
             InPageMessage.addErrorMessage("Something went wrong; please try again.");
         } catch(javax.persistence.NoResultException e) {
-            InPageMessage.addErrorMessage("Product does not exist.");
+            InPageMessage.addErrorMessage("Product does not exist with UPC " + newItemUPC + ".");
         } 
         return "transaction";
-    }
-        
+    }        
+    
     /**
      * Voids a given item from the current transaction and redirects/refreshes
      * the Transaction View page
-     * @param upc UPC of Item to void from the current transaction
+     * @param i Item to void from the current transaction
      * @return redirect to the Transaction View page.
      */
-    public String voidItem(Integer upc) {
-        for (Item i : this.currentTransaction.getItems()) {
-            if (i.getProduct().getUPC() == upc)
-            {
-                this.currentTransaction.voidItem(i);
-            }
+    public String voidItem(Item i) {
+        int indexOfItem = this.currentTransaction.getItems().indexOf(i);
+        if (indexOfItem > -1) {
+            Item itemInList = this.currentTransaction.getItems().get(indexOfItem);
+            itemInList.setIsVoided(true);
+            this.currentTransaction.getItems().set(indexOfItem, itemInList);
         }
         return "transaction";
     }
     
-    /**
+     /**
      * Unvoids a given item from the current transaction and redirects/refreshes
      * the Transaction View page
-     * @param upc UPC of Item to void from the current transaction
+     * @param i Item to void from the current transaction
      * @return redirect to the Transaction View page.
      */
-    public String unvoidItem(Integer upc) {
-        for (Item i : this.currentTransaction.getItems()) {
-            if (i.getProduct().getUPC() == upc)
-            {
-                this.currentTransaction.unvoidItem(i);
-            }
+    public String unvoidItem(Item i) {
+        int indexOfItem = this.currentTransaction.getItems().indexOf(i);
+        if (indexOfItem > -1) {
+            Item itemInList = this.currentTransaction.getItems().get(indexOfItem);
+            itemInList.setIsVoided(false);
+            this.currentTransaction.getItems().set(indexOfItem, itemInList);
         }
         return "transaction";
+    }
+    
+    public String checkout() {
+        String destinationPage = null;
+        if (this.currentTransaction != null) {
+            this.saveTransaction(); // save the current transaction
+            checkoutBean.setCurrentTransaction(currentTransaction); // send this transaction to the checkoutBean
+            destinationPage = "checkout"; // FIXME: need to figure out correct view name
+        } else {
+            destinationPage = "mainMenu";
+            InPageMessage.addErrorMessage("No transaction in progress!");
+        }
+        return destinationPage; // go to the next page
     }
     
     /**
@@ -187,11 +226,45 @@ public class TransactionBean {
         LegalTender lt = new LegalTender();
         
         /* 3. Process the payment. */
-        currentTransaction.processPayment(lt);
+        try {
+        currentTransaction.processPayment(lt, paymentType);
+        } catch (Exception ex) {
+            Logger.getLogger(TransactionBean.class.getName()).log(Level.SEVERE, null, ex);
+            InPageMessage.addErrorMessage("Payment failed.");
+        }
                         
         /* 4. Render a view with the results -- we need to create a view for 
               this. */
         return "mainMenu";
+    }
+    
+    /**
+     * Helper method to persist/update the current transaction.
+     */
+    private void saveTransaction() {
+        try {
+            ut.begin();
+            if (em.contains(this.currentTransaction)) { 
+                 em.merge(this.currentTransaction); // if we've already persisted the Transaction, update it
+            } else {
+                 em.persist(this.currentTransaction); // if we haven't persist it now
+            }
+            ut.commit();
+        } catch (RollbackException ex) {
+            Logger.getLogger(TransactionBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (HeuristicMixedException ex) {
+            Logger.getLogger(TransactionBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (HeuristicRollbackException ex) {
+            Logger.getLogger(TransactionBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SecurityException ex) {
+            Logger.getLogger(TransactionBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalStateException ex) {
+            Logger.getLogger(TransactionBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NotSupportedException ex) {
+            Logger.getLogger(TransactionBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SystemException ex) {
+            Logger.getLogger(TransactionBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
 }

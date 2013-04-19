@@ -22,10 +22,10 @@ public abstract class Item implements Serializable{
     protected Integer quantity;
     @Column(nullable = true)
     protected Double purchasedWeight;
-    @Column(nullable = true)
-    protected Boolean isVoided;
+    @Column(nullable = false)
+    protected Boolean isVoided = false;
 
-    public Boolean getIsVoided() {
+    public Boolean getIsVoided() {        
         return isVoided;
     }
 

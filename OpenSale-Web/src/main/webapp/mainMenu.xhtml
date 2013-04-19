@@ -27,12 +27,23 @@
 
                         <ul>
                             <li><h5>Sales</h5></li>
+                            <h:panelGroup rendered="#{transactionBean.transactionInProgress}">
+                                <li><h:button outcome="transaction" 
+                                              value="Resume Transaction"
+                                              class="btn btn-info btn-large"/></li>
+                            </h:panelGroup>
                             <li><h:commandButton action="#{mainMenuBean.createSale()}"
                                                  value="New Sale"
-                                                 class="btn btn-large"/></li>
+                                                 class="btn btn-large"
+                                                 onclick="if(#{transactionBean.transactionInProgress}) return confirm('This will destroy the current transaction in progress! Are you sure you want to continue?')"
+                                                 />
+                            </li>
                             <li><h:commandButton action="#{mainMenuBean.createRefund()}"                                        
                                                  value="New Refund"
-                                                 class="btn btn-large"/></li>
+                                                 class="btn btn-large"
+                                                 onclick="if(#{transactionBean.transactionInProgress}) return confirm('This will destroy the current transaction in progress! Are you sure you want to continue?')"
+                                                 />
+                            </li>
                             <li><h:commandButton action="catalog"                                         
                                                  value="View Catalog"
                                                  class="btn btn-large" /></li> 
@@ -43,13 +54,15 @@
                                                      value="Extra Discount"
                                                      class="btn btn-large"/></li>  
                                                         
-                                <li><h5>Title</h5></li>
+                                <li><h5>Administration</h5></li>
                                 <li><h:commandButton action="userList"                                                 
                                                      value="User List"
                                                      class="btn btn-large"/></li>                          
                                 <li><h:commandButton action="catalog"                                                
                                                      value="Manage Catalog"
-                                                     class="btn btn-large"/></li> 
+                                                     class="btn btn-large"
+                                                     rendered="#{loginBean.currentUserIsAdmin()
+                                                                 || loginBean.currentUserIsSuperUser()}"/></li> 
                             </h:form>
 
 

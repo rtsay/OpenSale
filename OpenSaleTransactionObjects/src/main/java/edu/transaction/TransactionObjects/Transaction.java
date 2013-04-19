@@ -8,6 +8,9 @@ import edu.common.Permissions.VerifyPermissions;
 import edu.common.UserObjects.User;
 import edu.common.globalSettings.GlobalSettings;
 import edu.opensale.Payment.LegalTender;
+import edu.opensale.Payment.Payment;
+import edu.opensale.PaymentTypes.PaymentFactory;
+import edu.payment.Exceptions.PaymentMethodMissingException;
 import java.util.ArrayList;
 import javax.persistence.MappedSuperclass;
 
@@ -25,8 +28,12 @@ public abstract class Transaction {
     protected LegalTender payment;
     protected String transactionType;
     
-    public void addItem(Item item){
-        this.items.add(item);
+    public Transaction() {        
+        this.items = new ArrayList<Item>();
+    }
+    
+    public void addItem(Item item){       
+        this.items.add(item);               
     }
     
     public void voidItem(Item item){
@@ -80,6 +87,9 @@ public abstract class Transaction {
     public double generateSubtotal() {  
        double amount = 0.0;
         for (Item temp : items) {
+            if (temp.getIsVoided()) { // don't include voided items in total
+                continue;
+            }
             if (temp.getProduct().getPriceByWeight())
             {
               amount += (temp.getPurchasedWeight() / temp.getProduct().getWeight()) * temp.getProduct().getPrice();
@@ -93,12 +103,13 @@ public abstract class Transaction {
     }
     
     public double generateTotal() {
-        return this.generateSubtotal() * GlobalSettings.getTaxRate();
+        return this.generateSubtotal() + (this.generateSubtotal() * GlobalSettings.getTaxRate());
     }
    
-    public boolean processPayment(LegalTender legalTender)
+    public boolean processPayment(LegalTender legalTender, PaymentFactory factory) throws PaymentMethodMissingException
     {
-        return true;
+        Payment p = factory.create();
+        return p.execute(legalTender);
     }
     
     public abstract boolean verifyPermission(User user);

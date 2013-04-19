@@ -31,7 +31,7 @@ import javax.persistence.NamedQuery;
     ), // Used for login -- fetch a user by username and (hashed) password
     @NamedQuery(
         name = "UserEntity.getEditableUsers",
-        query = "select u from UserEntity u where u.userType <= :loggedInUserType"
+        query = "select u from UserEntity u where u.userType < :loggedInUserType"
     ), // Used for User Management screen -- users may only edit lower-role users
     @NamedQuery(
         name = "UserEntity.findManagerByLogin",

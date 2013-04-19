@@ -22,148 +22,136 @@
 
                 <div id="userList" class="span8 offset2"> 
 
-                    <h:form>
-                        <p:dataTable value="#{transactionBean.currentTransaction.items}"
-                                     var="rowuser" rows="10" paginator="true">
+                    <p:outputPanel autoUpdate="true">
+                        <h:form>                        
+                            <p:dataTable value="#{transactionBean.currentTransaction.items}"
+                                         var="rowuser"
+                                         rowStyleClass="#{rowuser.isVoided ? 'voided' : null}"
+                                         editable="true" editMode="cell"
+                                         widgetVar="transactionTable">                                                        
 
-                            <p:column headerText="Item Name">
-                                <h:outputText value="#{rowuser.product.productName}"/>
-                            </p:column>
+                                <p:column headerText="Item Name">                                
+                                    <h:outputText value="#{rowuser.product.productName}"/>
+                                </p:column>
 
-                            <p:column headerText="Price">
-                                <h:outputText value="#{rowuser.product.price}"/>
-                            </p:column>
+                                <p:column headerText="Price">                                
+                                    <h:outputText value="#{rowuser.product.price}">
+                                        <f:convertNumber type="currency"/>
+                                    </h:outputText>
+                                </p:column>
 
-                            <p:column headerText="Quantity">
-                                <h:outputText value="#{rowuser.quantity}"/>
-                            </p:column>
+                                <p:column headerText="Quantity">
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{rowuser.quantity}"/>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText value="#{rowuser.quantity}">
+                                                <f:validateLongRange minimum="1"/>
+                                            </p:inputText>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
 
-                            <p:column headerText="Purchased Weight">
-                                <h:outputText value="#{rowuser.purchasedWeight}"/>
-                            </p:column>
+                                <p:column headerText="Purchased Weight">
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{rowuser.purchasedWeight}"/>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText value="#{rowuser.purchasedWeight}">
+                                                <f:validateDoubleRange minimum="0.0"/>
+                                            </p:inputText>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
 
-                            <p:column>
+                                <p:column>                                
+                                    <p:commandButton action="#{transactionBean.voidItem(rowuser)}"
+                                                     value="Void"
+                                                     styleClass="btn-danger"                                                     
+                                                     rendered="#{rowuser.isVoided == false}"/>
+                                    <p:commandButton action="#{transactionBean.unvoidItem(rowuser)}"                                                     
+                                                     value="Unvoid"                                                     
+                                                     rendered="#{rowuser.isVoided}"/>                                    
+                                </p:column>
 
-                                <h:commandButton action="#{transactionBean.voidItem()}"
-                                                 value="Void"
-                                                 class="btn btn-danger">                                   
-                                    <f:setPropertyActionListener 
-                                        target="#{transactionBean.newItemUPC}"
-                                        value="#{rowuser.UPC}"/>                                    
-                                </h:commandButton>
+                                <f:facet name="footer">
+                                    Your total is 
+                                    <h:outputText value="#{transactionBean.currentTransaction.generateTotal()}"
+                                                  id="total">
+                                        <f:convertNumber type="currency"/>
+                                    </h:outputText>                                
+                                </f:facet>
 
+                            </p:dataTable>
+                        </h:form>
+                    </p:outputPanel> 
+                    <br/>
+                    <p:button onclick="$('#addByNameForm').toggle();$('#addByUPCForm').hide();return false;" value="Add Item By Name"/>
+                    <p:button onclick="$('#addByUPCForm').toggle();$('#addByNameForm').hide();return false;" value="Add Item By UPC"/>                   
 
+                    <h:form id="addByNameForm" class="form-inline" style="display:none;">
+                        <p:selectOneMenu value="#{transactionBean.newItemUPC}"
+                                         filter="true" filterMatchMode="contains">
+                            <f:selectItems value="#{catalogManagementBean.productList}"
+                                           var="product"
+                                           itemValue="#{product.UPC}"
+                                           itemLabel="#{product.productName}"/>                        
 
+                        </p:selectOneMenu>
+                        <p:outputLabel for="newItemQuantity" value="Quantity: "/>
+                        <p:inputText  required="false"
+                                      id="newItemQuantity"
+                                      label="Quantity"   
+                                      style="width: 10%"
+                                      value="#{transactionBean.newItemQuantity}"
+                                      >
+                            <f:validateLongRange minimum="1"/>
+                        </p:inputText>
 
-                            </p:column>
+                        <p:outputLabel for="newItemWeight" value="Weight: "/>
+                        <p:inputText  required="false" 
+                                      id="newItemWeight"
+                                      label="Weight"
+                                      style="width: 10%"
+                                      value="#{transactionBean.newItemWeight}"/>                           
 
+                        <h:commandButton action="#{transactionBean.addItem()}"
+                                         value="Add"
+                                         class="btn">                                                                       
+                        </h:commandButton>                            
+                    </h:form>                                        
 
+                    <h:form id="addByUPCForm" class="form-inline" style="display:none">
+                        <h:outputText value="UPC: "/>
+                        <p:inputText  required="true" 
+                                      label="UPC"
+                                      style="width: 10%"                                              
+                                      value="#{transactionBean.newItemUPC}" />
 
-                        </p:dataTable>
+                        <h:outputText value="Item Quantity: "/>
+                        <p:inputText  required="true"
+                                      label="quantity"   
+                                      style="width: 10%"
+                                      value="#{transactionBean.newItemQuantity}">
+                            <f:validateLongRange minimum="1"/>
+                        </p:inputText>
 
-                        <br/>
-
-                        <p:dataTable value="#{catalogManagementBean.productList}"
-                                     var="rowuser" rows="10" paginator="true">
-                            <p:column headerText="Product Name">
-                                <h:outputText value="#{rowuser.productName}"/>
-                            </p:column>
-
-                            <p:column headerText="Price">
-                                <h:outputText value="#{rowuser.price}"/>
-                            </p:column>
-
-                            <p:column headerText="Quantity"> 
-                                <p:inputText  required="false"
-                                              label="quantity"   
-                                              style="width: 10%"
-                                              value="#{transactionBean.newItemQuantity}"/>
-
-                            </p:column>  
-
-                            <h:form rendered="#{rowuser.priceByWeight}">
-                                <p:column headerText="Price by Weight"> 
-
-                                    <p:inputText  required="false" 
-                                                  label="weight"   
-                                                  style="width: 10%"
-                                                  value="#{transactionBean.newItemWeight}"/>
-
-                                </p:column> 
-                            </h:form>
-
-
-                            <p:column>
-
-                                <h:commandButton action="#{transactionBean.addItem()}"
-                                                 value="Add"
-                                                 class="btn">                                   
-                                    <f:setPropertyActionListener 
-                                        target="#{transactionBean.newItemUPC}"
-                                        value="#{rowuser.UPC}"/>                                    
-                                </h:commandButton>
-
-
-
-
-                            </p:column>
-                        </p:dataTable>
-
-                        <br/>
-
-                        <p:commandButton id="showButton" value="Add Item By UPC">  
-                            <f:setPropertyActionListener value="#{true}" target="#{requestScope.renderCampNou}" />  
-                        </p:commandButton>  
-
-                        <p:outputPanel id="panel" autoUpdate="true">  
-                            <br/>
-
-                            <h:form  rendered="#{requestScope.renderCampNou}">
-
-                                <h:outputText value="UPC: "/>
-                                <p:inputText  required="true" 
-                                              label="UPC"
-                                              style="width: 10%"                                              
-                                              value="#{transactionBean.newItemUPC}" />
-
-                                <h:outputText value="Item Quantity: "/>
-                                <p:inputText  required="true"
-                                              label="quantity"   
-                                              style="width: 10%"
-                                              value="#{transactionBean.newItemQuantity}"/>
-
-                                <h:outputText value="Item Weight: "/>
-                                <p:inputText  required="false" 
-                                              label="weight"   
-                                              style="width: 10%"
-                                              value="#{transactionBean.newItemWeight}"/>
-
-
-                                <h:commandButton action="#{transactionBean.addItem()}"
-                                                 value="Add"                                                 
-                                                 class="btn"/>                                 
-
-
-
-                            </h:form>
-
-                        </p:outputPanel>  
+                        <h:outputText value="Item Weight: "/>
+                        <p:inputText  required="false" 
+                                      label="weight"   
+                                      style="width: 10%"
+                                      value="#{transactionBean.newItemWeight}"/>
 
 
-                    </h:form>
+                        <h:commandButton action="#{transactionBean.addItem()}"
+                                         value="Add"                                                 
+                                         class="btn"/>                                 
+
+                    </h:form>                    
                 </div>
-
-
-
-
-
-
-
-
-
             </ui:define>
-
-        </ui:composition>
-
+        </ui:composition>        
     </body>
 </html>

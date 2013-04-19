@@ -10,14 +10,14 @@ package edu.common.globalSettings;
  */
 
 public class GlobalSettings {
-    private static double taxRate = 0.0;
+    private static double taxRate = 0.07; // defaults to GA sales tax rate for demo purposes
 
     public static double getTaxRate() {
         return taxRate;
     }
 
     public static void setTaxRate(double taxRate) {
-        taxRate = taxRate;
+        GlobalSettings.taxRate = taxRate;
     }
 
 }

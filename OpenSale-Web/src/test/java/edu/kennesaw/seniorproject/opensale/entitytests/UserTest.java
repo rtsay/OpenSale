@@ -26,14 +26,15 @@ public class UserTest {
         User defaultuser = new UserEntity();
         defaultuser.setPermissions(new Permissions()); //required
         defaultuser.setUserType(EUserTypes.SuperUser); //required
-        Session.Login(defaultuser);
+        Session session = new Session();
+        session.Login(defaultuser);
 
         try {
             testCashier = new UserEntity("cashier", "cashier", EUserTypes.Cashier, new Permissions(), defaultuser);
             testManager = new UserEntity("manager", "manager", EUserTypes.Manager, new Permissions(), defaultuser);
             //testAdmin = new UserEntity("admin", "admin", EUserTypes.Adminstrator, new Permissions());
             //testSuperUser = new UserEntity("superuser", "superuser", EUserTypes.SuperUser, new Permissions());
-            Session.Login(testCashier);
+            session.Login(testCashier);
         } catch (InsufficentPermissionException ex) {
             Assert.fail(ex.getMessage());
         }

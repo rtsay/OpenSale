@@ -20,6 +20,28 @@
             </ui:define>
 
             <ui:define name="content">
+                <p:dialog header="Refund" widgetVar="dlg">
+
+                    <h:form id="Refund">
+
+                        <h:panelGrid columns="2" cellpadding="5">
+                            <h:outputLabel for="Refund" value="Transaction ID: *" />
+                            <p:inputText  
+                                         id="Refund" requiredMessage="Transaction ID is required"
+                                         label="Refund" >
+                                <f:validateRequired/>
+                            </p:inputText>
+
+                            <f:facet name="footer">
+                                <h:commandButton 
+                                                 value="Submit" class="btn btn-primary"/>                        
+                                <button class="btn" type="reset">Clear</button>
+                                <button class="btn" type="cancel">Cancel</button>
+                            </f:facet>
+                        </h:panelGrid>
+
+                    </h:form>
+                </p:dialog>
 
                 <div class="mainMenu">                    
                     <h:form >
@@ -35,14 +57,15 @@
                             <li><h:commandButton action="#{mainMenuBean.createSale()}"
                                                  value="New Sale"
                                                  class="btn btn-large"
-                                                 onclick="if(#{transactionBean.transactionInProgress}) return confirm('This will destroy the current transaction in progress! Are you sure you want to continue?')"
+                                                 onclick="if (#{transactionBean.transactionInProgress})
+                                                             return confirm('This will destroy the current transaction in progress! Are you sure you want to continue?')"
                                                  />
                             </li>
-                            <li><h:commandButton action="#{mainMenuBean.createRefund()}"                                        
-                                                 value="New Refund"
-                                                 class="btn btn-large"
-                                                 onclick="if(#{transactionBean.transactionInProgress}) return confirm('This will destroy the current transaction in progress! Are you sure you want to continue?')"
-                                                 />
+                            <li><h:commandButton type="button"
+                                    value="Refund"  class="btn btn-large"
+                                    onclick="if (dlg.show())
+                                                             return confirm('This will destroy the current transaction in progress! Are you sure you want to continue?')"
+                                    />
                             </li>
                             <li><h:commandButton action="catalog"                                         
                                                  value="View Catalog"
@@ -53,7 +76,7 @@
                                 <li><h:commandButton action="extraDiscount"                                                
                                                      value="Extra Discount"
                                                      class="btn btn-large"/></li>  
-                                                        
+
                                 <li><h5>Administration</h5></li>
                                 <li><h:commandButton action="userList"                                                 
                                                      value="User List"

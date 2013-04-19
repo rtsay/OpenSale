@@ -42,21 +42,8 @@ public class TransactionBean {
     @ManagedProperty("#{checkoutBean}")
     private CheckoutBean checkoutBean;
     
-    private Integer newItemUPC, newItemQuantity;
-    private Double paymentAmount;
-    private Double newItemWeight;
-    private PaymentFactory paymentType;
-
-     /* TODO: figure out how to determine Payment Type, use PaymentFactory to 
-     * create an appropriate Payment from given payment details.
-     */
-    public PaymentFactory getPaymentType() {
-        return paymentType;
-    }
-
-    public void setPaymentType(PaymentFactory paymentType) {
-        this.paymentType = paymentType;
-    }
+    private Integer newItemUPC, newItemQuantity;    
+    private Double newItemWeight;       
 
     public Transaction getCurrentTransaction() {
         return currentTransaction;
@@ -88,15 +75,7 @@ public class TransactionBean {
 
     public void setNewItemWeight(Double newItemWeight) {
         this.newItemWeight = newItemWeight;
-    }
-
-    public Double getPaymentAmount() {
-        return paymentAmount;
-    }
-
-    public void setPaymentAmount(Double paymentAmount) {
-        this.paymentAmount = paymentAmount;
-    }    
+    }       
 
     public CheckoutBean getCheckoutBean() {
         return checkoutBean;
@@ -203,40 +182,7 @@ public class TransactionBean {
             InPageMessage.addErrorMessage("No transaction in progress!");
         }
         return destinationPage; // go to the next page
-    }
-    
-    /**
-     * TODO: This method
-     * @return redirect to the appropriate page.
-     */
-    public String completeTransaction() {        
-        /**
-         * This method needs to:
-         *  1. get payment information as formdata
-         *  2. Create a Payment object
-         *  3. Process the payment
-         *  4. Render a view with results
-         */
-        
-        /* 1. Get payment information as formdata -- done by having a "pay now" 
-              primefaces dialog */
-        
-        /* 2. Create a Payment object -- will need to use PaymentFactory for 
-              that.*/
-        LegalTender lt = new LegalTender();
-        
-        /* 3. Process the payment. */
-        try {
-        currentTransaction.processPayment(lt, paymentType);
-        } catch (Exception ex) {
-            Logger.getLogger(TransactionBean.class.getName()).log(Level.SEVERE, null, ex);
-            InPageMessage.addErrorMessage("Payment failed.");
-        }
-                        
-        /* 4. Render a view with the results -- we need to create a view for 
-              this. */
-        return "mainMenu";
-    }
+    }       
     
     /**
      * Helper method to persist/update the current transaction.

@@ -66,25 +66,29 @@
                         <p:separator />  
 
                         <h4>Payment Type:</h4>
-                        <p:selectOneButton value="#checkoutBean.PaymentType}" style="margin: 10px">  
-
-                            <f:selectItem itemLabel="Cash" itemValue="1" />  
-                            <f:selectItem itemLabel="Paypal" itemValue="2" />  
-                            <f:selectItem itemLabel="Credit Card" itemValue="3"/>
-                            <f:selectItem itemLabel="Check" itemValue="4" />
-
+                        <p:selectOneButton value="#{checkoutBean.paymentType}" style="margin: 10px"
+                                           widgetVar="paymentTypeBtn">  
+                            <f:selectItem itemLabel="Cash" itemValue="Cash" />  
+                            <f:selectItem itemLabel="Paypal" itemValue="Paypal" />  
+                            <f:selectItem itemLabel="Credit Card" itemValue="CreditCard"/>
+                            <f:selectItem itemLabel="Check" itemValue="Check" />
+                            <f:validateRequired/>                            
                         </p:selectOneButton>  
-
-
+                        
+                        <p:outputPanel autoUpdate="true" id="cardInfo">
+                            <p:outputPanel rendered="#{paymentType}">
+                                <p:outputLabel for="creditCardNumberInput" value="Card number: "/>
+                                <p:inputText value="#{checkoutBean.creditCardNumber}" id="creditCardNumberInput">
+                                    <f:validateRequired/>
+                                </p:inputText>                            
+                            </p:outputPanel>
+                        </p:outputPanel>
+                        
+                        <p:separator />
 
                         <h:commandButton action="#{checkoutBean.submit}"
                                          value="Submit" class="btn btn-primary"/>  
                     </h:form>
-
-
-
-
-
 
                 </div> 
             </ui:define>

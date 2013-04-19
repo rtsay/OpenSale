@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <body>
+
+        <ui:composition template="./OpenSaleTemplate.xhtml">
+
+            <ui:define name="PageTitle">
+                Checkout
+            </ui:define>
+
+            <ui:define name="navBar">
+                <div class="brand">Checkout</div>
+            </ui:define>
+
+            <ui:define name="content">
+                <div id="userList" class="span8 offset2"> 
+                    <p:outputPanel autoUpdate="true">
+                        <h:form>                        
+                            <p:dataTable value="#{transactionBean.currentTransaction.items}"
+                                         var="rowuser"
+                                         rowStyleClass="#{rowuser.isVoided ? 'voided' : null}"
+                                         editable="true" editMode="cell"
+                                         widgetVar="transactionTable">                                                        
+
+                                <p:column headerText="Item Name">                                
+                                    <h:outputText value="#{rowuser.product.productName}"/>
+                                </p:column>
+
+                                <p:column headerText="Price">                                
+                                    <h:outputText value="#{rowuser.product.price}">
+                                        <f:convertNumber type="currency"/>
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column headerText="Quantity">
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{rowuser.quantity}"/>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText value="#{rowuser.quantity}">
+                                                <f:validateLongRange minimum="1"/>
+                                            </p:inputText>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+
+                                <p:column headerText="Purchased Weight">
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{rowuser.purchasedWeight}"/>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText value="#{rowuser.purchasedWeight}">
+                                                <f:validateDoubleRange minimum="0.0"/>
+                                            </p:inputText>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+
+
+                                <f:facet name="footer">
+                                    Your total is 
+                                    <h:outputText value="#{transactionBean.currentTransaction.generateTotal()}"
+                                                  id="total">
+                                        <f:convertNumber type="currency"/>
+                                    </h:outputText>                                
+                                </f:facet>
+
+                            </p:dataTable>
+                        </h:form>
+                    </p:outputPanel>
+                    <h:form>
+                        <h:button outcome="transaction" 
+                                  value="Back"
+                                  class="btn"/>     
+
+                        <p:separator />  
+
+                        <h4>Payment Type:</h4>
+                        <p:selectOneButton value="#checkoutBean.PaymentType}" style="margin: 10px">  
+
+                            <f:selectItem itemLabel="Cash" itemValue="1" />  
+                            <f:selectItem itemLabel="Paypal" itemValue="2" />  
+
+                        </p:selectOneButton>  
+
+
+
+                        <h:commandButton action="#{checkoutBean.submit}"
+                                         value="Submit" class="btn btn-primary"/>  
+                    </h:form>
+
+
+
+
+
+
+                </div> 
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

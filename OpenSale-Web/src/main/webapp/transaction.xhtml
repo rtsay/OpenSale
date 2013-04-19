@@ -11,11 +11,11 @@
         <ui:composition template="./OpenSaleTemplate.xhtml">
 
             <ui:define name="PageTitle">
-                Transaction
+                Checkout
             </ui:define>
 
             <ui:define name="navBar">
-                <div class="brand">Transaction</div>
+                <div class="brand">Checkout</div>
             </ui:define>
 
             <ui:define name="content">
@@ -79,7 +79,7 @@
                                 <f:facet name="footer">
                                     Your total is 
                                     <h:outputText value="#{transactionBean.currentTransaction.generateTotal()}"
-                                                  id="total">
+                                                  id="total"> 
                                         <f:convertNumber type="currency"/>
                                     </h:outputText>                                
                                 </f:facet>
@@ -88,12 +88,17 @@
                         </h:form>
                     </p:outputPanel> 
                     <br/>
-                    <p:button onclick="$('#addByNameForm').toggle();$('#addByUPCForm').hide();return false;" value="Add Item By Name"/>
-                    <p:button onclick="$('#addByUPCForm').toggle();$('#addByNameForm').hide();return false;" value="Add Item By UPC"/>                   
+                    <p:button style="margin-bottom: 10px" onclick="$('#addByNameForm').toggle();
+                            $('#addByUPCForm').hide();
+                            return false;" value="Add Item By Name"/>
+                    <p:button style="margin-bottom: 10px" onclick="$('#addByUPCForm').toggle();
+                            $('#addByNameForm').hide();
+                            return false;" value="Add Item By UPC"/>                   
 
                     <h:form id="addByNameForm" class="form-inline" style="display:none;">
                         <p:selectOneMenu value="#{transactionBean.newItemUPC}"
-                                         filter="true" filterMatchMode="contains">
+                                         filter="true" filterMatchMode="contains"
+                                         style="margin-right: 5px">
                             <f:selectItems value="#{catalogManagementBean.productList}"
                                            var="product"
                                            itemValue="#{product.UPC}"
@@ -110,7 +115,7 @@
                             <f:validateLongRange minimum="1"/>
                         </p:inputText>
 
-                        <p:outputLabel for="newItemWeight" value="Weight: "/>
+                        <p:outputLabel style="margin-left: 5px" for="newItemWeight" value="Weight: "/>
                         <p:inputText  required="false" 
                                       id="newItemWeight"
                                       label="Weight"
@@ -119,6 +124,7 @@
 
                         <h:commandButton action="#{transactionBean.addItem()}"
                                          value="Add"
+                                         style="margin-left: 5px"
                                          class="btn">                                                                       
                         </h:commandButton>                            
                     </h:form>                                        
@@ -130,7 +136,7 @@
                                       style="width: 10%"                                              
                                       value="#{transactionBean.newItemUPC}" />
 
-                        <h:outputText value="Item Quantity: "/>
+                        <h:outputText style="margin-left: 5px" value="Item Quantity: "/>
                         <p:inputText  required="true"
                                       label="quantity"   
                                       style="width: 10%"
@@ -138,7 +144,7 @@
                             <f:validateLongRange minimum="1"/>
                         </p:inputText>
 
-                        <h:outputText value="Item Weight: "/>
+                        <h:outputText style="margin-left: 5px" value="Item Weight: "/>
                         <p:inputText  required="false" 
                                       label="weight"   
                                       style="width: 10%"
@@ -146,10 +152,17 @@
 
 
                         <h:commandButton action="#{transactionBean.addItem()}"
-                                         value="Add"                                                 
-                                         class="btn"/>                                 
+                                         value="Add"
+                                         style="margin-left: 5px"
+                                         class="btn"/>        
 
-                    </h:form>                    
+
+
+                    </h:form>   
+                    <h:form style="margin: 10px">
+                        <h:commandButton action="checkout"
+                                         value="Checkout" class="btn btn-success"/>  
+                    </h:form>
                 </div>
             </ui:define>
         </ui:composition>        

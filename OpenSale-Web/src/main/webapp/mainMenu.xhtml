@@ -25,18 +25,18 @@
                     <h:form id="Refund">
 
                         <h:panelGrid columns="2" cellpadding="5">
-                            <h:outputLabel for="Refund" value="Transaction ID: *" />
+                            <h:outputLabel for="refundIdInput" value="Transaction ID: *" />
                             <p:inputText  
-                                         id="Refund" requiredMessage="Transaction ID is required"
-                                         label="Refund" >
+                                         id="refundIdInput" requiredMessage="Transaction ID is required"
+                                         label="Refund" value="#{mainMenuBean.refundTransactionId}">
                                 <f:validateRequired/>
                             </p:inputText>
 
                             <f:facet name="footer">
-                                <h:commandButton 
-                                                 value="Submit" class="btn btn-primary"/>                        
-                                <button class="btn" type="reset">Clear</button>
-                                <button class="btn" type="cancel">Cancel</button>
+                                <h:commandButton value="Submit" class="btn btn-primary"
+                                                 action="#{mainMenuBean.refundTransactionById()}"/>
+                                <button class="btn" type="Reset">Clear</button>
+                                <button class="btn" type="Cancel">Cancel</button>
                             </f:facet>
                         </h:panelGrid>
 

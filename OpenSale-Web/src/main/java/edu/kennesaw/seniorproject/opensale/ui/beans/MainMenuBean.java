@@ -37,10 +37,10 @@ public class MainMenuBean {
     private TransactionBean transactionBean;
     
     @ManagedProperty(value="#{loginBean}")
-    private LoginBean loginBean;
+    private LoginBean loginBean;        
     
-    // Properties used for manager authorization
-    private String authorizingManagerUsername, authorizingManagerPassword;
+    // Used for refunding a transaction by id
+    private Long refundTransactionId;
     
     /**
      * Creates a new instance of MainMenuBean
@@ -62,22 +62,14 @@ public class MainMenuBean {
 
     public void setLoginBean(LoginBean loginBean) {
         this.loginBean = loginBean;
-    }   
+    }      
 
-    public String getAuthorizingManagerUsername() {
-        return authorizingManagerUsername;
+    public Long getRefundTransactionId() {
+        return refundTransactionId;
     }
 
-    public void setAuthorizingManagerUsername(String authorizingManagerUsername) {
-        this.authorizingManagerUsername = authorizingManagerUsername;
-    }
-
-    public String getAuthorizingManagerPassword() {
-        return authorizingManagerPassword;
-    }
-
-    public void setAuthorizingManagerPassword(String authorizingManagerPassword) {
-        this.authorizingManagerPassword = authorizingManagerPassword;
+    public void setRefundTransactionId(Long refundTransactionId) {
+        this.refundTransactionId = refundTransactionId;
     }        
     
     /**
@@ -90,23 +82,35 @@ public class MainMenuBean {
         return "transaction";
     }
     
-    public String createRefund() {   
+    /**
+     * Retrieves a transaction by id for refund purposes.
+     * @return redirect to transaction page (if the transaction was found)
+     */
+    public String refundTransactionById() {   
         // Next-stop page, as a string
         String destinationPage = null;
-        try {                        
+        
+        try {
             // Check to see if we have permission
             if (loginBean.getCurrentUser().getUserType().getValue() >= EUserTypes.Manager.getValue()) {
-                
-                // Create a new RefundTransaction and set it as the current transaction for transactionBean
-                Transaction refundTransaction = new RefundTransaction();
-                transactionBean.setCurrentTransaction(refundTransaction);
-                
-                // next stop: transaction page
-                destinationPage = "transaction";            
+                if (refundTransactionId == null) {
+                    InPageMessage.addErrorMessage("Please enter a transaction id to refund");
+                } else {
+                    // Look up the transaction to refund
+                    Transaction refundTransaction = em.find(PaymentTransaction.class, refundTransactionId);
+                    
+                    if (refundTransaction == null) { // if no transaction was found, log an error message                        
+                        InPageMessage.addErrorMessage("Couldn't find that transaction. :(");                        
+                    } else { // if we did find a transaction, set that transaction as the active transaction.
+                        transactionBean.setCurrentTransaction(refundTransaction);                
+                        // next stop: transaction page
+                        destinationPage = "transaction";            
+                    }
+                }                
             } else {
-                InPageMessage.addErrorMessage("You are not authorized to create refund transactions.");
+                InPageMessage.addErrorMessage("You are not authorized to refund transactions.");
             }    
-        } catch (NoCurrentSessionException ex) {
+        } catch (NoCurrentSessionException ex) { // if nobody's logged in, bounce back to the login page.
             Logger.getLogger(MainMenuBean.class.getName()).log(Level.SEVERE, null, ex);
             destinationPage = "index";
             InPageMessage.addErrorMessage("Please log in.");

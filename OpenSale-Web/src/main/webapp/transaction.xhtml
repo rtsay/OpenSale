@@ -88,6 +88,36 @@
                         </h:form>
                     </p:outputPanel> 
                     <br/>
+                    
+                     <p:dialog header="Discount" widgetVar="dlg">
+
+                    <h:form id="Discount">
+
+                        <h:panelGrid columns="2" cellpadding="5">
+                            <h:outputLabel for="percentInput" value="Percentage(%) Off: " />
+                            <h:inputText id="percent" required="false"> 
+                                <f:convertNumber maxIntegerDigits="2"
+                                                 type="percentage"/> 
+                            </h:inputText>
+                            
+                            <h:outputLabel for="dollarInput" value="Dollar($) Off: " />
+                            <h:inputText id="dollar" required="false">
+                                <f:convertNumber maxIntegerDigits="4"
+                                                 type="currency"/>
+                            </h:inputText>
+                            
+                            <f:facet name="footer">
+                                <h:commandButton value="Submit" class="btn btn-primary"
+                                                 />
+                                <button class="btn" type="Reset">Clear</button>
+                                <button class="btn" type="Cancel">Cancel</button>
+                            </f:facet>
+                        </h:panelGrid>
+
+                    </h:form>
+                         
+                </p:dialog>
+                    
                     <p:button style="margin-bottom: 10px" onclick="$('#addByNameForm').toggle();
                             $('#addByUPCForm').hide();
                             return false;" value="Add Item By Name"/>
@@ -161,7 +191,10 @@
                     </h:form>   
                     <h:form style="margin: 10px">
                         <h:commandButton action="checkout"
-                                         value="Checkout" class="btn btn-success"/>  
+                                         value="Checkout" class="btn btn-success"/> 
+                        <h:commandButton type="button"
+                                    value="Discount" class="btn btn-success"
+                                    onclick="dlg.show()"/>
                     </h:form>
                 </div>
             </ui:define>

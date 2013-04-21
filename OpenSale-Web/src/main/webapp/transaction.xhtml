@@ -94,15 +94,15 @@
                         <h:form id="Discount">
 
                             <h:panelGrid columns="2" cellpadding="5">
-                                <h:outputLabel for="percentInput" value="Percentage Off: %" />
-                                <h:inputText id="percent" required="false"> 
-                                    <f:convertNumber type="percentage"/> 
-                                </h:inputText>
+                                <h:outputLabel for="percentInput" value="Percentage Off: " />
+                                <p:inputMask mask="99%" required="false"> 
+                                    <f:convertNumber type="percent"/> 
+                                </p:inputMask>
 
-                                <h:outputLabel for="dollarInput" value="Amount Off: $" />
-                                <h:inputText id="dollar" required="false">
+                                <h:outputLabel for="dollarInput" value="Amount Off: " />
+                                <p:inputMask mask="$99.99" required="false">
                                     <f:convertNumber type="currency"/>
-                                </h:inputText>
+                                </p:inputMask>
 
                                 <f:facet name="footer">
                                     <h:commandButton value="Submit" class="btn btn-primary" />
@@ -122,10 +122,8 @@
 
                             <h:panelGrid columns="2" cellpadding="5">
                                 <h:outputLabel for="couponInput" value="Coupon UPC: " />
-                                <h:inputText id="couponUPC" required="false"
-                                             validatorMessage="Must contain 12 integer"> 
-                                    <f:validateLength minimum="12" id="couponUPC"/>
-                                </h:inputText>
+                                <p:inputMask mask="9-999-999-999-9">  
+                                </p:inputMask>
 
                                 <f:facet name="footer">
                                     <h:commandButton value="Submit" class="btn btn-primary"

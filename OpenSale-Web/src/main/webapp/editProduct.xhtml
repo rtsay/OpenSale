@@ -47,8 +47,11 @@
 
                                 <h:outputText value="Price: "/>
                                 <p:inputText  required="true" label="Price" value="#{editProductBean.product.price}" />
+                                
+                                <h:outputText value="Price Per Weight: "/>
+                                <p:selectBooleanButton value="#{editProductBean.product.priceByWeight}" onLabel="True" offLabel="False" />  
 
-                                <h:outputText value="Weight: "/>
+                                <h:outputText value="Weight(lb): "/>
                                 <p:inputText  required="true" label="Weight" value="#{editProductBean.product.weight}" />
 
                                 <br/>

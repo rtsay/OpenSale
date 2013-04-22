@@ -20,13 +20,14 @@ import org.junit.Test;
 public class UserTest {
 
     private User testCashier, testManager, testAdmin, testSuperUser;
+    private Session session;
 
     public UserTest() {
         //make a temp default user to login and create our entities
         User defaultuser = new UserEntity();
         defaultuser.setPermissions(new Permissions()); //required
         defaultuser.setUserType(EUserTypes.SuperUser); //required
-        Session session = new Session();
+        session = new Session();
         session.Login(defaultuser);
 
         try {

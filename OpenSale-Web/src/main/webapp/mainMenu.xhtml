@@ -20,7 +20,7 @@
             </ui:define>
 
             <ui:define name="content">
-                <p:dialog header="Refund" widgetVar="dlg">
+                <p:dialog header="Refund" widgetVar="refundDlg">
 
                     <h:form id="Refund">
 
@@ -63,7 +63,7 @@
                             </li>
                             <li><h:commandButton type="button"
                                     value="Refund"  class="btn btn-large"
-                                    onclick="if (dlg.show())
+                                    onclick="if (refundDlg.show())
                                                              return confirm('This will destroy the current transaction in progress! Are you sure you want to continue?')"
                                     />
                             </li>

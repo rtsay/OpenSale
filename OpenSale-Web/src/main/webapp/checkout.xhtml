@@ -19,13 +19,13 @@
             </ui:define>
 
             <ui:define name="content">
-                <div id="userList" class="span8 offset2"> 
-                    <p:outputPanel autoUpdate="true">
+                
+                <div id="userList"> 
+                    
                         <h:form>                        
                             <p:dataTable value="#{transactionBean.currentTransaction.items}"
                                          var="rowuser"
                                          rowStyleClass="#{rowuser.isVoided ? 'voided' : null}"
-                                         editable="false"
                                          widgetVar="transactionTable">                                                        
 
                                 <p:column headerText="Item Name">                                
@@ -57,7 +57,7 @@
 
                             </p:dataTable>
                         </h:form>
-                    </p:outputPanel>
+                    
                     <h:form>
                         <h:button outcome="transaction" 
                                   value="Back"
@@ -73,16 +73,7 @@
                             <f:selectItem itemLabel="Credit Card" itemValue="CreditCard"/>
                             <f:selectItem itemLabel="Check" itemValue="Check" />
                             <f:validateRequired/>                            
-                        </p:selectOneButton>  
-                        
-                        <p:outputPanel autoUpdate="true" id="cardInfo">
-                            <p:outputPanel rendered="#{paymentType}">
-                                <p:outputLabel for="creditCardNumberInput" value="Card number: "/>
-                                <p:inputText value="#{checkoutBean.creditCardNumber}" id="creditCardNumberInput">
-                                    <f:validateRequired/>
-                                </p:inputText>                            
-                            </p:outputPanel>
-                        </p:outputPanel>
+                        </p:selectOneButton> 
                         
                         <p:separator />
 
@@ -91,6 +82,7 @@
                     </h:form>
 
                 </div> 
+                
             </ui:define>
 
         </ui:composition>

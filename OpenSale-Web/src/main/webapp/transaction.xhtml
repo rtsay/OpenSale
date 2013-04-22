@@ -20,7 +20,7 @@
 
             <ui:define name="content">
 
-                <div id="userList" class="span8 offset2"> 
+                <div id="userList"> 
 
                     <p:outputPanel autoUpdate="true">
                         <h:form>                        
@@ -89,41 +89,44 @@
                     </p:outputPanel> 
                     <br/>
 
-                    <p:dialog header="Discount" widgetVar="dlg">
+                    <p:dialog header="Discount" widgetVar="discountDlg">
 
                         <h:form id="Discount">
 
                             <h:panelGrid columns="2" cellpadding="5">
                                 <h:outputLabel for="percentInput" value="Percentage Off: " />
-                                <p:inputMask mask="99%" required="false"> 
+                                <p:inputText id="percentInput" required="false"
+                                           value="#{transactionBean.discountPercent}"> 
                                     <f:convertNumber type="percent"/> 
-                                </p:inputMask>
+                                    <f:validateDoubleRange minimum="0" maximum="100"/>
+                                </p:inputText>
 
                                 <h:outputLabel for="dollarInput" value="Amount Off: " />
-                                <p:inputMask mask="$99.99" required="false">
+                                <p:inputText id="dollarInput" required="false" 
+                                           value="#{transactionBean.discountAmount}">
                                     <f:convertNumber type="currency"/>
-                                </p:inputMask>
+                                    <f:validateDoubleRange minimum="0"/>
+                                </p:inputText>
 
                                 <f:facet name="footer">
-                                    <h:commandButton value="Submit" class="btn btn-primary" />
+                                    <h:commandButton value="Submit" class="btn btn-primary"                                                     
+                                                     action="#{transactionBean.addDiscount()}"/>
                                     <button class="btn" type="Reset">Clear</button>
                                     <button class="btn" type="Cancel">Cancel</button>
                                 </f:facet>
                             </h:panelGrid>
-
                         </h:form>
 
                     </p:dialog>
 
 
-                    <p:dialog header="Coupon" widgetVar="dlg1">
+                    <p:dialog header="Coupon" widgetVar="couponDlg">
 
                         <h:form id="Coupon">
 
                             <h:panelGrid columns="2" cellpadding="5">
                                 <h:outputLabel for="couponInput" value="Coupon UPC: " />
-                                <p:inputMask mask="9-999-999-999-9">  
-                                </p:inputMask>
+                                <p:inputText mask="9-999-999-999-9" value="#{transactionBean.newItemUPC}"/>
 
                                 <f:facet name="footer">
                                     <h:commandButton value="Submit" class="btn btn-primary"
@@ -208,15 +211,22 @@
 
 
                     </h:form>   
-                    <h:form style="margin: 10px">
-                        <h:commandButton action="checkout"
-                                         value="Checkout" class="btn btn-success"/> 
+                    <h:form style="margin: 1em" rendered="#{loginBean.currentUserIsManager()
+                                                            || loginBean.currentUserIsAdmin()
+                                                            || loginBean.currentUserIsSuperUser()}"
+                                                            >
                         <h:commandButton type="button"
-                                         value="Discount" class="btn btn-success"
-                                         onclick="dlg.show()"/>
+                                         value="Discount" class="btn"
+                                         onclick="discountDlg.show()"/>
                         <h:commandButton type="button"
-                                         value="Coupon" class="btn btn-success"
-                                         onclick="dlg1.show()"/>
+                                         value="Coupon" class="btn"
+                                         onclick="couponDlg.show()"/>
+                    </h:form>
+                    <p:separator/>
+                    <h:form>
+                        <p:commandButton action="checkout"
+                                         value="Checkout" styleClass="btn-success"/> 
+                        
                     </h:form>
                 </div>
             </ui:define>

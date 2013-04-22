@@ -60,6 +60,10 @@ h5{
     color: black;
     padding: 1em;
     box-shadow: 0 0 1em #444;   
+    min-width: 50%;
+    max-width: 80%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #editUser{
